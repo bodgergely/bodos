@@ -1,4 +1,5 @@
 #include "string.h"
+#include "cursor.h"
 
 /* Hardware text mode color constants. */
 enum vga_color {

@@ -95,4 +95,5 @@ void terminal_write(const char* data, size_t size) {
 
 void terminal_writestring(const char* data) {
 	terminal_write(data, strlen(data));
+	move_cursor(VGA_WIDTH*terminal_row + terminal_column);
 }

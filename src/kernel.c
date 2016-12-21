@@ -12,5 +12,6 @@ void kernel_main(void) {
 	terminal_initialize();
  
 	/* Newline support is left as an exercise. */
-	terminal_writestring("Marcika nagyon ugyes volt a multkor!\nLokomotiv\nDede\nDede\nDede\nDede\nDede\nDede\nDede\nDede\nDede\nDede\nDede\nDede\nDede\nDede\nDede\nDede\nDede\nDede\nDede\nDede\nDede\nDede\nDede\n");
+	terminal_writestring("Starting kernel...");
+
 }
