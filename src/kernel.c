@@ -12,5 +12,5 @@ void kernel_main(void) {
 	terminal_initialize();
  
 	/* Newline support is left as an exercise. */
-	terminal_writestring("Hello, kernel World!\n");
+	terminal_writestring("Marcika nagyon ugyes volt a multkor!\nLokomotiv\nDede\nDede\nDede\nDede\nDede\nDede\nDede\nDede\nDede\nDede\nDede\nDede\nDede\nDede\nDede\nDede\nDede\nDede\nDede\nDede\nDede\nDede\nDede\n");
 }
