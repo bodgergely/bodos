@@ -18,6 +18,6 @@ void kernel_main(void) {
 	char buff[512];
 	strcpy(buff, name);
 
-	terminal_writestring("Starting kernel...");
-	kprintf(INFO, SERIAL_PORT, "kernel_main at: %p and terminal_writestring at: %p and my name is: %s and the first char is: %c and the name again:%s \n", kernel_main, terminal_writestring, name, name[0],buff);
+	terminal_writestring("Starting kernel...\n");
+	kprintf(INFO, FRAME_BUFFER, "kernel_main at: %p and terminal_writestring at: %p and my name is: %s and the first char is: %c and the name again:%s \n", kernel_main, terminal_writestring, name, name[0],buff);
 }
