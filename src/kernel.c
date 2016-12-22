@@ -1,6 +1,8 @@
 
 #include "header.h"
 #include "terminal.h"
+#include "serialport.h"
+#include "string.h"
  
 
  
@@ -11,7 +13,7 @@ void kernel_main(void) {
 	/* Initialize terminal interface */
 	terminal_initialize();
  
-	/* Newline support is left as an exercise. */
 	terminal_writestring("Starting kernel...");
+	serial_write("Hello Marcika ugyes\n", strlen("Hello Marcika ugyes\n"));
 
 }
