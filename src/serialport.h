@@ -26,6 +26,6 @@ void serial_configure_line(unsigned short com);
 int serial_is_transmit_fifo_empty(unsigned int com);
 
 void serial_write_to_port(const char* data, size_t size, unsigned int com);
-void serial_write(const char* data, size_t size);
+int serial_write(const char* data, size_t size);
 
 #endif

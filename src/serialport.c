@@ -87,9 +87,10 @@ inline void serial_write_to_port(const char* data, size_t size, unsigned int com
 
 }
 
-void serial_write(const char* data, size_t size)
+int serial_write(const char* data, size_t size)
 {
 	serial_write_to_port(data, size, SERIAL_COM1_BASE);
+	return size;
 }
 
 

@@ -11,8 +11,9 @@ i686-elf-gcc -c terminal.c -o $BUILD_DIR/terminal.o -std=gnu99 -ffreestanding -O
 i686-elf-gcc -c kernel.c -o $BUILD_DIR/kernel.o -std=gnu99 -ffreestanding -O2 -Wall -Wextra
 i686-elf-gcc -c cursor.c -o $BUILD_DIR/cursor.o -std=gnu99 -ffreestanding -O2 -Wall -Wextra
 i686-elf-gcc -c serialport.c -o $BUILD_DIR/serialport.o -std=gnu99 -ffreestanding -O2 -Wall -Wextra
+i686-elf-gcc -c kprintf.c -o $BUILD_DIR/kprintf.o -std=gnu99 -ffreestanding -O2 -Wall -Wextra
 #link the kernel
-i686-elf-gcc -T linker.ld -o $BUILD_DIR/bodos.bin -ffreestanding -O2 -nostdlib $BUILD_DIR/boot.o $BUILD_DIR/string.o $BUILD_DIR/io.o $BUILD_DIR/cursor.o $BUILD_DIR/terminal.o $BUILD_DIR/kernel.o $BUILD_DIR/serialport.o -lgcc
+i686-elf-gcc -T linker.ld -o $BUILD_DIR/bodos.bin -ffreestanding -O2 -nostdlib $BUILD_DIR/boot.o $BUILD_DIR/string.o $BUILD_DIR/kprintf.o $BUILD_DIR/io.o $BUILD_DIR/cursor.o $BUILD_DIR/terminal.o $BUILD_DIR/kernel.o $BUILD_DIR/serialport.o -lgcc
 
 #sanity check
 if grub-file --is-x86-multiboot $BUILD_DIR/bodos.bin; then

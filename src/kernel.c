@@ -3,6 +3,7 @@
 #include "terminal.h"
 #include "serialport.h"
 #include "string.h"
+#include "kprintf.h"
  
 
  
@@ -12,8 +13,11 @@ extern "C" /* Use C linkage for kernel_main. */
 void kernel_main(void) {
 	/* Initialize terminal interface */
 	terminal_initialize();
- 
-	terminal_writestring("Starting kernel...");
-	serial_write("Hello Marcika ugyes\n", strlen("Hello Marcika ugyes\n"));
 
+	const char* name = "Geri";
+	char buff[512];
+	strcpy(buff, name);
+
+	terminal_writestring("Starting kernel...");
+	kprintf(INFO, SERIAL_PORT, "kernel_main at: %p and terminal_writestring at: %p and my name is: %s and the first char is: %c and the name again:%s \n", kernel_main, terminal_writestring, name, name[0],buff);
 }
