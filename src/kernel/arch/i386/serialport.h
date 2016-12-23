@@ -1,7 +1,7 @@
 #ifndef SERIALPORT_H
 #define SERIALPORT_H
 
-#include "header.h"
+#include <kernel/header.h>
 #include "io.h"
 
 void serial_configure_baud_rate(unsigned short com, unsigned short divisor);

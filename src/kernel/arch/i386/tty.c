@@ -1,14 +1,13 @@
+#include <kernel/header.h>
+#include <string.h>
 
-#include "terminal.h"
+#include <kernel/tty.h>
+
+#include "vga.h"
+#include "cursor.h"
 
 
-static inline uint8_t vga_entry_color(enum vga_color fg, enum vga_color bg) {
-	return fg | bg << 4;
-}
 
-static inline uint16_t vga_entry(unsigned char uc, uint8_t color) {
-	return (uint16_t) uc | (uint16_t) color << 8;
-}
 
 
 static const size_t VGA_WIDTH = 80;
@@ -91,11 +90,11 @@ static void terminal_putchar(char c) {
 int terminal_write(const char* data, size_t size) {
 	for (size_t i = 0; i < size; i++)
 		terminal_putchar(data[i]);
+	move_cursor(VGA_WIDTH*terminal_row + terminal_column);
 
 	return size;
 }
 
 void terminal_writestring(const char* data) {
 	terminal_write(data, strlen(data));
-	move_cursor(VGA_WIDTH*terminal_row + terminal_column);
 }

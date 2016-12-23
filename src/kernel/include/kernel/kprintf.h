@@ -1,10 +1,9 @@
 #ifndef KPRINTF_H
 #define KPRINTF_H
 
-#include "serialport.h"
-#include "terminal.h"
-#include "string.h"
+#include <string.h>
 #include <stdarg.h>
+#include "tty.h"
 
 typedef enum log_level
 {

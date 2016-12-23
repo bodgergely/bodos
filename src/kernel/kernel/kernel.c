@@ -1,10 +1,8 @@
 
-#include "header.h"
-#include "terminal.h"
-#include "serialport.h"
-#include "string.h"
-#include "kprintf.h"
- 
+#include <kernel/header.h>
+#include <kernel/tty.h>
+#include <kernel/kprintf.h>
+#include <string.h>
 
  
 #if defined(__cplusplus)

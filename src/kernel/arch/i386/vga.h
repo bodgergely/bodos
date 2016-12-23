@@ -1,8 +1,8 @@
-#ifndef TERMINAL_H
-#define TERMINAL_H
+#ifndef ARCH_I386_VGA_H
+#define ARCH_I386_VGA_H
 
-#include "string.h"
-#include "cursor.h"
+#include <stdint.h>
+
 
 /* Hardware text mode color constants. */
 enum vga_color {
@@ -25,12 +25,12 @@ enum vga_color {
 };
 
 
-void terminal_initialize(void);
+static inline uint8_t vga_entry_color(enum vga_color fg, enum vga_color bg) {
+	return fg | bg << 4;
+}
 
-void terminal_setcolor(uint8_t color);
-
-int terminal_write(const char* data, size_t size);
-
-void terminal_writestring(const char* data);
+static inline uint16_t vga_entry(unsigned char uc, uint8_t color) {
+	return (uint16_t) uc | (uint16_t) color << 8;
+}
 
 #endif

@@ -2,7 +2,7 @@
     display_library: sdl
     romimage:        file=/usr/share/bochs/BIOS-bochs-latest
     vgaromimage:     file=/usr/share/bochs/VGABIOS-lgpl-latest
-    ata0-master:     type=cdrom, path=/home/geri/workspace/bodos/build/bodos.iso, status=inserted
+    ata0-master:     type=cdrom, path=/home/geri/workspace/bodos/bodos.iso, status=inserted
     boot:            cdrom
     log:             ../log/bochslog.txt
     clock:           sync=realtime, time0=local
