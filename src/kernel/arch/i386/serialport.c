@@ -1,5 +1,5 @@
 
-#include "serialport.h"
+#include "serialport_x86.h"
 
 /* The I/O ports */
 

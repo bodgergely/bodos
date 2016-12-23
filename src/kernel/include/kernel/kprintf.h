@@ -3,7 +3,8 @@
 
 #include <string.h>
 #include <stdarg.h>
-#include "tty.h"
+#include <kernel/tty.h>
+#include <kernel/serialport.h>
 
 typedef enum log_level
 {
@@ -22,5 +23,7 @@ FRAME_BUFFER
 
 
 int kprintf(log_level lev, log_target target, const char *format, ...);
+
+
 
 #endif
