@@ -7,6 +7,7 @@
 #endif
 #include <stddef.h>
 #include <stdint.h>
+#include <kernel/kprintf.h>
 
 
 /* Check if the compiler thinks we are targeting the wrong operating system. */
