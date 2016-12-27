@@ -8,44 +8,28 @@ gdtr:
 msg:
 .asciz "address: %d\0"
 
+
+/*
+http://www.osdever.net/bkerndev/Docs/gdt.htm
+*/
+
 .section .text
 .global  load_gdt
-
 # load_gdt - Loads the global descriptor table (GDT).
 # stack: [esp + 4] the address of the gdt register
 load_gdt:
     mov     eax, [esp+4]    # load the address of the GDT into register eax
     lgdt    [eax]           # load the IDT
-    ret                     # return to the calling function
+    mov ax, 0x10      # 0x10 is the offset in the GDT to our data segment
+    mov ds, ax
+    mov es, ax
+    mov fs, ax
+    mov gs, ax
+    mov ss, ax
+    jmp 0x08:flush   # 0x08 is the offset to our code segment: Far jump!
+flush:
+    ret               # Returns back to the C code!
 
-
-
-.global  setGdt
-setGdt:
-   mov   ecx, [ESP + 8]
-   push  ecx
-   mov   ecx, [ESP + 8]
-   push   ecx
-   lea    ecx, msg
-   push	  ecx
-   push	  1
-   push   1
-   call   kprintf
-   #MOV   EAX, [esp + 4]
-   #MOV   [gdtr + 2], EAX
-   #MOV   AX, [ESP + 8]
-   #MOV   [gdtr], AX
-   #mov   ecx, [ESP + 8]
-   #push  ecx
-   #mov   ecx, [ESP + 8]
-   #push   ecx
-   #lea    ecx, msg
-   #push	  ecx
-   #push	  1
-   #push   1
-   #call   kprintf
-   #LGDT  [gdtr]
-   RET
 
 
 

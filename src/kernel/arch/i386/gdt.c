@@ -2,78 +2,78 @@
 #include <kernel/kprintf.h>
 #include "gdt.h"
 
-struct GDT
+/*
+ * http://www.osdever.net/bkerndev/Docs/gdt.htm
+ * */
+
+struct gdt_entry
 {
-uint32_t base;
-uint32_t limit;
-uint8_t  type;
-};
+    unsigned short limit_low;
+    unsigned short base_low;
+    unsigned char base_middle;
+    unsigned char access;
+    unsigned char granularity;
+    unsigned char base_high;
+} __attribute__((packed));
 
 
-struct GDT gdtEntries[NUM_OF_GDT_ENTRIES];
-uint8_t gdt[GDT_ENTRY_SIZE*NUM_OF_GDT_ENTRIES];
-
-
-static void init_gdt_entries()
+struct gdtr
 {
-	gdtEntries[0] = (struct GDT){.base=0, .limit=0, .type=0};                     // Selector 0x00 cannot be used
-	gdtEntries[1] = (struct GDT){.base=0, .limit=0xffffffff, .type=0x9A};         // Selector 0x08 will be our code
-	gdtEntries[2] = (struct GDT){.base=0, .limit=0xffffffff, .type=0x92};         // Selector 0x10 will be our data
-	//gdtEntries[3] = (struct GDT){.base=&myTss, .limit=sizeof(myTss), .type=0x89}; // You can use LTR(0x18)
+	uint16_t limit;
+	uint32_t base;
+} __attribute__((packed));
+
+
+struct gdt_entry gdt[NUM_OF_GDT_ENTRIES];
+struct gdtr gp;
+
+
+/* Setup a descriptor in the Global Descriptor Table */
+static void gdt_set_gate(int num, unsigned long base, unsigned long limit, unsigned char access, unsigned char gran)
+{
+    /* Setup the descriptor base address */
+    gdt[num].base_low = (base & 0xFFFF);
+    gdt[num].base_middle = (base >> 16) & 0xFF;
+    gdt[num].base_high = (base >> 24) & 0xFF;
+
+    /* Setup the descriptor limits */
+    gdt[num].limit_low = (limit & 0xFFFF);
+    gdt[num].granularity = ((limit >> 16) & 0x0F);
+
+    /* Finally, set up the granularity and access flags */
+    gdt[num].granularity |= (gran & 0xF0);
+    gdt[num].access = access;
 }
 
-/**
- * \param target A pointer to the 8-byte GDT entry
- * \param source An arbitrary structure describing the GDT entry
- */
-static void encodeGdtEntry(uint8_t *target, struct GDT source)
+/* Should be called by main. This will setup the special GDT
+*  pointer, set up the first 3 entries in our GDT, and then
+*  finally call gdt_flush() in our assembler file in order
+*  to tell the processor where the new GDT is and update the
+*  new segment registers */
+void install_gdt()
 {
-    // Check the limit to make sure that it can be encoded
-    if ( (source.limit > 65536) && ((source.limit & 0xFFF) != 0xFFF) )  {
-        kprintf(INFO, SERIAL_PORT, "You can't do that!");
-    }
-    if (source.limit > 65536) {
-        // Adjust granularity if required
-        source.limit = source.limit >> 12;
-        target[6] = 0xC0;
-    } else {
-        target[6] = 0x40;
-    }
+    /* Setup the GDT pointer and limit */
+    gp.limit = (sizeof(struct gdt_entry) * 3) - 1;
+    gp.base = &gdt;
 
-    // Encode the limit
-    target[0] = source.limit & 0xFF;
-    target[1] = (source.limit >> 8) & 0xFF;
-    target[6] |= (source.limit >> 16) & 0xF;
+    /* Our NULL descriptor */
+    gdt_set_gate(0, 0, 0, 0, 0);
 
-    // Encode the base
-    target[2] = source.base & 0xFF;
-    target[3] = (source.base >> 8) & 0xFF;
-    target[4] = (source.base >> 16) & 0xFF;
-    target[7] = (source.base >> 24) & 0xFF;
+    /* The second entry is our Code Segment. The base address
+    *  is 0, the limit is 4GBytes, it uses 4KByte granularity,
+    *  uses 32-bit opcodes, and is a Code Segment descriptor.
+    *  Please check the table above in the tutorial in order
+    *  to see exactly what each value means */
+    gdt_set_gate(1, 0, 0xFFFFFFFF, 0x9A, 0xCF);
 
-    // And... Type
-    target[5] = source.type;
+    /* The third entry is our Data Segment. It's EXACTLY the
+    *  same as our code segment, but the descriptor type in
+    *  this entry's access byte says it's a Data Segment */
+    gdt_set_gate(2, 0, 0xFFFFFFFF, 0x92, 0xCF);
+
+    /* Flush out the old GDT and install the new changes! */
+    load_gdt(&gp);
 }
 
-inline static void _setup_gdt_table(uint8_t* table)
-{
-	init_gdt_entries();
-	uint8_t* t = table;
-	for(int i=0;i<NUM_OF_GDT_ENTRIES;i++)
-	{
-		encodeGdtEntry(t, gdtEntries[i]);
-		t+=GDT_ENTRY_SIZE;
-	}
-}
 
-struct gdtr setup_gdt_table()
-{
-	struct gdtr g;
-	memset(gdtEntries, 0, sizeof(gdt));
-	_setup_gdt_table(gdt);
-	//kprintf(INFO, FRAME_BUFFER, "gdt address: %d\n",  (unsigned int)(void*)gdt);
-	g.address = (unsigned int)(void*)gdt;
-	g.size = sizeof(gdt);
-	return g;
-}
 

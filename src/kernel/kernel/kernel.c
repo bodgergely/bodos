@@ -41,7 +41,8 @@ void debug()
 void kernel_main(void) {
 	init();
 
-	interrupt(0);
+	kprintf(INFO,FRAME_BUFFER, "Doing interrupt now!, interrupt() address: %d\n", interrupt);
+	interrupt(28);
 	debug();
 
 	while(1);

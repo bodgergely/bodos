@@ -1,0 +1,90 @@
+.intel_syntax noprefix
+
+/*
+http://www.osdever.net/bkerndev/Docs/isrs.htm
+*/
+
+.section .data
+debug_msg:
+	.asciz "Just got back from interrupt_handler - old eip: %d old cs: %d old EFLAGS: %d\n"
+debug_msg2:
+	.asciz "Val: %d\n"
+
+# load_idt - Loads the interrupt descriptor table (IDT).
+# stack: [esp + 4] the address of the first entry in the IDT
+#        [esp    ] the return address
+.global  load_idt
+load_idt:
+    mov     eax, [esp+4]    # load the address of the IDT into register eax
+    lidt    [eax]             # load the IDT
+    ret                     # return to the calling function
+
+
+.macro no_error_code_interrupt_handler num
+.global interrupt_handler_\num
+.align   4
+interrupt_handler_\num:
+	mov	   eax, [esp+20]		 # http://www.logix.cz/michal/doc/i386/chp09-06.htm#09-06-01-02   look at Figure 9-5. Stack Layout after Exception of Interrupt - need to look 20 bytes (5 wors above the esp)
+	push   0                     # push 0 as error code
+    push   eax                    # push the interrupt number
+    jmp     isr_common_stub    # jump to the common handler
+.endm
+
+.macro error_code_interrupt_handler num
+.global interrupt_handler_\num
+.align   4
+interrupt_handler_\num:
+    push   \num                    # push the interrupt number
+    jmp     isr_common_stub    # jump to the isr_common_stub
+.endm
+
+common_interrupt_handler:               # the common parts of the generic interrupt handler
+    # call the C function
+    call    interrupt_handler
+    # restore the esp
+    add     esp, 8
+     #debug
+    mov    ecx, [esp]
+    push	ecx
+	lea    ecx, debug_msg2
+   	push   ecx
+   	push   1
+   	push   1
+   	call   kprintf
+   	#end of debug
+
+    # return to the code that got interrupted
+    iret
+
+# This is our common ISR stub. It saves the processor state, sets
+# up for kernel mode segments, calls the C-level fault handler,
+# and finally restores the stack frame.
+isr_common_stub:
+    pusha
+    push ds
+    push es
+    push fs
+    push gs
+    mov ax, 0x10   # Load the Kernel Data Segment descriptor!
+    mov ds, ax
+    mov es, ax
+    mov fs, ax
+    mov gs, ax
+    mov eax, esp   # Push us the stack
+    push eax
+    call    _interrupt_handler
+    #mov eax, 	   _interrupt_handler
+    #call eax       # A special call, preserves the 'eip' register
+    pop eax
+    pop gs
+    pop fs
+    pop es
+    pop ds
+    popa
+    add esp, 8     # Cleans up the pushed error code and pushed ISR number
+    iret           # pops 5 things at once: CS, EIP, EFLAGS, SS, and ESP!
+
+no_error_code_interrupt_handler 0       # create handler for interrupt 0
+no_error_code_interrupt_handler 1       # create handler for interrupt 1
+error_code_interrupt_handler    7       # create handler for interrupt 7
+

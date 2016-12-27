@@ -3,6 +3,7 @@
 #define INTERRUPT_X86_H
 
 #include <kernel/header.h>
+#include "system.h"
 
 struct cpu_state{
 	unsigned int edi;
@@ -16,9 +17,10 @@ struct cpu_state{
 } __attribute__((packed));
 
 
-void interrupt_handler(struct cpu_state cpu, unsigned int interrupt, unsigned int error_code);
+void interrupt_handler(unsigned int interrupt, unsigned int error_code);
+void _interrupt_handler(struct regs* regs);
 void load_idt(void* idt_address);
 
-typedef void interrupt_handler_signature(struct cpu_state cpu, unsigned int interrupt, unsigned int error_code);
+typedef void interrupt_handler_signature(struct regs* regs);
 
 #endif
