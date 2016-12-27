@@ -21,23 +21,6 @@ static void init()
 	arch_specific_init();
 }
 
-
-
-
-void debug()
-{
-	volatile int k;
-	k = 0;
-	uint32_t mem = 0xDEADBE3F;
-	kprintf(INFO, FRAME_BUFFER, "mem: %d\n", mem);
-	uint32_t* m = &mem;
-	memset(m, 0, 2);
-	kprintf(INFO, FRAME_BUFFER, "mem address: %d\n", mem_printable(((char*)m+0)));
-	kprintf(INFO, FRAME_BUFFER, "mem address: %d\n", mem_printable(((char*)m+1)));
-	kprintf(INFO, FRAME_BUFFER, "mem address: %d\n", mem_printable(((char*)m+2)));
-	kprintf(INFO, FRAME_BUFFER, "mem address: %d\n", mem_printable(((char*)m+3)));
-}
-
 void kernel_main(void) {
 	init();
 
@@ -45,8 +28,6 @@ void kernel_main(void) {
 	kprintf(INFO,FRAME_BUFFER, "Interrupt will fire now with int no: %d\n", int_no);
 	interrupt(int_no);
 	kprintf(INFO, FRAME_BUFFER, "Returned from interrupt!\n");
-	//debug();
-
 	kprintf(INFO, FRAME_BUFFER, "System will go into infinite loop now.\n");
 	while(1);
 }
