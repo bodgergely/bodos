@@ -31,11 +31,11 @@ int isspace(const char c)
 }
 
 
-char* itoa (int val, char *s, int base)
+char* itoa (unsigned int val, char *s, int base)
 {
 	(void)base;
-	int n = 0;
-	int c = val;
+	unsigned int n = 0;
+	unsigned int c = val;
 	while(c)
 	{
 		c = c/10;
@@ -43,11 +43,11 @@ char* itoa (int val, char *s, int base)
 	}
 	s[n] = '\0';
 
-	int i = n-1;
+	size_t i = n-1;
 
 	while(val)
 	{
-		int d = val % 10;
+		unsigned int d = val % 10;
 		s[i] = '0' + d;
 		val/=10;
 		--i;
@@ -55,4 +55,19 @@ char* itoa (int val, char *s, int base)
 
 
 	return s;
+}
+
+
+
+void* memset(void* s, int c, size_t n)
+{
+	char* mem = (char*)s;
+	char val = (char)c;
+	for(int i=0;i<n;i++)
+	{
+		mem[i] = val;
+	}
+
+	return s;
+
 }

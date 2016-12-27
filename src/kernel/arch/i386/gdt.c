@@ -66,10 +66,12 @@ inline static void _setup_gdt_table(uint8_t* table)
 	}
 }
 
-struct gdt setup_gdt_table()
+struct gdtr setup_gdt_table()
 {
-	struct gdt g;
+	struct gdtr g;
+	memset(gdtEntries, 0, sizeof(gdt));
 	_setup_gdt_table(gdt);
+	//kprintf(INFO, FRAME_BUFFER, "gdt address: %d\n",  (unsigned int)(void*)gdt);
 	g.address = (unsigned int)(void*)gdt;
 	g.size = sizeof(gdt);
 	return g;

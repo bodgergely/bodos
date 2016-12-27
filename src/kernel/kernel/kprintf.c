@@ -129,6 +129,7 @@ int kprintf(log_level lev, log_target target, const char *format, ...)
 	char arg_container[arg_container_size];
 	char loglevel[8];
 	int written = 0;
+
 	size_t len = strlen(format);
 
 	create_log_level_string(lev, loglevel);
@@ -160,8 +161,8 @@ int kprintf(log_level lev, log_target target, const char *format, ...)
 				arg_container[1] = '\0';
 				break;
 			case INT:
-				val_int = va_arg(a_list,int);
-				itoa(val_int, arg_container, 10);
+				val_unsigned = va_arg(a_list,unsigned int);
+				itoa(val_unsigned, arg_container, 10);			//TODO make it signed
 				break;
 			case UNSIGNED_INT:
 				val_unsigned = va_arg(a_list, unsigned int);

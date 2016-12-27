@@ -16,8 +16,8 @@ load_idt:
 .global interrupt_handler_\num
 .align   4
 interrupt_handler_\num:
+	push   0                     # push 0 as error code
     push   \num                    # push the interrupt number
-    push   0                     # push 0 as error code
     jmp     common_interrupt_handler    # jump to the common handler
 .endm
 
