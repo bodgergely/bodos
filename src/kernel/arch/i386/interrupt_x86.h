@@ -16,9 +16,9 @@ struct cpu_state{
 } __attribute__((packed));
 
 
-void interrupt_handler(struct cpu_state cpu, unsigned int error_code, unsigned int interrupt);
+void interrupt_handler(struct cpu_state cpu, unsigned int interrupt, unsigned int error_code);
 void load_idt(void* idt_address);
 
-typedef void interrupt_handler_signature(struct cpu_state cpu, unsigned int error_code, unsigned int interrupt);
+typedef void interrupt_handler_signature(struct cpu_state cpu, unsigned int interrupt, unsigned int error_code);
 
 #endif
