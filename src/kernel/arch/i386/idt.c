@@ -1,5 +1,6 @@
 #include "idt.h"
-#include "interrupt_x86.h"
+
+#include "interrupt_handler_x86.h"
 
 #define NUM_OF_IDT_ENTRIES 3
 #define IDT_ENTRY_SIZE 8

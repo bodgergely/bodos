@@ -38,23 +38,6 @@ interrupt_handler_\num:
     jmp     isr_common_stub    # jump to the isr_common_stub
 .endm
 
-common_interrupt_handler:               # the common parts of the generic interrupt handler
-    # call the C function
-    call    interrupt_handler
-    # restore the esp
-    add     esp, 8
-     #debug
-    mov    ecx, [esp]
-    push	ecx
-	lea    ecx, debug_msg2
-   	push   ecx
-   	push   1
-   	push   1
-   	call   kprintf
-   	#end of debug
-
-    # return to the code that got interrupted
-    iret
 
 # This is our common ISR stub. It saves the processor state, sets
 # up for kernel mode segments, calls the C-level fault handler,

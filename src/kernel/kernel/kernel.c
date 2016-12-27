@@ -3,9 +3,9 @@
 #include <kernel/tty.h>
 #include <kernel/kprintf.h>
 #include <kernel/init.h>
-#include <kernel/interrupts.h>
 #include <string.h>
 #include <kernel/debug.h>
+#include <kernel/interrupt.h>
 
  
 #if defined(__cplusplus)
@@ -41,9 +41,12 @@ void debug()
 void kernel_main(void) {
 	init();
 
-	kprintf(INFO,FRAME_BUFFER, "Doing interrupt now!, interrupt() address: %d\n", interrupt);
-	interrupt(28);
-	debug();
+	int int_no = 28;
+	kprintf(INFO,FRAME_BUFFER, "Interrupt will fire now with int no: %d\n", int_no);
+	interrupt(int_no);
+	kprintf(INFO, FRAME_BUFFER, "Returned from interrupt!\n");
+	//debug();
 
+	kprintf(INFO, FRAME_BUFFER, "System will go into infinite loop now.\n");
 	while(1);
 }
