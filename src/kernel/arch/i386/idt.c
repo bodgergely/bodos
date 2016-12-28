@@ -59,7 +59,7 @@ static void create_idt_entry(size_t index, uint32_t handler)
 uint64_t* setup_idt_table()
 {
 	memset(idt, 0, sizeof(idt));
-	create_idt_entry(0x0, (uint32_t)interrupt_handler_0);
+	create_idt_entry(0x80, (uint32_t)interrupt_handler_0);
 	idtptr.base = idt;
 	idtptr.limit = sizeof(idt)-1;
 	return (uint64_t*)&idtptr;

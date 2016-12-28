@@ -9,7 +9,7 @@ debug_msg:
 interrupt:
 	mov     eax, [esp+4]	# load the interrupt number into register eax
 	push 	eax				# push the interrupt number
-    int   	0x0
+    int   	0x80
     #debug
 	#lea    ecx, debug_msg
    	#push   ecx
