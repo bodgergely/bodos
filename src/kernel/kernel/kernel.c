@@ -23,7 +23,6 @@ static void init()
 
 void kernel_main(void) {
 	init();
-
 	int int_no = 28;
 	klog(INFO, "Interrupt will fire now with int no: %d\n", int_no);
 	interrupt(int_no);

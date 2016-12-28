@@ -58,7 +58,6 @@ static void create_idt_entry(size_t index, uint32_t handler)
 
 uint64_t* setup_idt_table()
 {
-	kprintf(INFO, FRAME_BUFFER, "interrupthandler_0: %d size of idt: %d\n", (uint32_t)interrupt_handler_0, sizeof(idt));
 	memset(idt, 0, sizeof(idt));
 	create_idt_entry(0x0, (uint32_t)interrupt_handler_0);
 	idtptr.base = idt;
