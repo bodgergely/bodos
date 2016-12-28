@@ -5,8 +5,8 @@
 void arch_specific_init()
 {
 	install_gdt();
-	kprintf(INFO, FRAME_BUFFER, "GDT has been loaded.\n");
+	klog(INFO, "GDT has been loaded.\n");
 	uint64_t* idt = setup_idt_table();
-	kprintf(INFO, FRAME_BUFFER, "IDT has been set up.\n");
+	klog(INFO, "IDT has been set up.\n");
 	load_idt(idt);
 }

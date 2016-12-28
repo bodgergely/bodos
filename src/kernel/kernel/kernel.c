@@ -16,8 +16,8 @@ static void init()
 {
 	/* Initialize terminal interface */
 	terminal_initialize();
-	kprintf(INFO, FRAME_BUFFER, "Terminal initialized.\n");
-    //kprintf(INFO, FRAME_BUFFER, (const char*)1056776, 56, 79);
+	klog(INFO, "Terminal initialized.\n");
+    //klog(INFO, (const char*)1056776, 56, 79);
 	arch_specific_init();
 }
 
@@ -25,9 +25,9 @@ void kernel_main(void) {
 	init();
 
 	int int_no = 28;
-	kprintf(INFO,FRAME_BUFFER, "Interrupt will fire now with int no: %d\n", int_no);
+	klog(INFO, "Interrupt will fire now with int no: %d\n", int_no);
 	interrupt(int_no);
-	kprintf(INFO, FRAME_BUFFER, "Returned from interrupt!\n");
-	kprintf(INFO, FRAME_BUFFER, "System will go into infinite loop now.\n");
+	klog(INFO,"Returned from interrupt!\n");
+	klog(INFO,"System will go into infinite loop now.\n");
 	while(1);
 }
