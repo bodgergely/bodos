@@ -71,3 +71,66 @@ no_error_code_interrupt_handler 0       # create handler for interrupt 0
 no_error_code_interrupt_handler 1       # create handler for interrupt 1
 error_code_interrupt_handler    7       # create handler for interrupt 7
 
+
+# irq handler gateway
+/*
+http://www.osdever.net/bkerndev/Docs/irqs.htm
+*/
+
+.macro IRQ_ROUTINE num
+.global irq_routine_\num
+.align 4
+# map them to IDT entry 32 to 47
+irq_routine_\num:
+    cli
+    push 0    # Note that these don't push an error code on the stack:
+                   # We need to push a dummy error code
+    push (\num + 32)
+    jmp irq_common_stub
+.endm
+
+IRQ_ROUTINE 0
+IRQ_ROUTINE 1
+IRQ_ROUTINE 2
+IRQ_ROUTINE 3
+IRQ_ROUTINE 4
+IRQ_ROUTINE 5
+IRQ_ROUTINE 6
+IRQ_ROUTINE 7
+IRQ_ROUTINE 8
+IRQ_ROUTINE 9
+IRQ_ROUTINE 10
+IRQ_ROUTINE 11
+IRQ_ROUTINE 12
+IRQ_ROUTINE 13
+IRQ_ROUTINE 14
+IRQ_ROUTINE 15
+
+.extern irq_handler
+
+# This is a stub that we have created for IRQ based ISRs. This calls
+# '_irq_handler' in our C code.
+irq_common_stub:
+    pusha
+    push ds
+    push es
+    push fs
+    push gs
+    mov ax, 0x10
+    mov ds, ax
+    mov es, ax
+    mov fs, ax
+    mov gs, ax
+    mov eax, esp
+    push eax
+    call irq_handler
+    pop eax
+    pop gs
+    pop fs
+    pop es
+    pop ds
+    popa
+    add esp, 8
+    iret
+
+

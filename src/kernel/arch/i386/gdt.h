@@ -6,7 +6,7 @@
 #define NUM_OF_GDT_ENTRIES 3
 
 
-void install_gdt();
+void gdt_install();
 
 
 #endif

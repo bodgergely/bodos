@@ -10,4 +10,6 @@ struct regs
     unsigned int eip, cs, eflags, useresp, ss;   /* pushed by the processor automatically */
 };
 
+void timer_wait(unsigned int ticks);
+
 #endif

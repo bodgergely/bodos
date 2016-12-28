@@ -1,4 +1,4 @@
-#include "interrupt_handler_x86.h"
+#include "isr.h"
 
 #include <kernel/kprintf.h>
 #include <kernel/debug.h>

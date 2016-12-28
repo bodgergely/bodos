@@ -1,11 +1,8 @@
 #include "idt.h"
 
-#include "interrupt_handler_x86.h"
-
 #define NUM_OF_IDT_ENTRIES 3
 #define IDT_ENTRY_SIZE 8
 
-extern interrupt_handler_signature interrupt_handler_0;
 
 struct idt_entry			// http://wiki.osdev.org/Interrupt_Descriptor_Table
 {
@@ -36,7 +33,7 @@ inline static void set_selector(struct idt_entry* entry, uint16_t val)
 	entry->selector = val;
 }
 
-inline static void set_attributes(struct idt_entry* entry, uint16_t val)
+inline static void set_attributes(struct idt_entry* entry, uint8_t val)
 {
 	entry->type_attr = val;
 }
@@ -46,21 +43,20 @@ inline static void set_zero(struct idt_entry* entry)
 	entry->zero = 0;
 }
 
-static void create_idt_entry(size_t index, uint32_t handler)
+void create_idt_entry(size_t index, uint32_t handler, uint16_t selector, uint8_t type_attr)
 {
 	struct idt_entry entry;
 	set_address(&entry, handler);
-	set_selector(&entry, 0x0008);	// https://littleosbook.github.io/#segmentation
+	set_selector(&entry, selector);	// https://littleosbook.github.io/#segmentation
 	set_zero(&entry);
-	set_attributes(&entry, 0x8E);
+	set_attributes(&entry, type_attr);
 	idt[index] = entry;
 }
 
-uint64_t* setup_idt_table()
+void idt_install()
 {
 	memset(idt, 0, sizeof(idt));
-	create_idt_entry(0x80, (uint32_t)interrupt_handler_0);
 	idtptr.base = idt;
 	idtptr.limit = sizeof(idt)-1;
-	return (uint64_t*)&idtptr;
+	load_idt((uint64_t*)&idtptr);
 }

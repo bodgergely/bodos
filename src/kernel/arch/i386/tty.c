@@ -82,6 +82,12 @@ static void terminal_putchar(char c) {
 	}
 }
 
+int terminal_putc(char c)
+{
+	terminal_putchar(c);
+	move_cursor(VGA_WIDTH*terminal_row + terminal_column);
+}
+
 int terminal_write(const char* data, size_t size) {
 	for (size_t i = 0; i < size; i++)
 		terminal_putchar(data[i]);
