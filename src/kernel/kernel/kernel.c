@@ -12,17 +12,24 @@
 extern "C" /* Use C linkage for kernel_main. */
 #endif
 
+volatile unsigned int g = 0xfffffff;
+
 static void init()
 {
+	//kprintf(INFO, SERIAL_PORT, "Hahahaha\n");
 	/* Initialize terminal interface */
 	terminal_initialize();
-	klog(INFO, "Terminal initialized.\n");
+	//klog(INFO, "Terminal initialized.\n");
     //klog(INFO, (const char*)1056776, 56, 79);
-	arch_specific_init();
+	//arch_specific_init();
 }
 
 void kernel_main(void) {
+	//while(1);
 	init();
+
+
+	klog(INFO, "kernel_main at: %d and init at: %d\n", kernel_main, init);
 	int int_no = 28;
 	klog(INFO, "Interrupt will fire now with int no: %d\n", int_no);
 	interrupt(int_no);
