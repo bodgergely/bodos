@@ -1,3 +1,7 @@
+/*
+http://wiki.osdev.org/User:Glauxosdever/Higher_Half_x86_Bare_Bones
+*/
+
 ENTRY (_start)
 
 SECTIONS
