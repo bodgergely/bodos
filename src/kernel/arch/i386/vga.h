@@ -9,7 +9,7 @@
 static const size_t VGA_WIDTH = 80;
 static const size_t VGA_HEIGHT = 25;
 
-uint16_t* vga_buffer_address =  0xC03FF000; // because we moved to higher half kernel(virtual 0xC00B8000) (physical 0xB8000)
+uint16_t* vga_buffer_address =  0xC00B8000; // because we moved to higher half kernel(virtual 0xC00B8000) (physical 0xB8000)
 
 
 /* Hardware text mode color constants. */
