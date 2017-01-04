@@ -46,8 +46,7 @@ _start:
 	#       1 MiB as it can be generally useful, and there's no need to
 	#       specially map the VGA buffer.
 	movl $0, %esi
-	# Map 1023 pages. The 1024th will be the VGA text buffer.
-	movl $1023, %ecx
+
 
 1:
 	# in case we reached the address of the kernel's end than we should stop mapping

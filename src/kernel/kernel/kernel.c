@@ -7,7 +7,7 @@
 #include <kernel/debug.h>
 #include <kernel/interrupt.h>
 
- 
+
 #if defined(__cplusplus)
 extern "C" /* Use C linkage for kernel_main. */
 #endif
@@ -25,7 +25,6 @@ static void init()
 void kernel_main(void) {
 	//while(1);
 	init();
-
 	klog(INFO, "kernel_main at: %d and init at: %d\n", kernel_main, init);
 	int int_no = 28;
 	klog(INFO, "Interrupt will fire now with int no: %d\n", int_no);
