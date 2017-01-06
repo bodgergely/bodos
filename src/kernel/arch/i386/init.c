@@ -1,7 +1,4 @@
 #include "init.h"
-#include "gdt.h"
-#include "idt.h"
-#include "irq.h"
 
 
 static void setup_irq_handlers()
@@ -31,4 +28,5 @@ void arch_specific_init()
 	klog(INFO, "GDT has been installed.\n");
 	setup_idt();
 	setup_irq();
+	paging_init();
 }

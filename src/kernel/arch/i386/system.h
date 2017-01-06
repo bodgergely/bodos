@@ -1,6 +1,10 @@
 #ifndef SYSTEM_H
 #define SYSTEM_H
 
+#include <stdint.h>
+
+typedef uint32_t vaddress_t;
+
 /* This defines what the stack looks like after an ISR was running */
 struct regs
 {
