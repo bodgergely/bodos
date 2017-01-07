@@ -8,28 +8,24 @@
 #define VIRTUAL_MEM_OFFSET 0xC0000000
 #define NUM_OF_PDE 1024
 #define NUM_OF_PTE 1024
+#define PAGE_SIZE 4096
 
 
-struct page_directory
-{
-	uint32_t entries[NUM_OF_PDE];
-}__attribute__((packed));
-
-typedef struct page_directory page_directory_t;
-
-struct page_table
-{
-	uint32_t entries[NUM_OF_PTE];
-}__attribute__((packed));
-
-typedef struct page_table page_table_t;
 
 
 void paging_init();
 
+void* alloc_page(size_t count);
+void  free_page(void* page);
+
 inline uint32_t phys_to_virtual(uint32_t phys)
 {
 	return phys + (uint32_t)VIRTUAL_MEM_OFFSET;
+}
+
+inline uint32_t virtual_to_physical(uint32_t virt)
+{
+	return virt - (uint32_t)VIRTUAL_MEM_OFFSET;
 }
 
 #endif

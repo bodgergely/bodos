@@ -23,7 +23,6 @@ static void init()
 }
 
 void kernel_main(void) {
-	//while(1);
 	init();
 	klog(INFO, "kernel_main at: %d and init at: %d\n", kernel_main, init);
 	int int_no = 28;

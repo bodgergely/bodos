@@ -3,6 +3,8 @@
 
 #include <stdint.h>
 
+#define TRUE 1
+#define FALSE 0
 typedef uint32_t vaddress_t;
 
 /* This defines what the stack looks like after an ISR was running */
