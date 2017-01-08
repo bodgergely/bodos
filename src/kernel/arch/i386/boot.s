@@ -74,7 +74,7 @@ _start:
 3:
 	# The page table is used at both page directory entry 0 (virtually from 0x0
 	# to 0x3FFFFF) (thus identity mapping the kernel) and page directory entry
-	# 768 (virtually from 0xC0000000 to 0xC03FFFFF) (thus mapping it in the
+	# 768 (virtually from 0xC0000000 to 0xC03FFFFF)  769, 770 etc (thus mapping it in the
 	# higher half). The kernel is identity mapped because enabling paging does
 	# not change the next instruction, which continues to be physical. The CPU
 	# would instead page fault if there was no identity mapping.

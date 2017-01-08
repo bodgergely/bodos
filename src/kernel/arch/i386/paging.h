@@ -6,6 +6,7 @@
 #include "system.h"
 
 #define VIRTUAL_MEM_OFFSET 0xC0000000
+#define PHYSICAL_MEM_OFFSET 0x100000
 #define NUM_OF_PDE 1024
 #define NUM_OF_PTE 1024
 #define PAGE_SIZE 4096

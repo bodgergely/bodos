@@ -107,9 +107,10 @@ static void init_higher_half_pagedirectory_info(struct page_directory_info* pdi)
 		page_table->table = (&boot_page_table1) + PAGE_SIZE*i;
 		page_table->num_of_free_pages = 0;
 		// assign physical addresses for them
+		uint32_t paddr = PHYSICAL_MEM_OFFSET + i * PAGE_SIZE*1024;
 		for(int i=0;i<NUM_OF_PTE;i++)
 		{
-			//age_table->physical_frame_addresses[i] =
+			page_table->physical_frame_addresses[i] = paddr + i * PAGE_SIZE;
 		}
 
 	}
