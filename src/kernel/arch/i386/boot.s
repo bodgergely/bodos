@@ -30,7 +30,7 @@ boot_page_directory:
 	.skip 4096
 .global boot_page_table1
 boot_page_table1:
-	.skip 4096 * 4			#let's have four page tables for the kernel
+	.skip 4096 * 8			#let's have eight page tables for the kernel
 # Further page tables may be required if the kernel grows beyond 3 MiB.
 
 # The kernel entry point.
@@ -53,8 +53,8 @@ _start:
 1:
 	# in case we reached the address of the kernel's end than we should stop mapping
 	#cmpl $(_kernel_end - 0xC0000000), %esi
-	#4 page tables
-	cmpl $(0xC1000000 - 0xC0000000), %esi
+	#8 page tables
+	cmpl $(0xC2000000 - 0xC0000000), %esi
 	jge 3f
 
 	# Map physical address as "present, writable". Note that this maps
@@ -84,11 +84,19 @@ _start:
 	movl $(boot_page_table1 + 0x001000 - 0xC0000000 + 0x003), boot_page_directory - 0xC0000000 + 1 * 4
 	movl $(boot_page_table1 + 0x002000 - 0xC0000000 + 0x003), boot_page_directory - 0xC0000000 + 2 * 4
 	movl $(boot_page_table1 + 0x003000 - 0xC0000000 + 0x003), boot_page_directory - 0xC0000000 + 3 * 4
+	movl $(boot_page_table1 + 0x004000 - 0xC0000000 + 0x003), boot_page_directory - 0xC0000000 + 4 * 4
+	movl $(boot_page_table1 + 0x005000 - 0xC0000000 + 0x003), boot_page_directory - 0xC0000000 + 5 * 4
+	movl $(boot_page_table1 + 0x006000 - 0xC0000000 + 0x003), boot_page_directory - 0xC0000000 + 6 * 4
+	movl $(boot_page_table1 + 0x007000 - 0xC0000000 + 0x003), boot_page_directory - 0xC0000000 + 7 * 4
 
 	movl $(boot_page_table1 - 0xC0000000 + 0x003), boot_page_directory - 0xC0000000 + 768 * 4
 	movl $(boot_page_table1 + 0x001000 - 0xC0000000 + 0x003), boot_page_directory - 0xC0000000 + 769 * 4
 	movl $(boot_page_table1 + 0x002000 - 0xC0000000 + 0x003), boot_page_directory - 0xC0000000 + 770 * 4
 	movl $(boot_page_table1 + 0x003000 - 0xC0000000 + 0x003), boot_page_directory - 0xC0000000 + 771 * 4
+	movl $(boot_page_table1 + 0x004000 - 0xC0000000 + 0x003), boot_page_directory - 0xC0000000 + 772 * 4
+	movl $(boot_page_table1 + 0x005000 - 0xC0000000 + 0x003), boot_page_directory - 0xC0000000 + 773 * 4
+	movl $(boot_page_table1 + 0x006000 - 0xC0000000 + 0x003), boot_page_directory - 0xC0000000 + 774 * 4
+	movl $(boot_page_table1 + 0x007000 - 0xC0000000 + 0x003), boot_page_directory - 0xC0000000 + 775 * 4
 
 	# Set cr3 to the address of the boot_page_directory.
 	movl $(boot_page_directory - 0xC0000000), %ecx

@@ -15,8 +15,8 @@
 
 void paging_init();
 
-void* alloc_page(size_t count);
-void  free_page(void* page);
+void* alloc_pages(size_t count);
+void  free_pages(void* start, size_t count);
 
 inline uint32_t phys_to_virtual(uint32_t phys)
 {
