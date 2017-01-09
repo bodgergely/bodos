@@ -22,6 +22,13 @@ static void setup_idt()
 	create_idt_entry(0x80, (uint32_t)interrupt_handler_0, 0x0008, 0x8E);
 }
 
+void dummy()
+{
+	char buff[256];
+	strcpy(buff, "Things still work!");
+	klog(INFO, "Message: %s\n", buff);
+}
+
 void arch_specific_init()
 {
 	gdt_install();
@@ -30,9 +37,9 @@ void arch_specific_init()
 	setup_irq();
 	paging_init();
 
-	int num_pages_to_allocate = 1;
-	void* mem = alloc_pages(num_pages_to_allocate);
-	klog(INFO, "Allocated %d at: %d\n", num_pages_to_allocate, mem);
+	stress_test_page_alloc();
+
+	dummy();
 
 
 }

@@ -124,13 +124,15 @@ static void init_higher_half_pagedirectory_info(struct page_directory_info* pdi)
 	}
 
 	uint32_t vaddr = VIRTUAL_MEM_OFFSET + NUM_KERNEL_PAGE_TABLES_AT_BOOT * PAGE_SIZE*1024;
+	uint32_t slot = 0;
 	for(int i=KERNEL_ENTRY_IN_PAGEDIR+NUM_KERNEL_PAGE_TABLES_AT_BOOT;i<NUM_OF_PDE;i++)
 	{
-		uint32_t slot = 0;
 		struct page_table_info* page_table = &directory->entries[i];
 		page_table->num_of_free_pages = NUM_OF_PTE;
-		pdt->entries[i] = ((uint32_t)(kernel_page_tables + slot)) & 0x003;
-		directory->entries[i].table = kernel_page_tables + slot;
+		pdt->entries[i] = ((uint32_t)(kernel_page_tables + slot)) + 0x003;
+		page_table->table = kernel_page_tables + slot;
+		//if(slot < 8)
+		//	klog(INFO, "page_table %d and table entry: %d\n", page_table->table, pdt->entries[i]);
 		for(int j=0;j<NUM_OF_PTE;j++)
 		{
 			page_table->table->entries[j] = virtual_to_physical(vaddr) | 0x003;
@@ -138,6 +140,8 @@ static void init_higher_half_pagedirectory_info(struct page_directory_info* pdi)
 		}
 		slot++;
 	}
+	tlb_flush();
+	//while(1);
 }
 
 
@@ -270,23 +274,28 @@ void* alloc_pages(size_t count)
 		int processed = 0;
 		int pde_index = pde_start_index;
 		int pte_index = pte_start_index;
+		klog(INFO, "pde_index: %d, pte index: %d\n", pde_index, pte_index);
 		while(processed!=count)
 		{
 			struct page_table_info* page_table = &pdi->entries[pde_index];
 			page_table->taken[pte_index] = TRUE;
 			page_table->num_of_free_pages--;
-			page_table->physical_frame_addresses[pte_index] = pF->addr;
-			page_table->table->entries[pte_index] = pF->addr;
+			klog(TRACE, "Remove me - First free kernel frame: %d\n", pF->addr);
+			page_table->physical_frame_addresses[pte_index] = pF->addr | 0x003;
+			page_table->table->entries[pte_index] = pF->addr | 0x003;
 			pF->taken = TRUE;
 			pF = pF->next;
 			free_kernel_frame_list = pF;
 
+			processed++;
 			if(pte_index == NUM_OF_PTE)
 			{
 				pte_index = 0;
 				pde_index++;
 			}
 		}
+
+		tlb_flush();
 
 	}
 
@@ -300,5 +309,24 @@ void* alloc_pages(size_t count)
 void  free_pages(void* start, size_t count)
 {
 
+}
+
+
+int stress_test_page_alloc()
+{
+	char buff[256];
+	strcpy(buff, "HelloBello");
+	klog(INFO, "buff contains: %s\n", buff);
+
+	int num_pages_to_allocate = 5;
+	void* mem = alloc_pages(num_pages_to_allocate);
+	*(int*)mem = 124;
+	klog(INFO, "mem at %d contains the int: %d\n", mem, *(int*)mem);
+
+	klog(INFO, "Allocated %d page(s) at: %d\n", num_pages_to_allocate, mem);
+	strcpy((char*)mem, "Hello paging!");
+	strcpy(buff, mem);
+	klog(INFO, "Wrote to %d the string: %s\n", mem, (char*)mem);
+	klog(INFO, "buff is at %d and contains the string %s\n", buff, buff);
 }
 

@@ -19,6 +19,8 @@ void paging_init();
 void* alloc_pages(size_t count);
 void  free_pages(void* start, size_t count);
 
+int stress_test_page_alloc();
+
 inline uint32_t phys_to_virtual(uint32_t phys)
 {
 	return phys + (uint32_t)VIRTUAL_MEM_OFFSET;

@@ -117,9 +117,9 @@ _start:
 	# Unmap the identity mapping as it is now unnecessary.
 	#movl $0, boot_page_directory + 0
 
+
 	# Reload cr3 to force a TLB flush so the changes to take effect.
-	movl %cr3, %ecx
-	movl %ecx, %cr3
+	call tlb_flush
 
 	# Set up the stack.
 	mov $stack_top, %esp
@@ -131,3 +131,9 @@ _start:
 	cli
 1:	hlt
 	jmp 1b
+
+.global tlb_flush
+.type tlb_flush, @function
+tlb_flush:
+	movl %cr3, %ecx
+	movl %ecx, %cr3
