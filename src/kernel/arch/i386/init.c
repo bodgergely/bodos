@@ -29,4 +29,10 @@ void arch_specific_init()
 	setup_idt();
 	setup_irq();
 	paging_init();
+
+	int num_pages_to_allocate = 1;
+	void* mem = alloc_pages(num_pages_to_allocate);
+	klog(INFO, "Allocated %d at: %d\n", num_pages_to_allocate, mem);
+
+
 }

@@ -73,7 +73,7 @@ struct frame
 {
 	uint32_t addr;
 	struct frame* next;
-	uint8_t	 taken;
+	uint32_t	 taken;
 };
 
 
@@ -89,6 +89,13 @@ static struct frame* free_frame_list;
 static struct frame* free_kernel_frame_list;
 
 
+inline static uint32_t virtual_addr(uint16_t pde_index, uint16_t pte_index)
+{
+	uint32_t high = PAGE_SIZE * NUM_OF_PTE * pde_index;
+	uint32_t low = PAGE_SIZE * pte_index;
+	return high + low;
+}
+
 static void init_higher_half_pagedirectory_info(struct page_directory_info* pdi)
 {
 	struct pd_info* directory = &pdi->info;
@@ -99,15 +106,16 @@ static void init_higher_half_pagedirectory_info(struct page_directory_info* pdi)
 		pdt->entries[i] = 0;
 	}
 
-	for(int i=1024*768;i<1024*768+1024*NUM_DYNAMIC_KERNEL_PAGE_TABLES;i++)
+	for(int i=0;i<1024*NUM_KERNEL_PAGE_TABLES_AT_BOOT;i++)
 		phys_frames[i].taken = TRUE;
+
 	for(int i=0;i<NUM_KERNEL_PAGE_TABLES_AT_BOOT;i++)
 	{
 		struct page_table_info* page_table = &directory->entries[KERNEL_ENTRY_IN_PAGEDIR+i];
 		page_table->table = (&boot_page_table1) + PAGE_SIZE*i;
 		page_table->num_of_free_pages = 0;
 		// assign physical addresses for them
-		uint32_t paddr = PHYSICAL_MEM_OFFSET + i * PAGE_SIZE*1024;
+		uint32_t paddr = /*PHYSICAL_MEM_OFFSET + */i * PAGE_SIZE*1024;
 		for(int i=0;i<NUM_OF_PTE;i++)
 		{
 			page_table->physical_frame_addresses[i] = paddr + i * PAGE_SIZE;
@@ -133,29 +141,25 @@ static void init_higher_half_pagedirectory_info(struct page_directory_info* pdi)
 }
 
 
-static struct frame* kernel_free_list()
+static struct frame* free_list()
 {
 	// the idea is to skip the frames page tables allocated at boot time since those frames in those tables are definitely taken
 	struct frame* frame = free_frame_list;
-	struct frame* bFree;
-	for(int i=0;i<1024 * 768 - 1;i++)
+	for(int i=0;i<1024 * NUM_KERNEL_PAGE_TABLES_AT_BOOT;i++)
 	{
 		//if(i > 400000)
 		//	klog(INFO, "i %d frame: %d frame->next: %d\n", i, frame, frame->next);
 		frame = frame->next;
 	}
-	bFree = frame;
-	for(int i=0;i<1024*NUM_KERNEL_PAGE_TABLES_AT_BOOT;i++)
-		frame = frame->next;
-	bFree->next = frame->next;
-	return bFree;
+
+	return frame;
 }
 
 static void init_frames()
 {
 	for(uint32_t i=0;i<1024 * 1024;i++)
 	{
-		phys_frames[i].addr = i * 1024;
+		phys_frames[i].addr = i * PAGE_SIZE;
 		phys_frames[i].taken = FALSE;
 		if(i<1024 * 1024 - 1)
 		{
@@ -179,35 +183,117 @@ void paging_init()
 		init_pagetable_info(kernel_page_tables + i);
 
 	init_higher_half_pagedirectory_info(&pagedir_info);
-	free_kernel_frame_list = kernel_free_list();
-
+	free_kernel_frame_list = free_list();
+	klog(INFO, "First free frame phys address: %d taken: %d next addr: %d next taken: %d\n", free_kernel_frame_list->addr, free_kernel_frame_list->taken, free_kernel_frame_list->next->addr, free_kernel_frame_list->next->taken);
+	klog(INFO, "phys %d taken: %d\n", phys_frames[NUM_KERNEL_PAGE_TABLES_AT_BOOT*1024-1].addr, phys_frames[NUM_KERNEL_PAGE_TABLES_AT_BOOT*1024-1].taken);
 
 	page_directory_t* pagedir = pagedir_info.table;
 
 	klog(INFO, "page el at 768 is: %d\n", page_entry(phys_to_virtual(pagedir->entries[KERNEL_ENTRY_IN_PAGEDIR])));
 	klog(INFO, "page table is at: %d\n", page_entry((uint32_t) &boot_page_table1));
 
+	klog(INFO, "Paging has been initialized.\n");
 
 }
 
 
 void* alloc_pages(size_t count)
 {
+	uint16_t pde_start_index;
+	uint16_t pte_start_index;
+	int possible = TRUE;
 	int num_pages_collected = 0;
-	int doable = 1;
 	struct pd_info* pdi = &pagedir_info.info;
 
-	while(num_pages_collected!=count && doable)
+
+	while(num_pages_collected!=count && possible)
 	{
-		for(int i=KERNEL_ENTRY_IN_PAGEDIR+1;i<NUM_OF_PDE;i++)
+		// determine where we can have consecutive count pages
+		int page_table_crosses = 0;
+		for(int pde=KERNEL_ENTRY_IN_PAGEDIR+NUM_KERNEL_PAGE_TABLES_AT_BOOT;pde<NUM_OF_PDE;pde++)
 		{
-			struct page_table_info* page_table = &pdi->entries[i];
-			if(page_table->num_of_free_pages >= num_pages_collected)
+			struct page_table_info* page_table = &pdi->entries[pde];
+			if(page_table->num_of_free_pages)
 			{
-				//page_table->
+				int i = 0;
+				while(i<NUM_OF_PTE)
+				{
+					pte_start_index = i;
+					int keepGoing = TRUE;
+					int c = 0;
+					int sofarCount = num_pages_collected;
+					for(;i<NUM_OF_PTE && sofarCount + c < count && keepGoing;i++)
+					{
+						if(!page_table->taken[i])
+						{
+							c++;
+						}
+						else
+						{
+							keepGoing = FALSE;
+							if(page_table_crosses > 0)
+							{
+								num_pages_collected = 0;
+								sofarCount = 0;
+								c = 0;
+								page_table_crosses = 0;
+							}
+						}
+					}
+					if(keepGoing)
+					{
+						num_pages_collected = sofarCount + c;
+						if(num_pages_collected == count)
+							break;
+					}
+				}
+				if(num_pages_collected == count)
+				{
+					pde_start_index = pde - page_table_crosses;
+					break;
+				}
+				else
+				{
+					page_table_crosses++;
+				}
+
 			}
+			if(pde == NUM_OF_PDE)
+				possible = FALSE;
 		}
 	}
+
+	if(possible)
+	{
+		// collect the frames from the free frame list
+		struct frame* pF = free_kernel_frame_list;
+		int processed = 0;
+		int pde_index = pde_start_index;
+		int pte_index = pte_start_index;
+		while(processed!=count)
+		{
+			struct page_table_info* page_table = &pdi->entries[pde_index];
+			page_table->taken[pte_index] = TRUE;
+			page_table->num_of_free_pages--;
+			page_table->physical_frame_addresses[pte_index] = pF->addr;
+			page_table->table->entries[pte_index] = pF->addr;
+			pF->taken = TRUE;
+			pF = pF->next;
+			free_kernel_frame_list = pF;
+
+			if(pte_index == NUM_OF_PTE)
+			{
+				pte_index = 0;
+				pde_index++;
+			}
+		}
+
+	}
+
+	if(possible)
+		return (void*) virtual_addr(pde_start_index, pte_start_index);
+	else
+		return NULL;
 
 }
 
