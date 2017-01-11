@@ -41,7 +41,6 @@ struct page_table_info
 	page_table_t* table;
 	uint16_t	  num_of_free_pages;
 	uint8_t		  taken[NUM_OF_PTE];
-	uint32_t	  physical_frame_addresses[NUM_OF_PTE];
 };
 
 struct pd_info
@@ -56,7 +55,6 @@ static void init_pagetable_info(struct page_table_info* info)
 	info->table = NULL;
 	info->num_of_free_pages = NUM_OF_PTE;
 	memset(info->taken, FALSE, sizeof(info->taken));
-	memset(info->physical_frame_addresses, 0, sizeof(info->physical_frame_addresses));
 }
 
 
@@ -81,12 +79,9 @@ struct frame
 
 
 #define NUM_DYNAMIC_KERNEL_PAGE_TABLES (NUM_OF_PTE-KERNEL_ENTRY_IN_PAGEDIR-NUM_KERNEL_PAGE_TABLES_AT_BOOT)
-static struct frame phys_frames[1024 * 1024];
 // 1024 - 768 page tables (768th entry is allocated in boot.s - for the kernel)
-page_table_t kernel_page_tables[NUM_DYNAMIC_KERNEL_PAGE_TABLES];
+page_table_t kernel_page_tables[NUM_DYNAMIC_KERNEL_PAGE_TABLES]__attribute__((aligned(4096)));
 static struct page_directory_info pagedir_info;
-static struct frame* free_frame_list;
-static struct frame* free_kernel_frame_list;
 
 
 inline static uint32_t virtual_addr(uint16_t pde_index, uint16_t pte_index)
@@ -106,21 +101,11 @@ static void init_higher_half_pagedirectory_info(struct page_directory_info* pdi)
 		pdt->entries[i] = 0;
 	}
 
-	for(int i=0;i<1024*NUM_KERNEL_PAGE_TABLES_AT_BOOT;i++)
-		phys_frames[i].taken = TRUE;
-
 	for(int i=0;i<NUM_KERNEL_PAGE_TABLES_AT_BOOT;i++)
 	{
 		struct page_table_info* page_table = &directory->entries[KERNEL_ENTRY_IN_PAGEDIR+i];
-		page_table->table = (&boot_page_table1) + PAGE_SIZE*i;
+		page_table->table = (&boot_page_table1) + NUM_OF_PTE*i;
 		page_table->num_of_free_pages = 0;
-		// assign physical addresses for them
-		uint32_t paddr = /*PHYSICAL_MEM_OFFSET + */i * PAGE_SIZE*1024;
-		for(int i=0;i<NUM_OF_PTE;i++)
-		{
-			page_table->physical_frame_addresses[i] = paddr + i * PAGE_SIZE;
-		}
-
 	}
 
 	uint32_t vaddr = VIRTUAL_MEM_OFFSET + NUM_KERNEL_PAGE_TABLES_AT_BOOT * PAGE_SIZE*1024;
@@ -129,74 +114,34 @@ static void init_higher_half_pagedirectory_info(struct page_directory_info* pdi)
 	{
 		struct page_table_info* page_table = &directory->entries[i];
 		page_table->num_of_free_pages = NUM_OF_PTE;
-		pdt->entries[i] = ((uint32_t)(kernel_page_tables + slot)) + 0x003;
+		pdt->entries[i] = virtual_to_physical(((uint32_t)(kernel_page_tables + slot))) + 0x003;
 		page_table->table = kernel_page_tables + slot;
-		//if(slot < 8)
-		//	klog(INFO, "page_table %d and table entry: %d\n", page_table->table, pdt->entries[i]);
 		for(int j=0;j<NUM_OF_PTE;j++)
 		{
-			page_table->table->entries[j] = virtual_to_physical(vaddr) | 0x003;
+			page_table->table->entries[j] = virtual_to_physical(vaddr) + 0x003;
 			vaddr+=PAGE_SIZE;
 		}
 		slot++;
 	}
 	tlb_flush();
-	//while(1);
+
 }
 
-
-static struct frame* free_list()
-{
-	// the idea is to skip the frames page tables allocated at boot time since those frames in those tables are definitely taken
-	struct frame* frame = free_frame_list;
-	for(int i=0;i<1024 * NUM_KERNEL_PAGE_TABLES_AT_BOOT;i++)
-	{
-		//if(i > 400000)
-		//	klog(INFO, "i %d frame: %d frame->next: %d\n", i, frame, frame->next);
-		frame = frame->next;
-	}
-
-	return frame;
-}
-
-static void init_frames()
-{
-	for(uint32_t i=0;i<1024 * 1024;i++)
-	{
-		phys_frames[i].addr = i * PAGE_SIZE;
-		phys_frames[i].taken = FALSE;
-		if(i<1024 * 1024 - 1)
-		{
-			phys_frames[i].next = &phys_frames[i+1];
-		}
-		else
-		{
-			phys_frames[i].next = NULL;
-		}
-	}
-	free_frame_list = phys_frames;
-}
 
 void paging_init()
 {
-	klog(INFO, "Paging init...\n");
-	// frames are not taken in the beginning
-	init_frames();
+	klog(INFO, "Initializing paging.\n");
 	pagedir_info.table = &boot_page_directory;
 	for(int i=0;i<NUM_DYNAMIC_KERNEL_PAGE_TABLES;i++)
 		init_pagetable_info(kernel_page_tables + i);
 
 	init_higher_half_pagedirectory_info(&pagedir_info);
-	free_kernel_frame_list = free_list();
-	klog(INFO, "First free frame phys address: %d taken: %d next addr: %d next taken: %d\n", free_kernel_frame_list->addr, free_kernel_frame_list->taken, free_kernel_frame_list->next->addr, free_kernel_frame_list->next->taken);
-	klog(INFO, "phys %d taken: %d\n", phys_frames[NUM_KERNEL_PAGE_TABLES_AT_BOOT*1024-1].addr, phys_frames[NUM_KERNEL_PAGE_TABLES_AT_BOOT*1024-1].taken);
-
 	page_directory_t* pagedir = pagedir_info.table;
 
-	klog(INFO, "page el at 768 is: %d\n", page_entry(phys_to_virtual(pagedir->entries[KERNEL_ENTRY_IN_PAGEDIR])));
-	klog(INFO, "page table is at: %d\n", page_entry((uint32_t) &boot_page_table1));
+	//klog(INFO, "page el at 768 is: %d\n", page_entry(phys_to_virtual(pagedir->entries[KERNEL_ENTRY_IN_PAGEDIR])));
+	//klog(INFO, "page table is at: %d\n", page_entry((uint32_t) &boot_page_table1));
 
-	klog(INFO, "Paging has been initialized.\n");
+	klog(INFO,"Paging has been initialized.\n");
 
 }
 
@@ -208,7 +153,6 @@ void* alloc_pages(size_t count)
 	int possible = TRUE;
 	int num_pages_collected = 0;
 	struct pd_info* pdi = &pagedir_info.info;
-
 
 	while(num_pages_collected!=count && possible)
 	{
@@ -268,38 +212,6 @@ void* alloc_pages(size_t count)
 	}
 
 	if(possible)
-	{
-		// collect the frames from the free frame list
-		struct frame* pF = free_kernel_frame_list;
-		int processed = 0;
-		int pde_index = pde_start_index;
-		int pte_index = pte_start_index;
-		klog(INFO, "pde_index: %d, pte index: %d\n", pde_index, pte_index);
-		while(processed!=count)
-		{
-			struct page_table_info* page_table = &pdi->entries[pde_index];
-			page_table->taken[pte_index] = TRUE;
-			page_table->num_of_free_pages--;
-			klog(TRACE, "Remove me - First free kernel frame: %d\n", pF->addr);
-			page_table->physical_frame_addresses[pte_index] = pF->addr | 0x003;
-			page_table->table->entries[pte_index] = pF->addr | 0x003;
-			pF->taken = TRUE;
-			pF = pF->next;
-			free_kernel_frame_list = pF;
-
-			processed++;
-			if(pte_index == NUM_OF_PTE)
-			{
-				pte_index = 0;
-				pde_index++;
-			}
-		}
-
-		tlb_flush();
-
-	}
-
-	if(possible)
 		return (void*) virtual_addr(pde_start_index, pte_start_index);
 	else
 		return NULL;
@@ -315,18 +227,10 @@ void  free_pages(void* start, size_t count)
 int stress_test_page_alloc()
 {
 	char buff[256];
-	strcpy(buff, "HelloBello");
-	klog(INFO, "buff contains: %s\n", buff);
-
 	int num_pages_to_allocate = 5;
 	void* mem = alloc_pages(num_pages_to_allocate);
-	*(int*)mem = 124;
-	klog(INFO, "mem at %d contains the int: %d\n", mem, *(int*)mem);
-
 	klog(INFO, "Allocated %d page(s) at: %d\n", num_pages_to_allocate, mem);
-	strcpy((char*)mem, "Hello paging!");
-	strcpy(buff, mem);
-	klog(INFO, "Wrote to %d the string: %s\n", mem, (char*)mem);
-	klog(INFO, "buff is at %d and contains the string %s\n", buff, buff);
+	strcpy((char*)mem, "Bodos rules forever!");
+	klog(INFO, "Mem we allocated at: %d contains: %s\n", mem, (char*)mem);
 }
 

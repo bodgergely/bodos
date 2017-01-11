@@ -1,4 +1,5 @@
 #include <string.h>
+#include <kernel/klog.h>
 
 size_t strlen(const char* str) {
 	size_t len = 0;
@@ -11,7 +12,6 @@ char* strcpy(char *dest, const char *src)
 {
 	char* r = dest;
 	while((*dest++ = *src++)!='\0');
-
 	return r;
 }
 

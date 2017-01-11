@@ -18,13 +18,13 @@ static void init()
 {
 	/* Initialize terminal interface */
 	terminal_initialize();
-	klog(INFO, "Terminal initialized.\n");
+	klog(INFO, "Terminal has been initialized.\n");
 	arch_specific_init();
+	while(1);
 }
 
 void kernel_main(void) {
 	init();
-	klog(INFO, "kernel_main at: %d and init at: %d\n", kernel_main, init);
 	int int_no = 28;
 	klog(INFO, "Interrupt will fire now with int no: %d\n", int_no);
 	interrupt(int_no);
