@@ -264,7 +264,7 @@ int stress_test_page_alloc()
 	klog(INFO, "Mem we allocated at: %d contains: %s\n", mem, (char*)mem);
 	char* mem_2 = alloc_pages(2);
 	klog(INFO, "Allocated 2 pages at: %d\n", mem_2);
-	strcpy((char*)mem_2, buff);
+	strcpy((char*)mem_2, mem);
 	klog(INFO, "mem_2 at: %d contains : %s\n", mem_2, (char*)mem_2);
 
 }
