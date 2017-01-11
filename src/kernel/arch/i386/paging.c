@@ -20,6 +20,16 @@ extern uint32_t boot_page_table1;
 #define page_entry(entry) (entry & PAGE_ENTRY_MASK)
 
 
+inline uint32_t phys_to_virtual(uint32_t phys)
+{
+	return phys + (uint32_t)VIRTUAL_MEM_OFFSET;
+}
+
+inline uint32_t virtual_to_physical(uint32_t virt)
+{
+	return virt - (uint32_t)VIRTUAL_MEM_OFFSET;
+}
+
 struct page_directory
 {
 	uint32_t entries[NUM_OF_PDE];
