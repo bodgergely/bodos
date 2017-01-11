@@ -20,7 +20,6 @@ static void init()
 	terminal_initialize();
 	klog(INFO, "Terminal has been initialized.\n");
 	arch_specific_init();
-	while(1);
 }
 
 void kernel_main(void) {

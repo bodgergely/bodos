@@ -211,6 +211,25 @@ void* alloc_pages(size_t count)
 		}
 	}
 
+	// mark the pages as taken if the allocation is possible
+	if(possible)
+	{
+		int i = 0;
+		uint16_t pde = pde_start_index;
+		uint16_t pte = pte_start_index;
+		while(i<count)
+		{
+			struct page_table_info* page_table = &pdi->entries[pde];
+			page_table->taken[pte++] = TRUE;
+			if(pte == NUM_OF_PTE)
+			{
+				pte = 0;
+				pde++;
+			}
+			i++;
+		}
+	}
+
 	if(possible)
 		return (void*) virtual_addr(pde_start_index, pte_start_index);
 	else
@@ -227,10 +246,16 @@ void  free_pages(void* start, size_t count)
 int stress_test_page_alloc()
 {
 	char buff[256];
+	strcpy(buff, "Bodos rules forever!");
 	int num_pages_to_allocate = 5;
 	void* mem = alloc_pages(num_pages_to_allocate);
 	klog(INFO, "Allocated %d page(s) at: %d\n", num_pages_to_allocate, mem);
-	strcpy((char*)mem, "Bodos rules forever!");
+	strcpy((char*)mem, buff);
 	klog(INFO, "Mem we allocated at: %d contains: %s\n", mem, (char*)mem);
+	char* mem_2 = alloc_pages(2);
+	klog(INFO, "Allocated 2 pages at: %d\n", mem_2);
+	strcpy((char*)mem_2, buff);
+	klog(INFO, "mem_2 at: %d contains : %s\n", mem_2, (char*)mem_2);
+
 }
 

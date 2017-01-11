@@ -39,7 +39,7 @@ void arch_specific_init()
 
 	stress_test_page_alloc();
 
-	dummy();
+	//dummy();
 
 
 }
