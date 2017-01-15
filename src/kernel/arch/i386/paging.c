@@ -20,6 +20,7 @@ extern uint32_t boot_page_table1;
 #define page_entry(entry) (entry & PAGE_ENTRY_MASK)
 
 
+
 inline uint32_t phys_to_virtual(uint32_t phys)
 {
 	return phys + (uint32_t)VIRTUAL_MEM_OFFSET;
@@ -171,12 +172,16 @@ void* alloc_pages(size_t count)
 		for(int pde=KERNEL_ENTRY_IN_PAGEDIR+NUM_KERNEL_PAGE_TABLES_AT_BOOT;pde<NUM_OF_PDE;pde++)
 		{
 			struct page_table_info* page_table = &pdi->entries[pde];
+			klog(INFO, "page_table->num_of_free_pages: %d\n", page_table->num_of_free_pages);
 			if(page_table->num_of_free_pages)
 			{
 				int i = 0;
 				while(i<NUM_OF_PTE)
 				{
-					pte_start_index = i;
+					// only modify the pte offset if we are not in crossing mode
+					if(page_table_crosses == 0)
+						pte_start_index = i;
+
 					int keepGoing = TRUE;
 					int c = 0;
 					int sofarCount = num_pages_collected;
@@ -222,6 +227,7 @@ void* alloc_pages(size_t count)
 	}
 
 	// mark the pages as taken if the allocation is possible
+	klog(INFO, "pde_start_index: %d pte_start_index: %d\n", pde_start_index, pte_start_index);
 	if(possible)
 	{
 		int i = 0;
@@ -230,7 +236,9 @@ void* alloc_pages(size_t count)
 		while(i<count)
 		{
 			struct page_table_info* page_table = &pdi->entries[pde];
+			klog(INFO, "pte: %d and i: %d", pte, i);
 			page_table->taken[pte++] = TRUE;
+			page_table->num_of_free_pages--;
 			if(pte == NUM_OF_PTE)
 			{
 				pte = 0;
@@ -247,9 +255,33 @@ void* alloc_pages(size_t count)
 
 }
 
+static uint16_t calc_pd_offset(void* start)
+{
+	return (uint16_t)((uint32_t) start / (NUM_OF_PTE * PAGE_SIZE));
+}
+
+static uint16_t calc_pt_offset(void* start)
+{
+	uint32_t rem = (uint32_t)((uint32_t) start % (NUM_OF_PTE * PAGE_SIZE));
+	return (uint16_t)rem / PAGE_SIZE;
+}
+
 void  free_pages(void* start, size_t count)
 {
-
+	uint16_t pd_offset = calc_pd_offset(start);
+	uint16_t pt_offset = calc_pt_offset(start);
+	struct pd_info* pdi = &pagedir_info.info;
+	for(int i=0;i<count;i++)
+	{
+		struct page_table_info* page_table = &pdi->entries[pd_offset];
+		page_table->taken[pt_offset++] = FALSE;
+		page_table->num_of_free_pages++;
+		if(pt_offset == NUM_OF_PTE)
+		{
+			pt_offset = 0;
+			pd_offset++;
+		}
+	}
 }
 
 
@@ -258,7 +290,7 @@ int stress_test_page_alloc()
 	char buff[256];
 	strcpy(buff, "Bodos rules forever!");
 	int num_pages_to_allocate = 5;
-	void* mem = alloc_pages(num_pages_to_allocate);
+	char* mem = alloc_pages(num_pages_to_allocate);
 	klog(INFO, "Allocated %d page(s) at: %d\n", num_pages_to_allocate, mem);
 	strcpy((char*)mem, buff);
 	klog(INFO, "Mem we allocated at: %d contains: %s\n", mem, (char*)mem);
@@ -266,6 +298,35 @@ int stress_test_page_alloc()
 	klog(INFO, "Allocated 2 pages at: %d\n", mem_2);
 	strcpy((char*)mem_2, mem);
 	klog(INFO, "mem_2 at: %d contains : %s\n", mem_2, (char*)mem_2);
+	klog(INFO, "Diff mem2 and mem: %d which is %d pages\n", mem_2 - (char*)mem, (mem_2 - (char*)mem)/PAGE_SIZE);
+	//klog(INFO, "Freeing %d pages at: %d\n", num_pages_to_allocate, mem);
+	free_pages(mem, num_pages_to_allocate);
+
+	int big_alloc_count = 1017;
+	mem = alloc_pages(big_alloc_count);
+	klog(INFO, "Allocated %d page(s) at: %d\n", big_alloc_count, mem);
+	strcpy((char*)mem, buff);
+	klog(INFO, "Mem we allocated at: %d contains: %s\n", mem, (char*)mem);
+	klog(INFO, "Diff mem and mem2: %d whic is %d pages\n", (char*)mem - (char*)mem_2, ((char*)mem - (char*)mem_2) / PAGE_SIZE );
+
+
+	char* mem_3 = alloc_pages(num_pages_to_allocate+13);
+	strcpy((char*)mem_3, buff);
+	//klog(INFO, "Allocated %d at: %d\n", num_pages_to_allocate+13, mem_3);
+	//klog(INFO, "Mem we allocated at: %d contains: %s\n", mem_3, mem_3);
+	//klog(INFO, "Diff mem_3 and mem is %d pages\n", ((char*)mem_3 - (char*)mem) / PAGE_SIZE);
+
+
+	//klog(INFO, "freeing %d at: %d\n", big_alloc_count, mem);
+	free_pages(mem, big_alloc_count);
+
+	mem = alloc_pages(7);
+	//klog(INFO, "Allocated 7 page(s) at: %d\n", mem);
+	//klog(INFO, "Diff mem and mem_2: %d\n", (mem-mem_2)/PAGE_SIZE );
+
+
+
+
 
 }
 
