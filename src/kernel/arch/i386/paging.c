@@ -294,7 +294,7 @@ void  free_pages(void* start, size_t count)
 int stress_test_page_alloc()
 {
 	char buff[256];
-	strcpy(buff, "Bodos rules forever!");
+	strcpy(buff, "Bodos has frame allocation now!");
 	int num_pages_to_allocate = 5;
 	char* mem = alloc_pages(num_pages_to_allocate);
 	klog(INFO, "Allocated %d page(s) at: %d\n", num_pages_to_allocate, mem);
