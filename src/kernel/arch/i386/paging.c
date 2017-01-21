@@ -309,16 +309,17 @@ void do_test()
 				uint32_t pc = 1 + (iter%5) * (j % 3) * scaler;
 				mem_arr[j].location = alloc_pages(pc);
 				mem_arr[j].num_pages = pc;
-				klog(INFO, "Allocated %d pages.\n", pc);
+				//klog(INFO, "Allocated %d pages.\n", pc);
 				strcpy(mem_arr[j].location, "Something comes here.");
 			}
 			for(int j=0;j<NUM_OF_MEMORIES;j++)
 			{
 				free_pages(mem_arr[j].location, mem_arr[j].num_pages);
-				klog(INFO, "Freed %d pages.\n", mem_arr[j].num_pages);
+				//klog(INFO, "Freed %d pages.\n", mem_arr[j].num_pages);
 			}
 		}
 	}
+	klog(INFO, "Did %d allocations and frees!\n", 500/10*300*NUM_OF_MEMORIES);
 }
 
 void interactive_test()
