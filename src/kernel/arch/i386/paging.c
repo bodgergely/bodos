@@ -297,12 +297,13 @@ typedef struct alloc_info
 }alloc_info;
 
 #define NUM_OF_MEMORIES 10
-void do_test()
+void do_test(int scaler_max, int scaler_step, int iter_count)
 {
 	alloc_info mem_arr[NUM_OF_MEMORIES];
-	for(int scaler=1;scaler<500;scaler+=10)
+	klog(INFO, "Performing %d allocs and frees.\n", scaler_max/scaler_step*iter_count*NUM_OF_MEMORIES);
+	for(int scaler=1;scaler<scaler_max;scaler+=scaler_step)
 	{
-		for(int iter=0;iter<300;iter++)
+		for(int iter=0;iter<iter_count;iter++)
 		{
 			for(int j=0;j<NUM_OF_MEMORIES;j++)
 			{
@@ -319,7 +320,7 @@ void do_test()
 			}
 		}
 	}
-	klog(INFO, "Did %d allocations and frees!\n", 500/10*300*NUM_OF_MEMORIES);
+	klog(INFO, "Did %d allocations and frees!\n", scaler_max/scaler_step*iter_count*NUM_OF_MEMORIES);
 }
 
 void interactive_test()
@@ -366,7 +367,7 @@ void interactive_test()
 int stress_test_page_alloc()
 {
 
-	do_test();
+	do_test(500, 10, 300);
 
 }
 
