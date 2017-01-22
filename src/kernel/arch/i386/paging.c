@@ -125,6 +125,7 @@ static void init_higher_half_pagedirectory_info(struct page_directory_info* pdi)
 	{
 		struct page_table_info* page_table = &directory->entries[i];
 		page_table->num_of_free_pages = NUM_OF_PTE;
+		memset(page_table->taken, FALSE, sizeof(page_table->taken));
 		pdt->entries[i] = virtual_to_physical(((uint32_t)(kernel_page_tables + slot))) + 0x003;
 		page_table->table = kernel_page_tables + slot;
 		for(int j=0;j<NUM_OF_PTE;j++)
@@ -143,9 +144,6 @@ void paging_init()
 {
 	klog(INFO, "Initializing paging.\n");
 	pagedir_info.table = &boot_page_directory;
-	for(int i=0;i<NUM_DYNAMIC_KERNEL_PAGE_TABLES;i++)
-		init_pagetable_info(kernel_page_tables + i);
-
 	init_higher_half_pagedirectory_info(&pagedir_info);
 	page_directory_t* pagedir = pagedir_info.table;
 

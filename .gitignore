@@ -1,0 +1,6 @@
+*.iso
+isodir
+sysroot
+.cproject
+.project
+.settings
