@@ -1,6 +1,7 @@
 #pragma once
 #include "paging.h"
 #include <kernel/header.h>
+#include <string.h>
 
 
 /*
@@ -17,8 +18,8 @@ namespace memory
 
 struct Header
 {
-	Header(int next_, int size_, int taken_) : next(next_), size(size_), taken(taken_) {}
-	int next;
+	Header(Header* next_, int size_, int taken_) : next(next_), size(size_), taken(taken_) {}
+	Header* next;
 	int size;
 	int taken;
 };
@@ -27,12 +28,60 @@ struct Header
 /*
  * array of pages where each page is responsible of holding a specific size of chunk
  */
-struct PageArray
+class PageArray
 {
-	PageArray() : addr(NULL), count(0) {}
-	void* 	   addr;
-	int        count;
-	int		   size;
+public:
+	PageArray() : _addr(NULL), _count(0), _size(0) {}
+	PageArray(void* addr_, int pagecount_) : _addr(addr_), _count(pagecount_), _size(pagecount_*PAGE_SIZE)
+	{
+		*(Header*)_addr = Header(NULL,0,FALSE);
+	}
+	Header* header() {return 	(Header*)_addr;}
+	void*   address() {return _addr;}
+	int 	count() {return 	_count;}
+	int 	size() 	{return  	_size;}
+private:
+	void* 	   _addr;
+	int        _count;
+	int		   _size;
+};
+
+template<unsigned int N>
+class PageArrayList
+{
+public:
+	PageArrayList() : _idx(0), _nextFreeSlot(0) {}
+	PageArray* head()
+	{
+		_idx = 0;
+		return &_arrays[_idx++];
+	}
+	PageArray* next()
+	{
+		if(_idx+1 < N && _arrays[_idx+1].address()!=NULL)
+		{
+			return &_arrays[_idx++];
+		}
+		else
+			return NULL;
+	}
+
+	bool append(const PageArray& pa)
+	{
+		if(_nextFreeSlot < N)
+		{
+			_arrays[_nextFreeSlot] = pa;
+			return true;
+		}
+		else
+			return false;
+	}
+
+
+private:
+	PageArray _arrays[N];
+	int		  _idx;
+	int		  _nextFreeSlot;
 };
 
 
@@ -42,43 +91,89 @@ public:
 	void  init()
 	{
 		int numOfPages = 32;
-		void* mem = bulkAllocPages(numOfPages);
-		_p.addr = mem;
-		_p.count = numOfPages;
-		_p.size = PAGE_SIZE * numOfPages;
-		*(Header*)_p.addr = Header(0, 0, FALSE);
+		_pageArrayList.append(PageArray(bulkAllocPages(numOfPages), numOfPages));
 	}
 	void* allocate(unsigned int bytes)
 	{
-		void* mem = _memList.head().addr;
-		Header* header = (Header*)mem;
-		Header* start = header;
-		while(header->taken || header->size < bytes)
+		PageArray* pageList = _pageArrayList.head();
+		Header* header = NULL;
+		Header* previousFree = NULL;
+		while(true)
 		{
-			header = header->next;
-			// detect cycle
-			if(header == start)
+			bool found = false;
+			header = pageList->header();
+			Header* firstFree = NULL;
+
+			if(header->taken)
+				header = header->next;
+			firstFree = header;
+
+			while(header->size < bytes)
 			{
-				// we need to bulk allocate
-				int pageCount = bytes / PAGE_SIZE + 1 + 32;
-				mem = bulkAllocPages(pageCount);
-				_memList.append(mem, pageCount);
+				header = header->next;
+				// detect cycle
+				if(header == firstFree)
+				{
+					// try to jump to the next pagelist
+					pageList = _pageArrayList.next();
+					if(!pageList)
+					{
+						// we need to bulk allocate
+						int pageCount = bytes / PAGE_SIZE + 1;
+						if(pageCount < 32) pageCount+=(32-pageCount);
+						if(!_pageArrayList.append(PageArray(bulkAllocPages(pageCount), pageCount)))
+							return NULL;
+					}
+				}
+				else
+					found = true;
 			}
+			if(found)
+				break;
 		}
 
-		if()
+		header->taken = TRUE;
+		header->size = bytes;
+		// find next free block to link to the current header
+		Header* nextHeader = (Header*)((char*)header + sizeof(header) + bytes);
+		Header* st = nextHeader;
+		bool cycle = false;
+		while(nextHeader->taken)
+		{
+			nextHeader = nextHeader->next;
+			// we need to detect cycle
+			if(nextHeader == st){
+				cycle = true;
+				break;
+			}
+		}
+		if(!cycle)
+			header->next = nextHeader;
+		else
+			header->next = header;
+		// here we should also delink from the free chain the previous element that points to header since we have become taken the previous->next = header->next
+		while(header->next->next)
+		{
+			if(header->next->next == header)
+				previousFree = header->next;
+		}
+
+		previousFree->next = header->next;
+
+		return (void*)((char*)header + sizeof(header));
 
 	}
-	void  free(void* address);
+	void  free(void* address) {}
 private:
 	void* bulkAllocPages(int numOfPages)
 	{
-		int numPages = 32;
-		return alloc_pages(numOfPages);
+		void* mem = alloc_pages(numOfPages);
+		memset(mem, 0, numOfPages*PAGE_SIZE);
+		return mem;
 
 	}
 private:
-	PageArray _p;
+	PageArrayList<50> _pageArrayList;
 };
 
 
