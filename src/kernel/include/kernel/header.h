@@ -9,6 +9,9 @@
 #include <stdint.h>
 #include <kernel/klog.h>
 
+#define TRUE 1
+#define FALSE 0
+
 
 /* Check if the compiler thinks we are targeting the wrong operating system. */
 #if defined(__linux__)
