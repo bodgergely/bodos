@@ -19,6 +19,8 @@ struct idtr
 	uint32_t base;
 }__attribute__((packed));
 
+void load_idt(uint64_t*);
+
 struct idt_entry idt[256];
 struct idtr		 idtptr;
 
@@ -56,7 +58,7 @@ void create_idt_entry(size_t index, uint32_t handler, uint16_t selector, uint8_t
 void idt_install()
 {
 	memset(idt, 0, sizeof(idt));
-	idtptr.base = idt;
+	idtptr.base = reinterpret_cast<uint32_t>(idt);
 	idtptr.limit = sizeof(idt)-1;
 	load_idt((uint64_t*)&idtptr);
 }

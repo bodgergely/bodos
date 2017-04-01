@@ -24,6 +24,8 @@ struct gdtr
 } __attribute__((packed));
 
 
+void load_gdt(struct gdtr*);
+
 struct gdt_entry gdt[NUM_OF_GDT_ENTRIES];
 struct gdtr gp;
 
@@ -54,7 +56,7 @@ void gdt_install()
 {
     /* Setup the GDT pointer and limit */
     gp.limit = (sizeof(struct gdt_entry) * 3) - 1;
-    gp.base = &gdt;
+    gp.base = reinterpret_cast<int>(&gdt);
 
     /* Our NULL descriptor */
     gdt_set_gate(0, 0, 0, 0, 0);

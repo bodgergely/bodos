@@ -10,6 +10,8 @@ boot_page_table1:
 	.skip 4096
  * */
 
+void tlb_flush();
+
 // the below two variables are defined in boot.s and still represent physical addresses so we need to convert them to virtual using the offset below
 extern uint32_t boot_page_directory;
 extern uint32_t boot_page_table1;
@@ -115,7 +117,7 @@ static void init_higher_half_pagedirectory_info(struct page_directory_info* pdi)
 	for(int i=0;i<NUM_KERNEL_PAGE_TABLES_AT_BOOT;i++)
 	{
 		struct page_table_info* page_table = &directory->entries[KERNEL_ENTRY_IN_PAGEDIR+i];
-		page_table->table = (&boot_page_table1) + NUM_OF_PTE*i;
+		page_table->table = reinterpret_cast<page_table_t*>((&boot_page_table1) + NUM_OF_PTE*i);
 		page_table->num_of_free_pages = 0;
 	}
 
@@ -143,7 +145,7 @@ static void init_higher_half_pagedirectory_info(struct page_directory_info* pdi)
 void paging_init()
 {
 	klog(INFO, "Initializing paging.\n");
-	pagedir_info.table = &boot_page_directory;
+	pagedir_info.table = reinterpret_cast<page_directory_t*>(&boot_page_directory);
 	init_higher_half_pagedirectory_info(&pagedir_info);
 	page_directory_t* pagedir = pagedir_info.table;
 
@@ -290,7 +292,7 @@ void  free_pages(void* start, size_t count)
 
 typedef struct alloc_info
 {
-	char* 	 location;
+	void* 	 location;
 	uint32_t num_pages;
 }alloc_info;
 
@@ -309,7 +311,7 @@ void do_test(int scaler_max, int scaler_step, int iter_count)
 				mem_arr[j].location = alloc_pages(pc);
 				mem_arr[j].num_pages = pc;
 				//klog(INFO, "Allocated %d pages.\n", pc);
-				strcpy(mem_arr[j].location, "Something comes here.");
+				strcpy((char*)mem_arr[j].location, "Something comes here.");
 			}
 			for(int j=0;j<NUM_OF_MEMORIES;j++)
 			{
@@ -326,27 +328,27 @@ void interactive_test()
 	char buff[256];
 		strcpy(buff, "Bodos has frame allocation now!");
 		int num_pages_to_allocate = 5;
-		char* mem = alloc_pages(num_pages_to_allocate);
+		char* mem = (char*)alloc_pages(num_pages_to_allocate);
 		klog(INFO, "Allocated %d page(s) at: %d\n", num_pages_to_allocate, mem);
-		strcpy((char*)mem, buff);
+		strcpy(mem, buff);
 		klog(INFO, "Mem we allocated at: %d contains: %s\n", mem, (char*)mem);
-		char* mem_2 = alloc_pages(2);
+		char* mem_2 = (char*)alloc_pages(2);
 		klog(INFO, "Allocated 2 pages at: %d\n", mem_2);
-		strcpy((char*)mem_2, mem);
+		strcpy(mem_2, mem);
 		klog(INFO, "mem_2 at: %d contains : %s\n", mem_2, (char*)mem_2);
 		klog(INFO, "Diff mem2 and mem: %d which is %d pages\n", mem_2 - (char*)mem, (mem_2 - (char*)mem)/PAGE_SIZE);
 		klog(INFO, "Freeing %d pages at: %d\n", num_pages_to_allocate, mem);
 		free_pages(mem, num_pages_to_allocate);
 
 		int big_alloc_count = 1017;
-		mem = alloc_pages(big_alloc_count);
+		mem = (char*)alloc_pages(big_alloc_count);
 		klog(INFO, "Allocated %d page(s) at: %d\n", big_alloc_count, mem);
 		strcpy((char*)mem, buff);
 		klog(INFO, "Mem we allocated at: %d contains: %s\n", mem, (char*)mem);
 		klog(INFO, "Diff mem and mem2: %d whic is %d pages\n", (char*)mem - (char*)mem_2, ((char*)mem - (char*)mem_2) / PAGE_SIZE );
 
 
-		char* mem_3 = alloc_pages(num_pages_to_allocate+13);
+		void* mem_3 = alloc_pages(num_pages_to_allocate+13);
 		strcpy((char*)mem_3, buff);
 		klog(INFO, "Allocated %d at: %d\n", num_pages_to_allocate+13, mem_3);
 		klog(INFO, "Mem we allocated at: %d contains: %s\n", mem_3, mem_3);
@@ -356,7 +358,7 @@ void interactive_test()
 		klog(INFO, "freeing %d at: %d\n", big_alloc_count, mem);
 		free_pages(mem, big_alloc_count);
 
-		mem = alloc_pages(7);
+		mem = (char*)alloc_pages(7);
 		klog(INFO, "Allocated 7 page(s) at: %d\n", mem);
 		klog(INFO, "Diff mem and mem_2: %d\n", (mem-mem_2)/PAGE_SIZE );
 

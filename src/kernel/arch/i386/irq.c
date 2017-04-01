@@ -19,9 +19,11 @@ extern void irq_routine_14();
 extern void irq_routine_15();
 
 
+typedef void (irq_handler_type)(struct regs *r);
+
 /* This array is actually an array of function pointers. We use
 *  this to handle custom IRQ handlers for a given IRQ */
-void *irq_routines[16] =
+irq_handler_type* irq_routines[16] =
 {
     0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0
