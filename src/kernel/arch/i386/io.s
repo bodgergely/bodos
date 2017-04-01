@@ -1,4 +1,5 @@
 .intel_syntax noprefix
+
 .global outb             # make the label outb visible outside this file
 
     # outb - send a byte to an I/O port
@@ -20,3 +21,4 @@
         mov dx, [esp + 4]       # move the address of the I/O port to the dx register
         in  al, dx              # read a byte from the I/O port and store it in the al register
         ret                     # return the read byte
+

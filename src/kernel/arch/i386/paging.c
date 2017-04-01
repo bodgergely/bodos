@@ -10,7 +10,7 @@ boot_page_table1:
 	.skip 4096
  * */
 
-void tlb_flush();
+extern "C" void tlb_flush();
 
 // the below two variables are defined in boot.s and still represent physical addresses so we need to convert them to virtual using the offset below
 extern uint32_t boot_page_directory;

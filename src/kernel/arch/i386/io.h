@@ -1,6 +1,8 @@
 #ifndef IO_H
 #define IO_H
 
+extern "C"
+{
 /** outb:
  *  Sends the given data to the given I/O port. Defined in cursor.s
  *
@@ -17,5 +19,7 @@ void outb(unsigned short port, unsigned char data);
 *  @return      The read byte
 */
 unsigned char inb(unsigned short port);
+
+}
 
 #endif /* OUTB_H */

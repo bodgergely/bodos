@@ -1,6 +1,7 @@
 #include <string.h>
 #include <kernel/klog.h>
 
+
 size_t strlen(const char* str) {
 	size_t len = 0;
 	while (str[len])
@@ -71,3 +72,5 @@ void* memset(void* s, int c, size_t n)
 	return s;
 
 }
+
+

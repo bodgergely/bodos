@@ -24,7 +24,7 @@ struct gdtr
 } __attribute__((packed));
 
 
-void load_gdt(struct gdtr*);
+extern "C" void load_gdt(struct gdtr*);
 
 struct gdt_entry gdt[NUM_OF_GDT_ENTRIES];
 struct gdtr gp;

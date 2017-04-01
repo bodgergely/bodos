@@ -19,7 +19,7 @@ struct idtr
 	uint32_t base;
 }__attribute__((packed));
 
-void load_idt(uint64_t*);
+extern "C" void load_idt(uint64_t*);
 
 struct idt_entry idt[256];
 struct idtr		 idtptr;

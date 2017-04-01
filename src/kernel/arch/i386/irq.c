@@ -1,6 +1,7 @@
 #include "irq.h"
 
-
+extern "C"
+{
 extern void irq_routine_0();
 extern void irq_routine_1();
 extern void irq_routine_2();
@@ -17,7 +18,7 @@ extern void irq_routine_12();
 extern void irq_routine_13();
 extern void irq_routine_14();
 extern void irq_routine_15();
-
+}
 
 typedef void (irq_handler_type)(struct regs *r);
 
@@ -98,7 +99,7 @@ void irq_install()
 *  interrupt at BOTH controllers, otherwise, you only send
 *  an EOI command to the first controller. If you don't send
 *  an EOI, you won't raise any more IRQs */
-void irq_handler(struct regs *r)
+extern "C" void irq_handler(struct regs *r)
 {
     /* This is a blank function pointer */
     void (*handler)(struct regs *r);
