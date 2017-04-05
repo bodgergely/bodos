@@ -2,6 +2,7 @@
 #include "paging.h"
 #include <kernel/header.h>
 #include <string.h>
+#include <kernel/kprintf.h>
 
 
 /*
@@ -34,7 +35,7 @@ public:
 	PageArray() : _addr(NULL), _count(0), _size(0) {}
 	PageArray(void* addr_, int pagecount_) : _addr(addr_), _count(pagecount_), _size(pagecount_*PAGE_SIZE)
 	{
-		*(Header*)_addr = Header(NULL,0,FALSE);
+		*(Header*)_addr = Header((Header*)_addr,_size,FALSE);
 	}
 	Header* header() {return 	(Header*)_addr;}
 	void*   address() {return _addr;}
@@ -95,17 +96,22 @@ public:
 	}
 	void* allocate(unsigned int bytes)
 	{
+
 		PageArray* pageList = _pageArrayList.head();
 		Header* header = NULL;
 		Header* previousFree = NULL;
+
 		while(true)
 		{
-			bool found = false;
+			bool repeat = false;
 			header = pageList->header();
+			klog(INFO, "Here: %d\n", header);
+												while(1);
 			Header* firstFree = NULL;
 
-			if(header->taken)
+			while(header->taken){
 				header = header->next;
+			}
 			firstFree = header;
 
 			while(header->size < bytes)
@@ -124,13 +130,15 @@ public:
 						if(!_pageArrayList.append(PageArray(bulkAllocPages(pageCount), pageCount)))
 							return NULL;
 					}
+					repeat = true;
 				}
-				else
-					found = true;
+				if(repeat)
+					break;
 			}
-			if(found)
+			if(!repeat)
 				break;
 		}
+
 
 		header->taken = TRUE;
 		header->size = bytes;
