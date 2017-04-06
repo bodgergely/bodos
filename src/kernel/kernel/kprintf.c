@@ -123,7 +123,7 @@ static void create_log_level_string(log_level level, char* buff)
 }
 
 
-int kprintf(log_level lev, log_target target, const char *format, ...)
+int kprintf_level(log_level lev, log_target target, int appendLogLevel, const char *format, ...)
 {
 	const size_t arg_container_size = 128;
 	char arg_container[arg_container_size];
@@ -132,9 +132,12 @@ int kprintf(log_level lev, log_target target, const char *format, ...)
 
 	size_t len = strlen(format);
 
-	create_log_level_string(lev, loglevel);
-	written +=  write_gen(loglevel, strlen(loglevel), target);
-	arg_container[0] = '\0';
+	if(appendLogLevel)
+	{
+		create_log_level_string(lev, loglevel);
+		written +=  write_gen(loglevel, strlen(loglevel), target);
+		arg_container[0] = '\0';
+	}
 
 	va_list a_list;
 	va_start( a_list, format );
