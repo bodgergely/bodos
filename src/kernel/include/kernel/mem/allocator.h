@@ -37,9 +37,19 @@ struct Header
 class Block
 {
 public:
+	Block() : _start(NULL), _freeList(NULL), _blockSize(0)
+	{
+	}
 	Block(void* addr, size_t size) : _start(addr), _freeList(addr), _blockSize(size)
 	{
-		putHeader(addr, Header(size-sizeof(Header), NULL, NULL));
+		putHeader(addr, Header(size-sizeof(Header), NULL, NULL, false));
+	}
+	void init(void* addr, size_t size)
+	{
+		_start = addr;
+		_freeList = addr;
+		_blockSize = size;
+		putHeader(addr, Header(size-sizeof(Header), NULL, NULL, false));
 	}
 	void* allocate(size_t numBytes)
 	{
@@ -49,7 +59,7 @@ public:
 		while(free && free->size < numBytes)
 		{
 			prev = free;
-			free = free->next;
+			free = (Header*)free->next;
 		}
 
 		if(!free)
@@ -104,10 +114,17 @@ private:
 class Heap
 {
 public:
-	void init(){}
-	void* allocate(size_t bytes){}
+	void init(int numOfPages)
+	{
+		void* addr = alloc_pages(numOfPages);
+		_block.init(addr, numOfPages * PAGE_SIZE);
+	}
+	void* allocate(size_t bytes)
+	{
+		return _block.allocate(bytes);
+	}
 private:
-	Block* _block;
+	Block _block;
 
 };
 

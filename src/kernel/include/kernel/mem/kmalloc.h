@@ -5,4 +5,17 @@
 
 void* kmalloc(size_t bytes);
 
+
+
+
+namespace memory
+{
+
+void init();
+
+
+}
+
+
+
 #endif
