@@ -22,7 +22,16 @@ FRAME_BUFFER
 }log_target;
 
 
-int kprintf(log_level lev, log_target target, const char *format, ...);
+int kprintf_level(log_level lev, log_target target, int appendLogLevel, const char *format, ...);
+
+#define kprintf_target(target, format, ...) \
+		kprintf_level(INFO, target, 0, format, ##__VA_ARGS__)
+
+#define kprintf(format, ...) \
+		kprintf_target(FRAME_BUFFER, format, ##__VA_ARGS__)
+
+
+
 
 
 #endif

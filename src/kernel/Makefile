@@ -52,7 +52,7 @@ $(ARCHDIR)/crtend.o \
 $(ARCHDIR)/crtn.o \
  
 .PHONY: all clean install install-headers install-kernel
-.SUFFIXES: .o .c .
+.SUFFIXES: .o .c .cpp .
  
 all: bodos.kernel
  

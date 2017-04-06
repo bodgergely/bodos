@@ -31,7 +31,7 @@ private:
 		{
 			void* mem = kmalloc(10);
 			strcpy((char*)mem, "Vivek");
-			kprintf(INFO, FRAME_BUFFER,(char*)mem);
+			kprintf((char*)mem);
 		}
 	}
 };

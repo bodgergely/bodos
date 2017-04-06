@@ -36,6 +36,4 @@ void arch_specific_init()
 	setup_idt();
 	setup_irq();
 	paging_init();
-	//stress_test_page_alloc();
-	//dummy();
 }
