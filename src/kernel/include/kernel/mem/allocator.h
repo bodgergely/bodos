@@ -34,6 +34,9 @@ struct Header
 	bool    taken;
 };
 
+Header* jump(Header* from, int steps);
+
+
 class Block
 {
 public:
@@ -98,15 +101,32 @@ public:
 	{
 		Header* header = (Header*)((char*)addr - sizeof(Header));
 		header->taken = false;
-		if(isFree((Header*)header->next))
+
+		bool nextFree = isFree((Header*)header->next);
+		bool prevFree = isFree((Header*)header->prev);
+
+		if(nextFree || prevFree)
 		{
-			header = merge(header, (Header*)header->next);
+			if(nextFree)
+				header = merge(header, (Header*)header->next);
+			if(prevFree)
+			{
+				header->next = ((Header*)header->prev)->next;
+				header = merge((Header*)header->prev, header);
+			}
+
+		}
+		else
+		{
+			// we need to find the next free chunk to link to this newly free one
+			Header* s = (Header*)header->next;
+			while(s && s->taken)
+				s = jump(s, 1);
+			// we should have the next free chunk here or the NULL pointer
+			header->next = s;
+			// we do not need to change the size since we did not merge
 		}
 
-		if(isFree((Header*)header->prev))
-		{
-			header = merge((Header*)header->prev, header);
-		}
 
 	}
 private:
@@ -117,7 +137,7 @@ private:
 		return first;
 	}
 
-	inline bool isFree(const Header* header) { return !(header->taken);}
+	inline bool isFree(const Header* header) { return (header && !(header->taken)); }
 
 	inline void putHeader(void* addr, const Header& header)
 	{

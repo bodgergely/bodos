@@ -30,8 +30,8 @@ public:
 	}
 	~Foo()
 	{
-		_i = -1;
-		_j = -1;
+		_i = 253;
+		_j = 254;
 		memset(_c, 'D', FOO_PADDING);
 	}
 	void print()
@@ -81,7 +81,9 @@ private:
 		}
 
 		delete fooPointers[2];
-		fooPointers[0]->print();
+		fooPointers[2]->print();
+
+
 		//delete fooPointers[6];
 		//fooPointers[6]->print();
 		//delete fooPointers[5];
