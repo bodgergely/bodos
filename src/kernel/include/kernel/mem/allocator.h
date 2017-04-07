@@ -96,9 +96,29 @@ public:
 	}
 	void free(void* addr)
 	{
+		Header* header = (Header*)((char*)addr - sizeof(Header));
+		header->taken = false;
+		if(isFree((Header*)header->next))
+		{
+			header = merge(header, (Header*)header->next);
+		}
+
+		if(isFree((Header*)header->prev))
+		{
+			header = merge((Header*)header->prev, header);
+		}
 
 	}
 private:
+	Header* merge(Header* first, Header* second)
+	{
+		first->size += sizeof(Header) + second->size;
+		first->next = second->next;
+		return first;
+	}
+
+	inline bool isFree(const Header* header) { return !(header->taken);}
+
 	inline void putHeader(void* addr, const Header& header)
 	{
 		*((Header*)addr) = header;
@@ -122,6 +142,10 @@ public:
 	void* allocate(size_t bytes)
 	{
 		return _block.allocate(bytes);
+	}
+	void free(void* addr)
+	{
+		return _block.free(addr);
 	}
 private:
 	Block _block;
