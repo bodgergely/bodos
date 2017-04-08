@@ -84,13 +84,6 @@ public:
 			Header* second = (Header*)(((char*)first) + sizeof(Header) + numBytes);
 			int secondSize = first->size - numBytes - sizeof(Header);
 			*second = Header(secondSize, (void*)first, first->next, false);
-			// first
-			/*
-			first->size = numBytes;
-			first->next = (void*)second;
-			first->prev = (void*)prev;
-			first->taken = true;
-			*/
 			*first = Header(numBytes, (void*)prev, (void*)second, true);
 		}
 		else
