@@ -40,17 +40,17 @@ Header* jump(Header* from, int steps);
 class Block
 {
 public:
-	Block() : _start(NULL), _freeList(NULL), _blockSize(0)
+	Block() : _start(NULL), _chunckList(NULL), _blockSize(0)
 	{
 	}
-	Block(void* addr, size_t size) : _start(addr), _freeList(addr), _blockSize(size)
+	Block(void* addr, size_t size) : _start(addr), _chunckList(addr), _blockSize(size)
 	{
 		putHeader(addr, Header(size-sizeof(Header), NULL, NULL, false));
 	}
 	void init(void* addr, size_t size)
 	{
 		_start = addr;
-		_freeList = addr;
+		_chunckList = addr;
 		_blockSize = size;
 		putHeader(addr, Header(size-sizeof(Header), NULL, NULL, false));
 	}
@@ -58,19 +58,29 @@ public:
 	{
 		// start walking the free list
 		Header* prev = NULL;
-		Header* free = (Header*)_freeList;
-		while(free && free->size < numBytes)
+		Header* chunk = (Header*)_chunckList;
+
+		while(chunk && chunk->taken)
 		{
-			prev = free;
-			free = (Header*)free->next;
+			prev = chunk;
+			chunk = (Header*)chunk->next;
+			if(chunk->size < numBytes)
+			{
+				break;
+			}
 		}
 
-		if(!free)
+		if(chunk==(Header*)_chunckList)
+			klog(INFO, "First Header is already free\n");
+
+
+		if(!chunk)
 			return NULL;
 
 		// decide about a split
 		const int minChunkSize = 8;
-		Header* first = free;
+		Header* first = chunk;
+		klog(INFO, "first addr: %d, size: %d, prev: %d, next: %d, taken: %d\n", first, first->size, first->prev, first->next, first->taken);
 		if(first->size - numBytes > sizeof(Header) + minChunkSize)
 		{
 
@@ -92,7 +102,7 @@ public:
 			*first = Header(numBytes, (void*)prev, first->next, true);
 		}
 
-
+		klog(INFO, "allocated address: %d\n", (void*) ((char*)first + sizeof(Header)));
 		return (void*) ((char*)first + sizeof(Header));
 
 
@@ -146,7 +156,7 @@ private:
 
 private:
 	void*  _start;
-	void*  _freeList;
+	void*  _chunckList;
 	size_t _blockSize;
 };
 
