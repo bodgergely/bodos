@@ -3,7 +3,7 @@ HOST?=DEFAULT_HOST
 HOSTARCH!=../target-triplet-to-arch.sh $(HOST)
  
 CFLAGS?=
-CPPFLAGS?=-O2 -g
+CPPFLAGS?=-O2 -g -fno-exceptions -fno-rtti
 LDFLAGS?=
 LIBS?=
  
@@ -14,7 +14,7 @@ BOOTDIR?=$(EXEC_PREFIX)/boot
 INCLUDEDIR?=$(PREFIX)/include
  
 CFLAGS:=$(CFLAGS) -ffreestanding -Wall -Wextra
-CPPFLAGS:=$(CPPFLAGS) -D__is_kernel -Iinclude
+CPPFLAGS:=$(CPPFLAGS) -D__is_kernel -Iinclude 
 LDFLAGS:=$(LDFLAGS)
 LIBS:=$(LIBS) -nostdlib -lk -lgcc
  
@@ -32,6 +32,8 @@ $(KERNEL_ARCH_OBJS) \
 kernel/kernel.o \
 kernel/kprintf.o \
 kernel/debug.o \
+kernel/mem/allocator.o \
+kernel/mem/kmalloc.o \
  
 OBJS=\
 $(ARCHDIR)/crti.o \
@@ -55,16 +57,18 @@ $(ARCHDIR)/crtn.o \
 all: bodos.kernel
  
 bodos.kernel: $(OBJS) $(ARCHDIR)/linker.ld
-	$(CC) -T $(ARCHDIR)/linker.ld -o $@ $(CFLAGS) $(LINK_LIST)
+	$(CC) -T $(ARCHDIR)/linker.ld -o $@ $(CFLAGS) $(CPPFLAGS) $(LINK_LIST)
 	grub-file --is-x86-multiboot bodos.kernel
  
 $(ARCHDIR)/crtbegin.o $(ARCHDIR)/crtend.o:
-	OBJ=`$(CC) $(CFLAGS) $(LDFLAGS) -print-file-name=$(@F)` && cp "$$OBJ" $@
 
-.cpp.o:
-	$(CC) -MD -c $< -o $@ -std=c++14 $(CFLAGS) $(CPPFLAGS)
-  
+	OBJ=`$(CC) $(CFLAGS) $(CPPFLAGS) $(LDFLAGS) -print-file-name=$(@F)` && cp "$$OBJ" $@
+ 
+
 .c.o:
+	$(CC) -MD -c $< -o $@ -std=c++14 $(CFLAGS) $(CPPFLAGS)
+	
+.cpp.o:
 	$(CC) -MD -c $< -o $@ -std=c++14 $(CFLAGS) $(CPPFLAGS)
  
 .s.o:
