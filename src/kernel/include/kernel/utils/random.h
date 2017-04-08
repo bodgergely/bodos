@@ -16,6 +16,7 @@
 
 #define RAND_MAX 65536
 
+unsigned rand(unsigned long long limit);
 unsigned rand();
 
 

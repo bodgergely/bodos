@@ -6,10 +6,17 @@
  */
 #include <kernel/utils/random.h>
 
-unsigned rand()
+
+
+unsigned rand(unsigned long long limit)
 {
-	return rdtsc() % RAND_MAX;
+	return rdtsc() % limit;
 }
 
+
+unsigned rand()
+{
+	rand(RAND_MAX);
+}
 
 

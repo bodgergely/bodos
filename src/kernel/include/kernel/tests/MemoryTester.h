@@ -42,18 +42,45 @@ public:
 			kprintf("%c", _c[i]);
 		//kprintf("\n");
 	}
-private:
+protected:
 	int  _i;
 	int  _j;
 	char _c[FOO_PADDING];
 };
 
+
+class Boo
+{
+#define BOO_PADDING 32
+public:
+	Boo() {}
+	Boo(int i, int j) : _foo(i,j)
+	{
+		memset(_f, 'E', BOO_PADDING);
+	}
+	~Boo()
+	{
+		memset(_f, 'F', BOO_PADDING);
+	}
+	void print()
+	{
+		_foo.print();
+		for(int i=0;i<BOO_PADDING;i++)
+			kprintf("%c", _f[i]);
+		kprintf("\n");
+	}
+protected:
+	Foo _foo;
+	char _f[BOO_PADDING];
+
+};
+
 // tests
-class MemTester
+class MemoryTester
 {
 #define SIZE 10
 public:
-	MemTester() : _createCount(0)
+	MemoryTester() : _createFooCount(0), _createBooCount(0)
 	{
 		memset(_objectPointers, 0 , sizeof(Foo));
 	}
@@ -75,32 +102,35 @@ private:
 
 	void test()
 	{
-		for(int i=0;i<3;i++)
-		{
-			_objectPointers[i] = new Foo(4,5);
-			_createCount++;
-		}
+		void* p1 = kmalloc(34);
+		void* p2 = kmalloc(40);
+		void* p3 = kmalloc(45);
+		//void* p4 = kmalloc(49);
 
-		print();
+		kfree(p2);
+		kmalloc(8);
+		kmalloc(4);
 
-		destroy(2);
-		destroy(1);
-		create(3, 7, 8);
 
 
 	}
 
 	void print()
 	{
-		for(int i=0;i<_createCount;i++)
+		for(int i=0;i<_createFooCount;i++)
 		{
 			kprintf("\nObject at: %d\n", _objectPointers[i]);
 			_objectPointers[i]->print();
 		}
 		kprintf("\n-------------------------------\n");
+		for(int i=0;i<_createBooCount;i++)
+		{
+			kprintf("\nObject at: %d\n", _boo[i]);
+			_boo[i]->print();
+		}
 	}
 
-	void destroy(int i)
+	void destroyFoo(int i)
 	{
 		kprintf("Destroying element at index: %d which has pointer: %d\n", i, _objectPointers[i]);
 		delete _objectPointers[i];
@@ -108,18 +138,20 @@ private:
 
 	}
 
-	void create(int i, int k, int l)
+	void createBoo(int i, int k, int l)
 	{
-		_objectPointers[i] = new Foo(k, l);
-		_createCount++;
-		kprintf("Created element at index %d pointer: %d with values: %d and %d\n", i, k, l, _objectPointers[i]);
+		_boo[i] = new Boo(k, l);
+		_createBooCount++;
+		kprintf("Created element at index %d pointer: %d with values: %d and %d\n", i, k, l, _boo[i]);
 		//_objectPointers[i]->print();
 		print();
 	}
 
 private:
 	Foo* _objectPointers[SIZE];
-	int _createCount;
+	Boo* _boo[SIZE];
+	int _createFooCount;
+	int _createBooCount;
 
 };
 

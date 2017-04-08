@@ -36,7 +36,8 @@ kernel/debug.o \
 kernel/mem/allocator.o \
 kernel/mem/kmalloc.o \
 kernel/utils/random.o \
-kernel/utils/randtest.o \
+kernel/tests/RandomTest.o \
+kernel/tests/TestCenter.o \
  
 OBJS=\
 $(ARCHDIR)/crti.o \

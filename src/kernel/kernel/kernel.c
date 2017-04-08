@@ -7,9 +7,7 @@
 #include <kernel/debug.h>
 #include <kernel/interrupt.h>
 #include <kernel/mem/kmalloc.h>
-#include <kernel/mem/memtester.h>
-
-#include <kernel/utils/randtest.h>
+#include <kernel/tests/TestCenter.h>
 
 #if defined(__cplusplus)
 extern "C" /* Use C linkage for kernel_main. */
@@ -46,11 +44,8 @@ extern "C" void kernel_main(void) {
 
 void runtests()
 {
-	klog(INFO, "Running memory tests...\n");
-	memory::MemTester memtest;
-	memtest.run();
-
-	//generateRandomNumbers(10);
+	TestCenter testcenter;
+	testcenter.run();
 
 
 }

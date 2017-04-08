@@ -60,15 +60,25 @@ public:
 		Header* prev = NULL;
 		Header* chunk = (Header*)_chunckList;
 
-		while(chunk && chunk->taken)
+
+		// debug
+		/*Header* dchunk = chunk;
+		while(dchunk)
+		{
+			kprintf("Chunk address: %d size: %d taken: %d prev: %d next: %d\n", dchunk, dchunk->size, dchunk->taken, dchunk->prev, dchunk->next);
+			if(!dchunk->next)
+							break;
+			dchunk = (Header*) ((void*)dchunk + sizeof(Header) + dchunk->size);
+		}
+		*/
+		//
+
+		while( (chunk && chunk->taken) || chunk->size < numBytes)
 		{
 			prev = chunk;
 			chunk = (Header*)chunk->next;
-			if(chunk->size < numBytes)
-			{
-				break;
-			}
 		}
+
 
 		if(!chunk)
 			return NULL;
@@ -76,7 +86,7 @@ public:
 		// decide about a split
 		const int minChunkSize = 8;
 		Header* first = chunk;
-		//klog(INFO, "first addr: %d, size: %d, prev: %d, next: %d, taken: %d\n", first, first->size, first->prev, first->next, first->taken);
+		//klog(INFO, "num bytes requested: %d first addr: %d, size: %d, prev: %d, next: %d, taken: %d\n", numBytes, first, first->size, first->prev, first->next, first->taken);
 		if(first->size - numBytes > sizeof(Header) + minChunkSize)
 		{
 
