@@ -9,6 +9,8 @@
 #include <kernel/mem/kmalloc.h>
 #include <kernel/mem/memtester.h>
 
+#include <kernel/utils/randtest.h>
+
 #if defined(__cplusplus)
 extern "C" /* Use C linkage for kernel_main. */
 #endif
@@ -47,6 +49,9 @@ void runtests()
 	klog(INFO, "Running memory tests...\n");
 	memory::MemTester memtest;
 	memtest.run();
+
+	//generateRandomNumbers(10);
+
 
 }
 
