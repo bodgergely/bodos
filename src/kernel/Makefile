@@ -14,7 +14,7 @@ BOOTDIR?=$(EXEC_PREFIX)/boot
 INCLUDEDIR?=$(PREFIX)/include
  
 CFLAGS:=$(CFLAGS) -ffreestanding -Wall -Wextra
-CPPFLAGS:=$(CPPFLAGS) -D__is_kernel -Iinclude 
+CPPFLAGS:=$(CPPFLAGS) -D__is_kernel -Iinclude
 LDFLAGS:=$(LDFLAGS)
 LIBS:=$(LIBS) -nostdlib -lk -lgcc
  
@@ -22,6 +22,7 @@ ARCHDIR=arch/$(HOSTARCH)
  
 include $(ARCHDIR)/make.config
  
+ARCH_FLAGS:=-Di386
 CFLAGS:=$(CFLAGS) $(KERNEL_ARCH_CFLAGS)
 CPPFLAGS:=$(CPPFLAGS) $(KERNEL_ARCH_CPPFLAGS)
 LDFLAGS:=$(LDFLAGS) $(KERNEL_ARCH_LDFLAGS)
@@ -66,13 +67,13 @@ $(ARCHDIR)/crtbegin.o $(ARCHDIR)/crtend.o:
  
 
 .c.o:
-	$(CC) -MD -c $< -o $@ -std=c++14 $(CFLAGS) $(CPPFLAGS)
+	$(CC) -MD -c $< -o $@ -std=c++14 $(CFLAGS) $(CPPFLAGS) $(ARCH_FLAGS)
 	
 .cpp.o:
-	$(CC) -MD -c $< -o $@ -std=c++14 $(CFLAGS) $(CPPFLAGS)
+	$(CC) -MD -c $< -o $@ -std=c++14 $(CFLAGS) $(CPPFLAGS) $(ARCH_FLAGS)
  
 .s.o:
-	$(CC) -MD -c $< -o $@ $(CFLAGS) $(CPPFLAGS)
+	$(CC) -MD -c $< -o $@ $(CFLAGS) $(CPPFLAGS) $(ARCH_FLAGS)
  
 clean:
 	rm -f bodos.kernel

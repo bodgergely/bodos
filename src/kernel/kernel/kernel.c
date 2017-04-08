@@ -47,6 +47,7 @@ void runtests()
 	klog(INFO, "Running memory tests...\n");
 	memory::MemTester memtest;
 	memtest.run();
+
 }
 
 
