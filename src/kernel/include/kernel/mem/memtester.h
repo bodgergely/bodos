@@ -51,9 +51,9 @@ private:
 // tests
 class MemTester
 {
-#define SIZE 3
+#define SIZE 10
 public:
-	MemTester()
+	MemTester() : _createCount(0)
 	{
 		memset(_objectPointers, 0 , sizeof(Foo));
 	}
@@ -75,21 +75,25 @@ private:
 
 	void test()
 	{
-		for(int i=0;i<SIZE;i++)
+		for(int i=0;i<3;i++)
 		{
 			_objectPointers[i] = new Foo(4,5);
+			_createCount++;
 		}
 
 		print();
 
 		destroy(1);
+		destroyAndCreate(3, 7, 8);
+
 
 	}
 
 	void print()
 	{
-		for(int i=0;i<SIZE;i++)
+		for(int i=0;i<_createCount;i++)
 		{
+			kprintf("Object at: %d\n", _objectPointers[i]);
 			_objectPointers[i]->print();
 		}
 		kprintf("\n-------------------------------\n");
@@ -97,7 +101,7 @@ private:
 
 	void destroy(int i)
 	{
-		kprintf("Destroying element at: %d\n", i);
+		kprintf("Destroying element at index: %d which has pointer: %d\n", i, _objectPointers[i]);
 		delete _objectPointers[i];
 		print();
 
@@ -106,13 +110,16 @@ private:
 	void destroyAndCreate(int i, int k, int l)
 	{
 		destroy(i);
-		kprintf("Creating element at: %d with values: %d and %d\n", i, k, l);
 		_objectPointers[i] = new Foo(k, l);
-		_objectPointers[i]->print();
+		_createCount++;
+		kprintf("Created element at index %d pointer: %d with values: %d and %d\n", i, k, l, _objectPointers[i]);
+		//_objectPointers[i]->print();
+		print();
 	}
 
 private:
 	Foo* _objectPointers[SIZE];
+	int _createCount;
 
 };
 

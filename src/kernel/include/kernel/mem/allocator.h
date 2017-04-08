@@ -70,17 +70,13 @@ public:
 			}
 		}
 
-		if(chunk==(Header*)_chunckList)
-			klog(INFO, "First Header is already free\n");
-
-
 		if(!chunk)
 			return NULL;
 
 		// decide about a split
 		const int minChunkSize = 8;
 		Header* first = chunk;
-		klog(INFO, "first addr: %d, size: %d, prev: %d, next: %d, taken: %d\n", first, first->size, first->prev, first->next, first->taken);
+		//klog(INFO, "first addr: %d, size: %d, prev: %d, next: %d, taken: %d\n", first, first->size, first->prev, first->next, first->taken);
 		if(first->size - numBytes > sizeof(Header) + minChunkSize)
 		{
 
