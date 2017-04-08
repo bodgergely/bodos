@@ -83,8 +83,9 @@ private:
 
 		print();
 
+		destroy(2);
 		destroy(1);
-		destroyAndCreate(3, 7, 8);
+		create(3, 7, 8);
 
 
 	}
@@ -93,7 +94,7 @@ private:
 	{
 		for(int i=0;i<_createCount;i++)
 		{
-			kprintf("Object at: %d\n", _objectPointers[i]);
+			kprintf("\nObject at: %d\n", _objectPointers[i]);
 			_objectPointers[i]->print();
 		}
 		kprintf("\n-------------------------------\n");
@@ -107,9 +108,8 @@ private:
 
 	}
 
-	void destroyAndCreate(int i, int k, int l)
+	void create(int i, int k, int l)
 	{
-		destroy(i);
 		_objectPointers[i] = new Foo(k, l);
 		_createCount++;
 		kprintf("Created element at index %d pointer: %d with values: %d and %d\n", i, k, l, _objectPointers[i]);

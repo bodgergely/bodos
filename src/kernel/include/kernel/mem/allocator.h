@@ -98,7 +98,7 @@ public:
 			*first = Header(numBytes, (void*)prev, first->next, true);
 		}
 
-		klog(INFO, "allocated address: %d\n", (void*) ((char*)first + sizeof(Header)));
+		//klog(INFO, "allocated address: %d\n", (void*) ((char*)first + sizeof(Header)));
 		return (void*) ((char*)first + sizeof(Header));
 
 
