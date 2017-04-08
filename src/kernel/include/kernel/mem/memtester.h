@@ -49,14 +49,18 @@ private:
 };
 
 // tests
-
 class MemTester
 {
+#define SIZE 3
 public:
+	MemTester()
+	{
+		memset(_objectPointers, 0 , sizeof(Foo));
+	}
 	bool run()
 	{
 		//performAllocs(1000);
-		foo();
+		test();
 	}
 private:
 	void performAllocs(int count)
@@ -69,28 +73,46 @@ private:
 		}
 	}
 
-	void foo()
+	void test()
 	{
-		const int size = 3;
-		Foo* fooPointers[size];
-
-		for(int i=0;i<size;i++)
+		for(int i=0;i<SIZE;i++)
 		{
-			fooPointers[i] = new Foo(i+1, i+3);
-			fooPointers[i]->print();
+			_objectPointers[i] = new Foo(4,5);
 		}
 
-		delete fooPointers[2];
-		fooPointers[2]->print();
+		print();
 
-
-		//delete fooPointers[6];
-		//fooPointers[6]->print();
-		//delete fooPointers[5];
-		//fooPointers[5]->print();
+		destroy(1);
 
 	}
 
+	void print()
+	{
+		for(int i=0;i<SIZE;i++)
+		{
+			_objectPointers[i]->print();
+		}
+		kprintf("\n-------------------------------\n");
+	}
+
+	void destroy(int i)
+	{
+		kprintf("Destroying element at: %d\n", i);
+		delete _objectPointers[i];
+		print();
+
+	}
+
+	void destroyAndCreate(int i, int k, int l)
+	{
+		destroy(i);
+		kprintf("Creating element at: %d with values: %d and %d\n", i, k, l);
+		_objectPointers[i] = new Foo(k, l);
+		_objectPointers[i]->print();
+	}
+
+private:
+	Foo* _objectPointers[SIZE];
 
 };
 
