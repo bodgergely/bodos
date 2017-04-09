@@ -78,81 +78,89 @@ protected:
 // tests
 class MemoryTester
 {
-#define SIZE 10
+#define SIZE 100
 public:
-	MemoryTester() : _createFooCount(0), _createBooCount(0)
+	MemoryTester() : _allocCount(0), _iters(0)
 	{
-		memset(_objectPointers, 0 , sizeof(Foo));
+		memset(_allocs, 0 , sizeof(void*)*SIZE);
 	}
 	bool run()
 	{
-		//performAllocs(1000);
 		test();
 	}
 private:
-	void performAllocs(int count)
-	{
-		for(int i=0;i<count;i++)
-		{
-			void* mem = kmalloc(10);
-			strcpy((char*)mem, "Vivek");
-			kprintf((char*)mem);
-		}
-	}
-
 	void test()
 	{
-		void* p1 = kmalloc(34);
-		void* p2 = kmalloc(40);
-		void* p3 = kmalloc(45);
-		//void* p4 = kmalloc(49);
-
-		kfree(p2);
-		kmalloc(8);
-		kmalloc(4);
-
-
-
-	}
-
-	void print()
-	{
-		for(int i=0;i<_createFooCount;i++)
+		for(int i=0;i<40;i++)
 		{
-			kprintf("\nObject at: %d\n", _objectPointers[i]);
-			_objectPointers[i]->print();
+			int likelihood = rand(10) + 1;
+			_iters++;
+			if(likelihood > 5)
+			{
+				allocate(1, 3, 34);
+			}
+			else
+			{
+				free(1);
+			}
 		}
-		kprintf("\n-------------------------------\n");
-		for(int i=0;i<_createBooCount;i++)
+
+	}
+
+	void allocate(int count, int minSize, int maxSize)
+	{
+		int diff = maxSize - minSize;
+		for(int i=0;i<count;i++)
 		{
-			kprintf("\nObject at: %d\n", _boo[i]);
-			_boo[i]->print();
+			if(_allocCount >= SIZE)
+				return;
+			int numBytes = minSize + rand(diff);
+			void* p = kmalloc(numBytes);
+			if(!p)
+			{
+				kprintf("Allocation failed, kmalloc returned zero! Looping to save your ass...\n");
+				kprintf("iters: %d\n", _iters);
+				while(1);
+			}
+			_allocCount++;
+			for(int i=0;i<SIZE;i++)
+			{
+				if(!_allocs[i])
+				{
+					_allocs[i] = p;
+					break;
+				}
+			}
+
 		}
 	}
 
-	void destroyFoo(int i)
+	void free(int count)
 	{
-		kprintf("Destroying element at index: %d which has pointer: %d\n", i, _objectPointers[i]);
-		delete _objectPointers[i];
-		print();
+
+		for(int i=0;i<count;i++)
+		{
+			if(_allocCount==0)
+				return;
+			while(true)
+			{
+				int idx = rand(SIZE);
+				if(_allocs[idx])
+				{
+					kfree(_allocs[idx]);
+					break;
+				}
+			}
+			_allocCount--;
+		}
 
 	}
 
-	void createBoo(int i, int k, int l)
-	{
-		_boo[i] = new Boo(k, l);
-		_createBooCount++;
-		kprintf("Created element at index %d pointer: %d with values: %d and %d\n", i, k, l, _boo[i]);
-		//_objectPointers[i]->print();
-		print();
-	}
 
 private:
-	Foo* _objectPointers[SIZE];
-	Boo* _boo[SIZE];
-	int _createFooCount;
-	int _createBooCount;
-
+	void* _allocs[SIZE];
+	int   _allocCount;
+	int	  _iters;
 };
 
 

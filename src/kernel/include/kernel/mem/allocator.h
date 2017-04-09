@@ -60,6 +60,7 @@ public:
 		Header* prev = NULL;
 		Header* chunk = (Header*)_chunckList;
 
+		//kprintf("allocate: Size requested: %d, first chunk address: %d\n", numBytes, chunk);
 
 		// debug
 		/*Header* dchunk = chunk;
@@ -73,8 +74,9 @@ public:
 		*/
 		//
 
-		while( (chunk && chunk->taken) || chunk->size < numBytes)
+		while( (chunk && chunk->taken) || (chunk && chunk->size < numBytes))
 		{
+			//kprintf("chunk: %d, taken: %d and chunk size: %d\n", chunk, chunk->taken, chunk->size);
 			prev = chunk;
 			chunk = (Header*)chunk->next;
 		}
@@ -82,6 +84,7 @@ public:
 
 		if(!chunk)
 			return NULL;
+
 
 		// decide about a split
 		const int minChunkSize = 8;

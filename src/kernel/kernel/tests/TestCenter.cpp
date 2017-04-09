@@ -13,9 +13,7 @@ void TestCenter::run()
 	klog(INFO, "Running memory tests...\n");
 	memory::MemoryTester memtest;
 	memtest.run();
-
-
-	generateRandomNumbers(10);
+	//generateRandomNumbers(10);
 }
 
 

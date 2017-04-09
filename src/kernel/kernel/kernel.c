@@ -46,8 +46,6 @@ void runtests()
 {
 	TestCenter testcenter;
 	testcenter.run();
-
-
 }
 
 
