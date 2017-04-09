@@ -91,11 +91,11 @@ public:
 private:
 	void test()
 	{
-		for(int i=0;i<40;i++)
+		for(int i=0;i<1000;i++)
 		{
 			int likelihood = rand(10) + 1;
 			_iters++;
-			if(likelihood > 5)
+			if(likelihood > 4)
 			{
 				allocate(1, 3, 34);
 			}
@@ -148,6 +148,7 @@ private:
 				if(_allocs[idx])
 				{
 					kfree(_allocs[idx]);
+					_allocs[idx] = NULL;
 					break;
 				}
 			}

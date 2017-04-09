@@ -89,10 +89,9 @@ public:
 		// decide about a split
 		const int minChunkSize = 8;
 		Header* first = chunk;
-		//klog(INFO, "num bytes requested: %d first addr: %d, size: %d, prev: %d, next: %d, taken: %d\n", numBytes, first, first->size, first->prev, first->next, first->taken);
+		//klog(INFO, "num bytes requested: %d found place at addr: %d, size: %d, prev: %d, next: %d, taken: %d\n", numBytes, first, first->size, first->prev, first->next, first->taken);
 		if(first->size - numBytes > sizeof(Header) + minChunkSize)
 		{
-
 			// second
 			Header* second = (Header*)(((char*)first) + sizeof(Header) + numBytes);
 			int secondSize = first->size - numBytes - sizeof(Header);
@@ -101,7 +100,7 @@ public:
 		}
 		else
 		{
-			*first = Header(numBytes, (void*)prev, first->next, true);
+			*first = Header(first->size, (void*)prev, (void*)jump(first, 1), true);
 		}
 
 		//klog(INFO, "allocated address: %d\n", (void*) ((char*)first + sizeof(Header)));
@@ -113,6 +112,7 @@ public:
 	{
 		Header* header = (Header*)((char*)addr - sizeof(Header));
 		header->taken = false;
+		//kprintf("freeing at: %d size: %d\n", header, header->size);
 
 		bool nextFree = isFree((Header*)header->next);
 		bool prevFree = isFree((Header*)header->prev);
@@ -123,21 +123,12 @@ public:
 				header = merge(header, (Header*)header->next);
 			if(prevFree)
 			{
-				header->next = ((Header*)header->prev)->next;
 				header = merge((Header*)header->prev, header);
 			}
 
 		}
-		else
-		{
-			// we need to find the next free chunk to link to this newly free one
-			Header* s = (Header*)header->next;
-			while(s && s->taken)
-				s = jump(s, 1);
-			// we should have the next free chunk here or the NULL pointer
-			header->next = s;
-			// we do not need to change the size since we did not merge
-		}
+
+		//kprintf("After freeing at: %d size: %d\n", header, header->size);
 
 
 	}
