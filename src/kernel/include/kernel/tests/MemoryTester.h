@@ -79,6 +79,7 @@ protected:
 class MemoryTester
 {
 #define SIZE 100
+static const int ITER_COUNT = 100000;
 public:
 	MemoryTester() : _allocCount(0), _iters(0)
 	{
@@ -91,16 +92,18 @@ public:
 private:
 	void test()
 	{
-		for(int i=0;i<1000;i++)
+		for(int i=0;i<ITER_COUNT;i++)
 		{
 			int likelihood = rand(10) + 1;
 			_iters++;
-			if(likelihood > 4)
+			if(likelihood > 3)
 			{
-				allocate(1, 3, 34);
+				int count = rand(7) + 1;
+				allocate(count, 3, 34);
 			}
 			else
 			{
+				int count = rand(3) + 1;
 				free(1);
 			}
 		}

@@ -90,18 +90,30 @@ public:
 		const int minChunkSize = 8;
 		Header* first = chunk;
 		//klog(INFO, "num bytes requested: %d found place at addr: %d, size: %d, prev: %d, next: %d, taken: %d\n", numBytes, first, first->size, first->prev, first->next, first->taken);
+		if(first->size < 0)
+		{
+			klog(ERR, "size is negative!!! Bug\n");
+			while(1);
+		}
 		if(first->size - numBytes > sizeof(Header) + minChunkSize)
 		{
 			// second
 			Header* second = (Header*)(((char*)first) + sizeof(Header) + numBytes);
 			int secondSize = first->size - numBytes - sizeof(Header);
 			*second = Header(secondSize, (void*)first, first->next, false);
+			// here we need to make the first->next (which will be basically the third in the list to refer back not to the first but to the second!!)
+			if(first->next)
+			{
+				((Header*)first->next)->prev = (void*)second;
+			}
+
 			*first = Header(numBytes, (void*)prev, (void*)second, true);
 		}
 		else
 		{
 			*first = Header(first->size, (void*)prev, (void*)jump(first, 1), true);
 		}
+
 
 		//klog(INFO, "allocated address: %d\n", (void*) ((char*)first + sizeof(Header)));
 		return (void*) ((char*)first + sizeof(Header));
@@ -137,6 +149,10 @@ private:
 	{
 		first->size += sizeof(Header) + second->size;
 		first->next = second->next;
+		//IMPORTANT TO ADD
+		if(second->next)
+			((Header*)(second->next))->prev = (void*)first;
+		// END OF ADD
 		return first;
 	}
 

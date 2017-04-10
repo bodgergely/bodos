@@ -41,7 +41,7 @@ public:
 		Header* prev = NULL;
 		Header* chunk = (Header*)_chunckList;
 
-		printf("allocate: Size requested: %d, first chunk address: %d\n", numBytes, chunk);
+		printf("allocate: Size requested: %d, first chunk address: %lu\n", numBytes, chunk);
 
 		// debug
 		/*Header* dchunk = chunk;
@@ -57,7 +57,7 @@ public:
 		char buffer[1024];
 		while( (chunk && chunk->taken) || (chunk && chunk->size < numBytes))
 		{
-			sprintf(buffer, "chunk: %d, taken: %d and chunk size: %d chunk->next: %d", chunk, chunk->taken, chunk->size, chunk->next);
+			sprintf(buffer, "chunk: %lu, taken: %d and chunk size: %d chunk->prev: %lu chunk->next: %lu", chunk, chunk->taken, chunk->size, chunk->prev, chunk->next);
 			std::cout << buffer <<std::endl;
 			prev = chunk;
 			chunk = (Header*)chunk->next;
@@ -72,14 +72,27 @@ public:
 		const int minChunkSize = 8;
 		Header* first = chunk;
 
-		sprintf(buffer, "num bytes requested: %d found place at addr: %d, size: %d, prev: %d, next: %d, taken: %d\n", numBytes, first, first->size, first->prev, first->next, first->taken);
+		sprintf(buffer, "num bytes requested: %d found place at addr: %lu, size: %d, prev: %lu, next: %lu, taken: %d\n", numBytes, first, first->size, first->prev, first->next, first->taken);
 		std::cout << buffer << std::endl;
+		if(first->size < 0)
+		{
+			printf("size is negative!!! Bug\n");
+			while(1);
+		}
 		if(first->size - numBytes > sizeof(Header) + minChunkSize)
 		{
 			// second
 			Header* second = (Header*)(((char*)first) + sizeof(Header) + numBytes);
 			int secondSize = first->size - numBytes - sizeof(Header);
 			*second = Header(secondSize, (void*)first, first->next, false);
+			// IMPORTANT TO ADD
+			//here we need to make the first->next (which will be basically the third in the list to refer back not to the first but to the second!!)
+			if(first->next)
+			{
+				((Header*)first->next)->prev = (void*)second;
+			}
+			// END OF IMPORTANT TO ADD
+
 			*first = Header(numBytes, (void*)prev, (void*)second, true);
 		}
 		else
@@ -87,17 +100,20 @@ public:
 			*first = Header(first->size, (void*)prev, (void*)jump(first, 1), true);
 		}
 
-		printf("allocated address: %d\n", (void*) ((char*)first + sizeof(Header)));
+		printf("allocated address: %lu\n", (void*) ((char*)first + sizeof(Header)));
 		return (void*) ((char*)first + sizeof(Header));
 
 
 	}
 	void free(void* addr)
 	{
+		char buffer[1024];
 		Header* header = (Header*)((char*)addr - sizeof(Header));
 		header->taken = false;
-		printf("freeing at: %d size: %d\n", header, header->size);
+		printf("freeing at: %lu size: %d\n", header, header->size);
 
+		sprintf(buffer, "Freeing chunk: %lu chunk->prev: %lu chunk->next: %lu\n", header, header->prev, header->next);
+		std::cout << buffer <<std::endl;
 		bool nextFree = isFree((Header*)header->next);
 		bool prevFree = isFree((Header*)header->prev);
 
@@ -112,8 +128,8 @@ public:
 
 		}
 
-		char buffer[1024];
-		sprintf(buffer, "After freeing at: %d size: %d\n", header, header->size);
+
+		sprintf(buffer, "After freeing at: %lu size: %d first->prev: %lu first->next: %lu taken\n", header, header->size, header->prev, header->next, header->taken);
 		std::cout << buffer << std::endl;
 
 
@@ -121,8 +137,16 @@ public:
 private:
 	Header* merge(Header* first, Header* second)
 	{
+		printf("Merging %lu with size: %d and %lu with size: %d\n", first, first->size, second, second->size);
 		first->size += sizeof(Header) + second->size;
 		first->next = second->next;
+
+		//IMPORTANT TO ADD
+		if(second->next)
+			((Header*)(second->next))->prev = (void*)first;
+		// END OF ADD
+
+		printf("Returning from merge: first: %lu with size: %d and first->prev: %lu first->next: %lu taken: %d\n", first, first->size, first->prev, first->next, first->taken);
 		return first;
 	}
 
