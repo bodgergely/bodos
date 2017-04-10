@@ -109,7 +109,7 @@ IRQ_ROUTINE 15
 .extern irq_handler
 
 # This is a stub that we have created for IRQ based ISRs. This calls
-# '_irq_handler' in our C code.
+# '_irq_handler' in irq.c
 irq_common_stub:
     pusha
     push ds
