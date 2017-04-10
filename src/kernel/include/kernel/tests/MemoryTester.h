@@ -80,10 +80,13 @@ class MemoryTester
 {
 #define SIZE 100
 static const int ITER_COUNT = 100000;
+static const int GUARD_COUNT = 700;
+static const int GUARD_STRING_SIZE = 90;
 public:
-	MemoryTester() : _allocCount(0), _iters(0)
+	MemoryTester() : _guardAllocCount(0), _allocCount(0), _iters(0)
 	{
 		memset(_allocs, 0 , sizeof(void*)*SIZE);
+		memset(_guards, 0 , sizeof(char*)*GUARD_COUNT);
 	}
 	bool run()
 	{
@@ -100,14 +103,57 @@ private:
 			{
 				int count = rand(7) + 1;
 				allocate(count, 3, 34);
+				if(!(_iters % 100))
+					maybeAllocGuard(30);
 			}
 			else
 			{
 				int count = rand(3) + 1;
 				free(1);
+				if(!(_iters % 200))
+					maybeAllocGuard(20);
 			}
 		}
 
+		// check the guards are not smashed
+		if(!checkGuards())
+		{
+			klog(ERR, "Guards are smashed! Mem test failed!\n");
+			while(1);
+		}
+
+	}
+
+	bool checkGuards()
+	{
+		bool good = true;
+		for(int i=0;i<_guardAllocCount;i++)
+		{
+			char* g = _guards[i];
+			int j=0;
+			for(;j<GUARD_STRING_SIZE;j++)
+			{
+				if(g[j]!='P')
+					return false;
+			}
+			if(g[j]!='\0')
+			{
+				return false;
+			}
+		}
+		return good;
+	}
+
+	void maybeAllocGuard(int thresholdPercent)
+	{
+		if((rand(100) + 1) > thresholdPercent && _guardAllocCount < GUARD_COUNT)
+		{
+			int idx = _guardAllocCount++;
+			_guards[idx] = (char*)kmalloc(GUARD_STRING_SIZE+1);
+			char* p = _guards[idx];
+			memset(p, 'P', GUARD_STRING_SIZE);
+			p[GUARD_STRING_SIZE] = '\0';
+		}
 	}
 
 	void allocate(int count, int minSize, int maxSize)
@@ -163,6 +209,8 @@ private:
 
 private:
 	void* _allocs[SIZE];
+	char* _guards[GUARD_COUNT];
+	int   _guardAllocCount;
 	int   _allocCount;
 	int	  _iters;
 };
