@@ -107,6 +107,7 @@ extern "C" void irq_handler(struct regs *r)
     /* Find out if we have a custom handler to run for this
     *  IRQ, and then finally, run it */
     handler = irq_routines[r->int_no - 32];
+    //klog(INFO, "Interrupt with number: %d and handler: %d\n", r->int_no - 32, handler);
     if (handler)
     {
         handler(r);

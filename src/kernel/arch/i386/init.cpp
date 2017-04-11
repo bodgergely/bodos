@@ -1,9 +1,12 @@
 #include "init.h"
+#include "timer.h"
+#include "sched/ctxswitch.h"
 
 
 static void setup_irq_handlers()
 {
-	timer_install();
+	getTimer().timer_install();
+	scheduler::init();
 	keyboard_install();
 }
 

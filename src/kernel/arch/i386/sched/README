@@ -1,0 +1,12 @@
+Context Switching:
+http://wiki.osdev.org/Context_Switching
+
+A context switch involves storing the old state and retrieving the new state. 
+The x86 CPU provides a way of doing it completely in hardware, but for performance and portability reasons most modern OS's do context switches in software.
+
+The basic idea is to provide a function that saves the current stack pointer (ESP) and reloads a new stack pointer (SS:ESP). 
+When the function is called EIP would be stored on the old stack and a new EIP would be popped off the new stack when the function returns. 
+
+Eflags, the general registers and any data segment registers should also be pushed on the old stack and popped off the new stack. 
+If the paging structures need to be changed, CR3 will also need to be reloaded.
+
