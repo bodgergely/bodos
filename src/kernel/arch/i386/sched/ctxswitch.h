@@ -10,6 +10,10 @@
 
 
 #include "../timer.h"
+#include "../paging.h"
+#include "switch.h"
+#include <kernel/klog.h>
+#include <kernel/mem/kmalloc.h>
 
 namespace scheduler
 {

@@ -39,6 +39,15 @@ interrupt_handler_\num:
 .endm
 
 
+
+#struct regs
+#{
+#    unsigned int gs, fs, es, ds;      /* pushed the segs last */
+#    unsigned int edi, esi, ebp, esp, ebx, edx, ecx, eax;  /* pushed by 'pusha' */
+#    unsigned int int_no, err_code;    /* our 'push byte #' and ecodes do this */
+#    unsigned int eip, cs, eflags, useresp, ss;   /* pushed by the processor automatically */
+#};
+
 # This is our common ISR stub. It saves the processor state, sets
 # up for kernel mode segments, calls the C-level fault handler,
 # and finally restores the stack frame.
