@@ -54,9 +54,13 @@ inline static void contextSwitch(void* stack, void* foo)
 	ctxswitch(stack, foo);
 }
 
+
+
 static void contextSwitchObserver(struct regs* regs)
 {
-	// we should know now which Context(Process) we are in right now
+	/* we should know now which Context(Process) we are in right now since we have to save the state (registers etc) so that we can
+	 * later restore when switching back to this Context(Process)
+	 */
 	klog(INFO, "Inside context switch observer.\n");
 
 	int pages = 8;

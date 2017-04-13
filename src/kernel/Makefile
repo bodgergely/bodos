@@ -2,7 +2,6 @@ DEFAULT_HOST!=../default-host.sh
 HOST?=DEFAULT_HOST
 HOSTARCH!=../target-triplet-to-arch.sh $(HOST)
  
-CFLAGS?=
 CPPFLAGS?=-O2 -g -fno-exceptions -fno-rtti
 LDFLAGS?=
 LIBS?=
@@ -13,8 +12,7 @@ EXEC_PREFIX?=$(PREFIX)
 BOOTDIR?=$(EXEC_PREFIX)/boot
 INCLUDEDIR?=$(PREFIX)/include
  
-CFLAGS:=$(CFLAGS) -ffreestanding -Wall -Wextra
-CPPFLAGS:=$(CPPFLAGS) -D__is_kernel -Iinclude
+CPPFLAGS:=$(CPPFLAGS) -D__is_kernel -Iinclude -ffreestanding -Wall -Wextra
 LDFLAGS:=$(LDFLAGS)
 LIBS:=$(LIBS) -nostdlib -lk -lgcc
  
@@ -23,7 +21,6 @@ ARCHDIR=arch/$(HOSTARCH)
 include $(ARCHDIR)/make.config
  
 ARCH_FLAGS:=-Di386
-CFLAGS:=$(CFLAGS) $(KERNEL_ARCH_CFLAGS)
 CPPFLAGS:=$(CPPFLAGS) $(KERNEL_ARCH_CPPFLAGS)
 LDFLAGS:=$(LDFLAGS) $(KERNEL_ARCH_LDFLAGS)
 LIBS:=$(LIBS) $(KERNEL_ARCH_LIBS)
@@ -61,22 +58,22 @@ $(ARCHDIR)/crtn.o \
 all: bodos.kernel
  
 bodos.kernel: $(OBJS) $(ARCHDIR)/linker.ld
-	$(CC) -T $(ARCHDIR)/linker.ld -o $@ $(CFLAGS) $(CPPFLAGS) $(LINK_LIST)
+	$(CC) -T $(ARCHDIR)/linker.ld -o $@ $(CPPFLAGS) $(LINK_LIST)
 	grub-file --is-x86-multiboot bodos.kernel
  
 $(ARCHDIR)/crtbegin.o $(ARCHDIR)/crtend.o:
 
-	OBJ=`$(CC) $(CFLAGS) $(CPPFLAGS) $(LDFLAGS) -print-file-name=$(@F)` && cp "$$OBJ" $@
+	OBJ=`$(CC) $(CPPFLAGS) $(LDFLAGS) -print-file-name=$(@F)` && cp "$$OBJ" $@
  
 
 .c.o:
-	$(CC) -MD -c $< -o $@ -std=c++14 $(CFLAGS) $(CPPFLAGS) $(ARCH_FLAGS)
+	$(CC) -MD -c $< -o $@ -std=c++14 $(CPPFLAGS) $(ARCH_FLAGS)
 	
 .cpp.o:
-	$(CC) -MD -c $< -o $@ -std=c++14 $(CFLAGS) $(CPPFLAGS) $(ARCH_FLAGS)
+	$(CC) -MD -c $< -o $@ -std=c++14 $(CPPFLAGS) $(ARCH_FLAGS)
  
 .s.o:
-	$(CC) -MD -c $< -o $@ $(CFLAGS) $(CPPFLAGS) $(ARCH_FLAGS)
+	$(CC) -MD -c $< -o $@ $(CPPFLAGS) $(ARCH_FLAGS)
  
 clean:
 	rm -f bodos.kernel
