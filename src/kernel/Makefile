@@ -2,9 +2,9 @@ DEFAULT_HOST!=../default-host.sh
 HOST?=DEFAULT_HOST
 HOSTARCH!=../target-triplet-to-arch.sh $(HOST)
  
-CPPFLAGS?=-O2 -g -fno-exceptions -fno-rtti
-LDFLAGS?=
-LIBS?=
+CPPFLAGS=-O2 -g -fno-exceptions -fno-rtti
+LDFLAGS=
+LIBS=
  
 DESTDIR?=
 PREFIX?=/usr/local

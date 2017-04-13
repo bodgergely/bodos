@@ -3,6 +3,17 @@
 #include "sched/ctxswitch.h"
 
 
+
+
+//http://wiki.osdev.org/C_PlusPlus
+extern "C" void __cxa_pure_virtual()
+{
+    // Do nothing or print an error message.
+	klog(FATAL, "__cxa_pure_virtual() has been called!! Fatal error! Looping forever...\n");
+	while(1);
+}
+
+
 static void setup_irq_handlers()
 {
 	getTimer().timer_install();
