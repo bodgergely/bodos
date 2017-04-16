@@ -49,6 +49,7 @@ bool Timer::registerObserver(TimerHandler handler)
 	if(Timer::_observerCount<5)
 	{
 		_observers[_observerCount++] = handler;
+		return true;
 	}
 	else
 	{

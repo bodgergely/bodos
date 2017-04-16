@@ -17,7 +17,6 @@ extern "C" void __cxa_pure_virtual()
 static void setup_irq_handlers()
 {
 	getTimer().timer_install();
-	scheduler::init();
 	keyboard_install();
 }
 

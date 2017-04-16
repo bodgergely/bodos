@@ -75,6 +75,32 @@ protected:
 
 };
 
+class Shape
+{
+public:
+	Shape(int i) :_v(i) {}
+	virtual ~Shape()
+	{
+		kprintf("In destructor of Shape\n");
+	}
+	virtual void print()
+	{
+		kprintf("Shape\n");
+	}
+protected:
+	int _v;
+};
+
+class Triangle : public Shape
+{
+public:
+	Triangle(int i) : Shape(i*2), _t(i) {}
+	virtual ~Triangle() {kprintf("In destructor of Triangle\n");}
+	virtual void print() {kprintf("Triange: %d shape: %d\n", _t, _v);}
+private:
+	int _t;
+};
+
 // tests
 class MemoryTester
 {
@@ -90,6 +116,10 @@ public:
 	}
 	bool run()
 	{
+		//Shape* sh = new Triangle(5);
+		//sh->print();
+		//delete sh;
+		//while(1);
 		test();
 	}
 private:

@@ -8,6 +8,7 @@
 #include <kernel/interrupt.h>
 #include <kernel/mem/kmalloc.h>
 #include <kernel/tests/TestCenter.h>
+#include <kernel/proc/proc.h>
 
 #if defined(__cplusplus)
 extern "C" /* Use C linkage for kernel_main. */
@@ -24,6 +25,7 @@ static void init()
 	klog(INFO, "Terminal has been initialized.\n");
 	arch_specific_init();
 	memory::init();
+	processes::init();
 }
 
 extern "C" void kernel_main(void) {

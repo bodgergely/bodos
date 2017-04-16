@@ -11,6 +11,7 @@
 
 #include "RandomTest.h"
 #include <kernel/tests/MemoryTester.h>
+#include <kernel/tests/SchedulerTester.h>
 
 class TestCenter
 {
