@@ -75,7 +75,7 @@ private:
 	{
 		while(true)
 		{
-			kprintf("Inside mainProc()...\n");
+			kprintf("Inside mainProc()\n");
 			unsigned long long res = longCalculation(1 << 26);
 			//kprintf("Calc res: %d\n", res);
 			resched();
