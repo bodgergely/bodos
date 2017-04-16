@@ -13,14 +13,27 @@
 
 static void procedureOne()
 {
-	kprintf("Inside procedureOne()");
-	resched();
+	while(true)
+	{
+		kprintf("Inside procedureOne()\n");
+		ProcEntryTable& procTable = getProcessTable();
+		procTable._readyList.print();
+		klog(INFO, "procTable: %d and procTable.procEntry(0): %d\n", &procTable, procTable.procEntry(0));
+		procTable.procEntry(0)->print();
+		procTable.procEntry(1)->print();
+		//while(1);
+		resched();
+	}
 }
 
 static void procedureTwo()
 {
-	kprintf("Inside procedureTwo()");
-	resched();
+	while(true)
+	{
+		kprintf("Inside procedureTwo()\n");
+		//while(1);
+		resched();
+	}
 }
 
 
@@ -35,7 +48,7 @@ public:
 	{
 		createProcess((void*)procedureOne);
 		createProcess((void*)procedureTwo);
-		resched();
+		//resched();
 		klog(INFO, "After creating 2 processes in SchedulerTester\n");
 		while(1);
 	}

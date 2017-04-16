@@ -1,5 +1,7 @@
 #pragma once
 
+#include <kernel/klog.h>
+
 extern "C"
 {
 

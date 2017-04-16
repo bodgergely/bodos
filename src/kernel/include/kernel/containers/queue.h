@@ -36,6 +36,23 @@ public:
 	}
 	bool insert(const T& elem)
 	{
+		Node* curr = _head;
+		Node* prev = NULL;
+		while(curr)
+		{
+			prev = curr;
+			curr = curr->next;
+		}
+		curr = new Node(elem);
+		if(prev)
+			prev->next = curr;
+		else
+			_head = curr;
+		if(curr)
+			return true;
+		else
+			return false;
+		/*
 		Node** curr = &_head;
 		while(*curr)
 			*curr = (*curr)->next;
@@ -44,6 +61,7 @@ public:
 			return true;
 		else
 			return false;
+			*/
 
 	}
 	T dequeue()

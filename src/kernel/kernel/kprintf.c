@@ -123,7 +123,7 @@ static void create_log_level_string(log_level level, char* buff)
 }
 
 
-int kprintf_level(log_level lev, log_target target, int appendLogLevel, const char *format, ...)
+extern "C" int kprintf_level(log_level lev, log_target target, int appendLogLevel, const char *format, ...)
 {
 	const size_t arg_container_size = 128;
 	char arg_container[arg_container_size];
