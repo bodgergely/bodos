@@ -17,18 +17,20 @@ ctxswitch:
 	mov [eax], esp			# save the old process's sp
 
 	#debug
-	push 	esp
-	push    eax
-	lea    ecx, debug_msg
-   	push   ecx
-   	push   0
-   	push   1
-   	push   1
-   	call   kprintf_level
-   	#end of debug
+	#push 	esp
+	#push    eax
+	#lea    ecx, debug_msg
+   	#push   ecx
+   	#push   0
+   	#push   1
+   	#push   1
+   	#call   kprintf_level
 
 #looping:
 #	jmp looping
+   	#end of debug
+
+
 
 	mov	eax, [ebp + 12]		# get location from which to restore new process's sp
 
