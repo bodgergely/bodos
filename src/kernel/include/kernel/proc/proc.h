@@ -26,7 +26,8 @@ enum ProcStatus
 {
 	PR_CURR,
 	PR_RUNNABLE,
-	PR_SUSPENDED
+	PR_SUSPENDED,
+	PR_DEAD
 };
 
 class ProcEntry
@@ -46,6 +47,14 @@ public:
 	void	   setStatus(ProcStatus status) {_status = status;}
 	int	   getPriority() {return _priority;}
 	void   setPriority(int prio) { _priority = prio;}
+
+	// release resources
+	void release()
+	{
+		delete _stackmem;
+		_stackmem = NULL;
+		_status = PR_DEAD;
+	}
 
 	void print() const
 	{

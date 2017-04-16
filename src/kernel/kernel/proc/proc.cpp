@@ -56,6 +56,7 @@ bool ProcEntryTable::erase(pid id)
 	if(id < MAX_PROC_NUM && _taken[id] == true)
 	{
 		_taken[id] = false;
+		_processList[id].release();
 		_numOfProcesses--;
 		return true;
 	}
