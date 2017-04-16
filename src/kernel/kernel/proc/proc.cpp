@@ -96,7 +96,7 @@ pid createProcess(void* code)
 																			);
 
 	while(1);
-	pid id = getProcessTable().insert(ProcEntry(code, stack_start - 8));
+	pid id = getProcessTable().insert(ProcEntry(code, stack_pointer));
 	resched();
 }
 
