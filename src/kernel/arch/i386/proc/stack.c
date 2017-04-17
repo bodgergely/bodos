@@ -24,20 +24,21 @@ Temp ← (ESP);
 
 */
 
-void create_stack(void* stack, void* code)
+uint32_t* create_stack(uint32_t* stack, void* code)
 {
-	*((unsigned int*)stack) = (unsigned int)code;		// return address
-	*(((unsigned int*)stack) - 1) = (unsigned int)(((unsigned int*)stack) - 1);		// EBP
-	*(((unsigned int*)stack) - 2) = 0; 		// EFLAGS
-	*(((unsigned int*)stack) - 3) = 0xDEADBEEF;    // EAX
-	*(((unsigned int*)stack) - 4) = 0xDEADBEEF;    // ECX
-	*(((unsigned int*)stack) - 5) = 0xDEADBEEF;    // EDX
-	*(((unsigned int*)stack) - 6) = 0xDEADBEEF;    // EBX
-	*(((unsigned int*)stack) - 7) = (unsigned int)(((unsigned int*)stack) - 2);    // ESP (saved value, the value of sp right after pushing the eflags with pushf)
-	*(((unsigned int*)stack) - 8) = (unsigned int)(((unsigned int*)stack) - 1);    // EBP
-	*(((unsigned int*)stack) - 9) = 0xDEADBEEF;    // ESI
-	*(((unsigned int*)stack) - 10) = 0xDEADBEEF;    // EDI
+	*stack = 		(unsigned int)code;		// return address
+	*(stack - 1) = (unsigned int)(((unsigned int*)stack) - 1);		// EBP
+	*(stack - 2) = 0; 		// EFLAGS
+	*(stack - 3) = 0;    // EAX
+	*(stack - 4) = 0;    // ECX
+	*(stack - 5) = 0;    // EDX
+	*(stack - 6) = 0;    // EBX
+	*(stack - 7) = (unsigned int)(((unsigned int*)stack) - 2);    // ESP (saved value, the value of sp right after pushing the eflags with pushf)
+	*(stack - 8) = (unsigned int)(((unsigned int*)stack) - 1);    // EBP
+	*(stack - 9) = 0;    // ESI
+	*(stack - 10) = 0;    // EDI
 
+	return stack - 10;
 	//memset((char*)stack-PAGE_SIZE, 0, PAGE_SIZE - sizeof(unsigned int*) * 2 );		// null out the rest (EFLAGS and the 8 general regs)
 
 	//klog(INFO, "Stack top is at: %d and code to be put there: %d\n", stack, code);

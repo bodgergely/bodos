@@ -39,7 +39,7 @@ static void procedureOne()
 		//procTable.procEntry(0)->print();
 		//procTable.procEntry(1)->print();
 		//while(1);
-		//resched();
+		resched();
 	}
 }
 
@@ -51,10 +51,9 @@ static void procedureTwo()
 		unsigned long long res = longCalculation(1 << 26);
 		ProcEntryTable& procTable = getProcessTable();
 		procTable.printReadyList();
-		while(1);
 		//kprintf("Calc res: %d\n", res);
 		//while(1);
-		//resched();
+		resched();
 	}
 }
 
@@ -69,8 +68,9 @@ public:
 	}
 	void run()
 	{
-		createProcess((void*)procedureOne);
-		createProcess((void*)procedureTwo);
+		//pid createProcess(void* code, uint32_t stacksize, int prio, char* name, uint32_t nargs, ...)
+		createProcess((void*)procedureOne, 8 * PAGE_SIZE, 10, "ProcedureOne", 0);
+		createProcess((void*)procedureTwo, 8 * PAGE_SIZE, 10, "ProcedureTwo", 0);
 		klog(INFO, "After creating 2 processes in SchedulerTester\n");
 		mainProc();
 	}
@@ -85,7 +85,7 @@ private:
 			procTable.printReadyList();
 			//while(1);
 			//kprintf("Calc res: %d\n", res);
-			//resched();
+			resched();
 		}
 	}
 

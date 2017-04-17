@@ -8,7 +8,8 @@
 #ifndef SRC_KERNEL_INCLUDE_KERNEL_SCHED_STACK_H_
 #define SRC_KERNEL_INCLUDE_KERNEL_SCHED_STACK_H_
 
-void create_stack(void* stack, void* code);
+
+uint32_t* create_stack(uint32_t* stack, void* code);
 
 
 

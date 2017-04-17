@@ -1,6 +1,6 @@
 #include "init.h"
 #include <kernel/timer.h>
-#include "sched/ctxswitch.h"
+#include "proc/ctxswitch.h"
 
 
 

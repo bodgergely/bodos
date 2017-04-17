@@ -17,6 +17,7 @@
 #include <string.h>
 
 #define MAX_PROC_NUM 256
+#define MINSTACK (4)*(PAGE_SIZE)
 
 extern void resched();
 
@@ -148,9 +149,7 @@ private:
 
 ProcEntryTable& getProcEntryTable();
 
-
-#define STACK_SIZE_DEFAULT (8)*(PAGE_SIZE)
-pid createProcess(void* code);
+pid createProcess(void* code, uint32_t stacksize, int prio, char* name, uint32_t nargs, ...);
 ProcEntryTable& getProcessTable();
 
 namespace processes
