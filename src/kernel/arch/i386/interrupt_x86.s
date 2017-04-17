@@ -7,8 +7,10 @@ debug_msg:
 	.asciz "Just got back from int!"
 
 .global interrupt
+.global	enable
 .global	disable
 .global	restore
+.global getirmask
 
 
 .align   4
@@ -25,6 +27,19 @@ interrupt:
    	#end of debug
    	pop eax
    	ret
+
+	/*---------------------------------------------------------
+ * enable all interrupts
+ *---------------------------------------------------------
+ */
+enable:
+	cli
+	mov   ax, girmask
+	out   0x21, al
+	shr   ax, 8
+	out   0xA1, al
+	sti
+	ret
 
 
 /*---------------------------------------------------------
@@ -65,5 +80,19 @@ restore:
 	out    0xA1, al
 	popf
 	sti
+	ret
+
+
+
+	/*------------------------------------------------------------------------
+ * getirmask(ps)  - return current interrupt mask in ps
+ *------------------------------------------------------------------------
+ */
+getirmask:
+	in	   al, 0xA1
+	shl    ax, 8
+	in     al, 0x21
+	mov    edx, [esp + 4]
+	mov    [edx], ax
 	ret
 
