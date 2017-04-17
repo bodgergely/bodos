@@ -3,6 +3,7 @@
 #define NUM_OF_IDT_ENTRIES 3
 #define IDT_ENTRY_SIZE 8
 
+short girmask = 0xfffb;
 
 struct idt_entry			// http://wiki.osdev.org/Interrupt_Descriptor_Table
 {

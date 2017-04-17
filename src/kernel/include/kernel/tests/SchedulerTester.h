@@ -77,6 +77,7 @@ public:
 private:
 	void mainProc()
 	{
+		int c = 0;
 		while(true)
 		{
 			kprintf("Inside mainProc()\n");

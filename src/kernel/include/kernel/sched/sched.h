@@ -11,6 +11,7 @@
 #include "ctxswitch.h"
 #include <kernel/proc/proc.h>
 #include <kernel/timer.h>
+#include <kernel/interrupt.h>
 
 namespace scheduler
 {
