@@ -3,7 +3,7 @@
 #define INTERRUPT_X86_H
 
 #include <kernel/header.h>
-#include "system.h"
+#include <kernel/system.h>
 
 extern "C"
 {

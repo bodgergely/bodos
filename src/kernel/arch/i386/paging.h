@@ -3,7 +3,7 @@
 
 #include <stdint.h>
 #include <kernel/klog.h>
-#include "system.h"
+#include <kernel/system.h>
 
 #define VIRTUAL_MEM_OFFSET 0xC0000000
 #define PHYSICAL_MEM_OFFSET 0x100000

@@ -2,7 +2,7 @@
 
 #include <kernel/kprintf.h>
 #include <kernel/debug.h>
-#include "system.h"
+#include <kernel/system.h>
 
 
 void _interrupt_handler(struct regs* regs)

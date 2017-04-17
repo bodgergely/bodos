@@ -2,7 +2,7 @@
 #define IRQ_H
 
 #include <kernel/klog.h>
-#include "system.h"
+#include <kernel/system.h>
 #include "io.h"
 #include "idt.h"
 

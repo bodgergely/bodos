@@ -9,6 +9,7 @@
 #include <kernel/mem/kmalloc.h>
 #include <kernel/tests/TestCenter.h>
 #include <kernel/proc/proc.h>
+#include <kernel/sched/sched.h>
 
 #if defined(__cplusplus)
 extern "C" /* Use C linkage for kernel_main. */
@@ -26,6 +27,7 @@ static void init()
 	arch_specific_init();
 	memory::init();
 	processes::init();
+	scheduler::init();
 }
 
 extern "C" void kernel_main(void) {

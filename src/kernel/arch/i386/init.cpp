@@ -1,5 +1,5 @@
 #include "init.h"
-#include "timer.h"
+#include <kernel/timer.h>
 #include "sched/ctxswitch.h"
 
 

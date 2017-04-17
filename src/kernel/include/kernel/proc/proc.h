@@ -27,7 +27,8 @@ enum ProcStatus
 	PR_CURR,
 	PR_RUNNABLE,
 	PR_SUSPENDED,
-	PR_DEAD
+	PR_DEAD,
+	PR_NA
 };
 
 class ProcEntry
@@ -73,7 +74,37 @@ private:
 
 };
 
+class ReadyList
+{
+public:
+	void insert(pid id)
+	{
+		_readyList.insert(id);
+		_count++;
+	}
+	pid pop()
+	{
+		pid p =_readyList.dequeue();
+		_count--;
+		return p;
+	}
 
+	pid peek()
+	{
+		return _readyList.top();
+	}
+
+	int count() const {return _count;}
+
+	void print() const
+	{
+		_readyList.print();
+	}
+
+private:
+	queue<pid>  _readyList;
+	int			_count;
+};
 
 class ProcEntryTable
 {
@@ -87,7 +118,7 @@ public:
 	}
 	int	highestReadyPrio()
 	{
-		pid id = _readyList.top();
+		pid id = _readyList.peek();
 		return _processList[id].getPriority();
 	}
 	void insertToReadyList(pid id)
@@ -96,11 +127,18 @@ public:
 	}
 	pid scheduleNextTask()
 	{
-		return _readyList.dequeue();
+		return _readyList.pop();
 	}
-	queue<int>  _readyList;
+
+	int	totalCount() const {return _numOfProcesses;}
+	int readyCount() const {return _readyList.count();}
+
+	// debug
+	void printReadyList() const { _readyList.print();}
+
 private:
 	int		  _numOfProcesses;
+	ReadyList  _readyList;
 	ProcEntry _processList[MAX_PROC_NUM];
 	bool 	  _taken[MAX_PROC_NUM];
 

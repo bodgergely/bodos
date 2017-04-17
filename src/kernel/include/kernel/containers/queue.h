@@ -22,7 +22,7 @@ struct Node
 	Node* next;
 };
 public:
-	queue() : _head(NULL){}
+	queue() : _head(NULL), _size(0){}
 	~queue()
 	{
 		Node* node = _head;
@@ -49,7 +49,10 @@ public:
 		else
 			_head = curr;
 		if(curr)
+		{
+			_size++;
 			return true;
+		}
 		else
 			return false;
 		/*
@@ -72,6 +75,7 @@ public:
 			Node* next = _head->next;
 			delete _head;
 			_head = next;
+			_size--;
 			return val;
 		}
 
@@ -79,7 +83,7 @@ public:
 
 	}
 
-	void print()
+	void print() const
 	{
 		Node* node = _head;
 		kprintf("queue content:\n");
@@ -100,7 +104,10 @@ public:
 		return T();
 	}
 
+	int size() const { return _size; }
+
 private:
 	Node* _head;
+	int   _size;
 };
 

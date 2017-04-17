@@ -14,6 +14,10 @@ void TestCenter::run()
 	memory::MemoryTester memtest;
 	memtest.run();
 
+	klog(INFO, "Running container tests...\n");
+	ContainerTester containerTester;
+	containerTester.run();
+
 	klog(INFO, "Scheduler tester running...\n");
 	SchedulerTester schedTester;
 	schedTester.run();

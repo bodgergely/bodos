@@ -9,7 +9,6 @@ void init()
 {
 	ptable = new ProcEntryTable();
 	ptable->insert(ProcEntry(NULL,NULL,NULL,10,PR_CURR), false);		// represents the first boot kernel process and do not put it on the runnable list
-
 }
 }
 
@@ -46,7 +45,9 @@ pid ProcEntryTable::insert(const ProcEntry& proc, bool runnable)
 	_numOfProcesses++;
 
 	if(runnable)
+	{
 		_readyList.insert(i);
+	}
 
 	return i;
 }
@@ -65,7 +66,7 @@ bool ProcEntryTable::erase(pid id)
 }
 
 
-ProcEntry::ProcEntry() : _code(NULL), _sp(NULL), _stackmem(NULL), _id(-1), _status(PR_SUSPENDED), _priority(10)
+ProcEntry::ProcEntry() : _code(NULL), _sp(NULL), _stackmem(NULL), _id(-1), _status(PR_NA), _priority(10)
 {
 }
 
@@ -113,7 +114,7 @@ pid createProcess(void* code)
 
 	//while(1);
 	pid id = getProcessTable().insert(ProcEntry(code, stack_pointer, stack_memory), true);
-	resched();
+	//resched();
 }
 
 

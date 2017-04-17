@@ -1,9 +1,26 @@
 #include <kernel/sched/sched.h>
 
 
+
+
+namespace scheduler
+{
+
+static void timerObserver(struct regs* regs)
+{
+	kprintf("Before resched\n");
+	resched();
+	kprintf("After resched\n");
+}
+
+void init()
+{
+	//getTimer().registerObserver(timerObserver);
+}
+
+}
+
 pid currpid = 0;
-
-
 int resched_counter = 0;
 
 void resched(void)
@@ -18,10 +35,11 @@ void resched(void)
 
 	if(procOld->getStatus() == PR_CURR)
 	{
-		if(procOld->getPriority() > procTable.highestReadyPrio())
+		if(procTable.readyCount() == 0 || procOld->getPriority() > procTable.highestReadyPrio())
 		{
 			return;
 		}
+
 		procOld->setStatus(PR_RUNNABLE);
 		procTable.insertToReadyList(currpid);
 	}

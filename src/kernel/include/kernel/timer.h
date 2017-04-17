@@ -2,8 +2,7 @@
 #define TIMER_H
 
 #include <kernel/klog.h>
-#include "system.h"
-#include "irq.h"
+#include <kernel/system.h>
 
 #define TIMER_OBSERVER_MAX 5
 

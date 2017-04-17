@@ -1,4 +1,5 @@
-#include "timer.h"
+#include <kernel/timer.h>
+#include "irq.h"
 
 /* This will keep track of how many ticks that the system
 *  has been running for */

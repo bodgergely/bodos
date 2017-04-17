@@ -32,13 +32,14 @@ static void procedureOne()
 		kprintf("Inside procedureOne()\n");
 		unsigned long long res = longCalculation(1 << 26);
 		//kprintf("Calc res: %d\n", res);
-		//ProcEntryTable& procTable = getProcessTable();
-		//procTable._readyList.print();
+		ProcEntryTable& procTable = getProcessTable();
+		procTable.printReadyList();
+		//while(1);
 		//klog(INFO, "procTable: %d and procTable.procEntry(0): %d\n", &procTable, procTable.procEntry(0));
 		//procTable.procEntry(0)->print();
 		//procTable.procEntry(1)->print();
 		//while(1);
-		resched();
+		//resched();
 	}
 }
 
@@ -48,9 +49,12 @@ static void procedureTwo()
 	{
 		kprintf("Inside procedureTwo()\n");
 		unsigned long long res = longCalculation(1 << 26);
+		ProcEntryTable& procTable = getProcessTable();
+		procTable.printReadyList();
+		while(1);
 		//kprintf("Calc res: %d\n", res);
 		//while(1);
-		resched();
+		//resched();
 	}
 }
 
@@ -78,7 +82,7 @@ private:
 			kprintf("Inside mainProc()\n");
 			unsigned long long res = longCalculation(1 << 26);
 			//kprintf("Calc res: %d\n", res);
-			resched();
+			//resched();
 		}
 	}
 
