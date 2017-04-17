@@ -81,6 +81,9 @@ private:
 		{
 			kprintf("Inside mainProc()\n");
 			unsigned long long res = longCalculation(1 << 26);
+			ProcEntryTable& procTable = getProcessTable();
+			procTable.printReadyList();
+			//while(1);
 			//kprintf("Calc res: %d\n", res);
 			//resched();
 		}

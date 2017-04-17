@@ -8,14 +8,14 @@ namespace scheduler
 
 static void timerObserver(struct regs* regs)
 {
-	kprintf("Before resched\n");
-	resched();
-	kprintf("After resched\n");
+	//kprintf("Before resched\n");
+	//resched();
+	//kprintf("After resched\n");
 }
 
 void init()
 {
-	//getTimer().registerObserver(timerObserver);
+	getTimer().registerObserver(timerObserver);
 }
 
 }
