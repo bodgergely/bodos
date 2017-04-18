@@ -20,7 +20,7 @@ void init()
 
 }
 
-pid currpid = 0;
+extern pid currpid;
 int resched_counter = 0;
 
 void resched(void)

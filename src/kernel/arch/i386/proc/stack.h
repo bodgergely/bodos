@@ -10,7 +10,16 @@
 
 #include <stdint.h>
 
+/**
+ * @ingroup threads
+ *
+ * Entered when a thread exits by return.
+ */
 
+// defined in proc.h
+void userret(void);
+
+#define INITRET userret
 uint32_t* create_stack(uint32_t* stack, void* code);
 
 

@@ -1,3 +1,9 @@
+/*
+ * stack.cpp
+ *
+ *  Created on: Apr 17, 2017
+ *      Author: geri
+ */
 
 #include "stack.h"
 
@@ -22,11 +28,26 @@ Temp ← (ESP);
          Push(ESI);
          Push(EDI);
 
+
+         http://eli.thegreenplace.net/2011/02/04/where-the-top-of-the-stack-is-on-x86/
+
 */
 
-uint32_t* create_stack(uint32_t* stack, void* code)
+
+
+uint32_t* create_stack(void* code, uint32_t* stack, uint32_t nargs, uint32_t* argstart)
 {
-	*stack = 		(unsigned int)code;		// return address
+	uint32_t* argcurr = argstart = argstart + nargs - 1;
+	kprintf("argcurr: %d\n", *argcurr);
+	kprintf("argcurr: %d\n", *(argcurr-1));
+	kprintf("argcurr: %d\n", *(argcurr-2));
+
+	for(int i=0;i<nargs;i++)
+		*stack-- = *argcurr--;
+
+	*stack-- = (uint32_t)INITRET;
+
+	*(stack - 0) = 		(unsigned int)code;		// return address
 	*(stack - 1) = (unsigned int)(((unsigned int*)stack) - 1);		// EBP
 	*(stack - 2) = 0; 		// EFLAGS
 	*(stack - 3) = 0;    // EAX

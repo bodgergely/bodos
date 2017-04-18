@@ -12,6 +12,61 @@ void init()
 }
 }
 
+pid currpid = 0;
+
+pid gettid()
+{
+	return currpid;
+}
+
+ProcEntry* procent(pid pid)
+{
+	return ptable->procEntry(pid);
+}
+
+
+int userret(void)
+{
+    return kill(gettid());
+}
+
+int ready(pid id)
+{
+	if(!isvalid(id))
+		return PROC_NEX;
+	ProcEntry* p = procent(id);
+	if(p->getStatus() == PR_RUNNABLE)
+		return PROC_ERR;
+	ptable->_readyList.insert(id);
+	return PROC_OK;
+}
+
+int suspend(pid id)
+{
+	//klog(INFO, "suspend(pid id) not implemented yet.\n");
+	if(!isvalid(id))
+		return PROC_NEX;
+	ProcEntry* pe = procent(id);
+	if(pre->)
+	ptable->_readyList.erase(id);
+	procent(id)->setStatus(PR_SUSPENDED);
+	return PROC_OK;
+}
+
+int kill(pid id)
+{
+	if(!isvalid(id))
+			return PROC_NEX;
+	ProcEntry* p = procent(id);
+	if(p->getStatus() == PR_RUNNABLE)
+		suspend(pid);
+
+	p->setStatus(PR_DEAD);
+
+	p->release();
+	resched();
+	return PROC_OK;
+}
 
 ProcEntryTable& getProcessTable()
 {

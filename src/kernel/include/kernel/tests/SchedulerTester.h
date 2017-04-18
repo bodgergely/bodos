@@ -25,11 +25,11 @@ static unsigned long long longCalculation(unsigned long long count)
 }
 
 
-static void procedureOne()
+static void procedureOne(int a, int b, int c)
 {
 	while(true)
 	{
-		kprintf("Inside procedureOne()\n");
+		kprintf("Inside procedureTwo(): a: %d b: %d c: %d\n", a, b, c);
 		unsigned long long res = longCalculation(1 << 26);
 		//kprintf("Calc res: %d\n", res);
 		ProcEntryTable& procTable = getProcessTable();
@@ -43,11 +43,17 @@ static void procedureOne()
 	}
 }
 
-static void procedureTwo()
+static void procedureTwo(int a, int b, int c, int d)
 {
+	int counter = 0;
 	while(true)
 	{
-		kprintf("Inside procedureTwo()\n");
+		if(++counter > 5)
+		{
+			kprintf("procedureTwo will exit.\");
+			break;
+		}
+		kprintf("Inside procedureTwo(): a: %d b: %d c: %d d: %d\n", a, b, c, d);
 		unsigned long long res = longCalculation(1 << 26);
 		ProcEntryTable& procTable = getProcessTable();
 		procTable.printReadyList();
@@ -55,6 +61,7 @@ static void procedureTwo()
 		//while(1);
 		resched();
 	}
+
 }
 
 
@@ -68,9 +75,9 @@ public:
 	}
 	void run()
 	{
-		//pid createProcess(void* code, uint32_t stacksize, int prio, char* name, uint32_t nargs, ...)
-		createProcess((void*)procedureOne, 8 * PAGE_SIZE, 10, "ProcedureOne", 0);
-		createProcess((void*)procedureTwo, 8 * PAGE_SIZE, 10, "ProcedureTwo", 0);
+		//pid createproc(void* code, uint32_t stacksize, int prio, char* name, uint32_t nargs, ...)
+		createproc((void*)procedureOne, 8 * PAGE_SIZE, 10, "ProcedureOne", 3, 34, 56, 67);
+		createproc((void*)procedureTwo, 8 * PAGE_SIZE, 10, "ProcedureTwo", 4, 89, 435, 3434, 23);
 		klog(INFO, "After creating 2 processes in SchedulerTester\n");
 		mainProc();
 	}

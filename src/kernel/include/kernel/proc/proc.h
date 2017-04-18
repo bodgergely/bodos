@@ -146,11 +146,19 @@ private:
 };
 
 
+void userret(void);
 
-ProcEntryTable& getProcEntryTable();
-
-pid createProcess(void* code, uint32_t stacksize, int prio, char* name, uint32_t nargs, ...);
+ProcEntry* procent(pid pid);
 ProcEntryTable& getProcessTable();
+pid  gettid();
+
+/*
+ * Process manipulation interface
+ */
+pid  createproc(void* code, uint32_t stacksize, int prio, char* name, uint32_t nargs, ...);
+void ready(pid id);
+void suspend(pid id);
+void kill(pid id);
 
 namespace processes
 {

@@ -6,6 +6,7 @@
  */
 
 #include <kernel/proc/proc.h>
+#include <stdint.h>
 
 static uint32_t* getstack(uint32_t size, uint32_t** stackmem)
 {
@@ -20,7 +21,7 @@ static uint32_t* getstack(uint32_t size, uint32_t** stackmem)
 }
 
 // TODO this is platform dependent code below!
-pid createProcess(void* code, uint32_t stacksize, int prio, char* name, uint32_t nargs, ...)
+pid createproc(void* code, uint32_t stacksize, int prio, char* name, uint32_t nargs, ...)
 {
 	// TODO stack should 16 byte aligned
 	if(stacksize < MINSTACK)
@@ -45,7 +46,8 @@ pid createProcess(void* code, uint32_t stacksize, int prio, char* name, uint32_t
 	 we need to have it in assembly I think
 	 *
 	 */
-	uint32_t* stackpointer = create_stack(stackstart, code);
+	uint32_t* argstart = &nargs + 1;
+	uint32_t* stackpointer = create_stack(code, stackstart, nargs, argstart);
 	//klog(INFO, "After stack setup: stack start: %d, val: %d\n stack - 4 where base should be: %d\n stack_pointer: %d and val: %d\n", stack_start, *(unsigned int*)stack_start,
 	//																		*(unsigned int*)(stack_start- 4),
 	//																		stack_pointer, *(unsigned int*)stack_pointer
@@ -55,4 +57,5 @@ pid createProcess(void* code, uint32_t stacksize, int prio, char* name, uint32_t
 	pid id = getProcessTable().insert(ProcEntry(code, stackpointer, stackmem), true);
 	//resched();
 }
+
 
