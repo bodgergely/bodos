@@ -28,7 +28,7 @@ void resched(void)
 	irqmask imask = disable();		// DISABLE INTERRUPTS
 	resched_counter++;
 	//klog(INFO ,"Inside resched, currpid: %d and resched counter is: %d.\n", currpid, resched_counter);
-	ProcEntryTable& procTable = getProcessTable();
+	ProcEntryTable& procTable = proctable();
 	ProcEntry* procOld;
 	ProcEntry* procNew;
 

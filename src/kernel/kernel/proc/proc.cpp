@@ -99,7 +99,7 @@ int kill(pid id)
 	return res;
 }
 
-ProcEntryTable& getProcessTable()
+ProcEntryTable& proctable()
 {
 	return *ptable;
 }

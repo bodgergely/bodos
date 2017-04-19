@@ -54,7 +54,7 @@ pid createproc(void* code, uint32_t stacksize, int prio, char* name, uint32_t na
 	//																		);
 
 	//while(1);
-	pid id = getProcessTable().insert(ProcEntry(code, stackpointer, stackmem), true);
+	pid id = proctable().insert(ProcEntry(code, stackpointer, stackmem), true);
 	//resched();
 }
 
