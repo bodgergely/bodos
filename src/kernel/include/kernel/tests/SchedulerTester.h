@@ -29,7 +29,7 @@ static void procedureOne(int a, int b, int c)
 {
 	while(true)
 	{
-		kprintf("Inside procedureTwo(): a: %d b: %d c: %d\n", a, b, c);
+		kprintf("Inside procedureOne(): a: %d b: %d c: %d\n", a, b, c);
 		unsigned long long res = longCalculation(1 << 26);
 		//kprintf("Calc res: %d\n", res);
 		ProcEntryTable& procTable = getProcessTable();
