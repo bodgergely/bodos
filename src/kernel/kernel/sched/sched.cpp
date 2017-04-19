@@ -49,7 +49,7 @@ void resched(void)
 	currpid = procTable.scheduleNextTask();
 	procNew = procTable.procEntry(currpid);
 	procNew->setStatus(PR_CURR);
-	restore(imask);		// ENABLE (RESTORE) INTERRUPTS
+	restore(imask);					// ENABLE (RESTORE) INTERRUPTS
 	ctxswitch(&(procOld->_sp), &(procNew->_sp));
 	return;
 }
