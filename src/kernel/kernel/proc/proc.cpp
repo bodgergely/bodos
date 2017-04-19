@@ -24,10 +24,24 @@ ProcEntry* procent(pid pid)
 	return ptable->procEntry(pid);
 }
 
+ReadyList& readylist()
+{
+	return *(ptable->getReadylist());
+}
+
 
 int userret(void)
 {
     return kill(gettid());
+}
+
+bool isvalid(pid id)
+{
+	ProcStatus status = procent(id)->getStatus();
+	if(status == PR_RUNNABLE || status == PR_CURR || status == PR_SUSPENDED)
+		return true;
+	else
+		return false;
 }
 
 int ready(pid id)
@@ -37,7 +51,7 @@ int ready(pid id)
 	ProcEntry* p = procent(id);
 	if(p->getStatus() == PR_RUNNABLE)
 		return PROC_ERR;
-	ptable->_readyList.insert(id);
+	readylist().insert(id);
 	return PROC_OK;
 }
 
@@ -47,25 +61,40 @@ int suspend(pid id)
 	if(!isvalid(id))
 		return PROC_NEX;
 	ProcEntry* pe = procent(id);
-	if(pre->)
-	ptable->_readyList.erase(id);
+	if(pe && pe->getStatus() == PR_RUNNABLE)
+		readylist().erase(id);
 	procent(id)->setStatus(PR_SUSPENDED);
 	return PROC_OK;
 }
 
 int kill(pid id)
 {
+	int res = PROC_OK;
 	if(!isvalid(id))
 			return PROC_NEX;
 	ProcEntry* p = procent(id);
-	if(p->getStatus() == PR_RUNNABLE)
-		suspend(pid);
+	if(p)
+	{
+		ProcStatus status = p->getStatus();
+		if(p && (status == PR_RUNNABLE || status == PR_CURR || status == PR_SUSPENDED))
+		{
+			if(suspend(id) == PROC_OK)
+			{
+				p->setStatus(PR_DEAD);
+				p->release();
+			}
+			else res = PROC_ERR;
+		}
+		else
+			res = PROC_NEX;
+	}
+	else
+		res = PROC_ERR;
 
-	p->setStatus(PR_DEAD);
+	if(res == PROC_OK)
+		resched();
 
-	p->release();
-	resched();
-	return PROC_OK;
+	return res;
 }
 
 ProcEntryTable& getProcessTable()

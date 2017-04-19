@@ -17,7 +17,7 @@
  */
 
 // defined in proc.h
-void userret(void);
+int userret(void);
 
 #define INITRET userret
 uint32_t* create_stack(uint32_t* stack, void* code);

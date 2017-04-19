@@ -23,6 +23,11 @@ extern void resched();
 
 typedef int pid;
 
+
+#define PROC_ERR -1
+#define PROC_OK 0
+#define PROC_NEX 1
+
 enum ProcStatus
 {
 	PR_CURR,
@@ -83,6 +88,18 @@ public:
 		_readyList.insert(id);
 		_count++;
 	}
+
+	bool erase(pid id)
+	{
+		if(_readyList.erase(id))
+		{
+			_count--;
+			return true;
+		}
+		else
+			return false;
+	}
+
 	pid pop()
 	{
 		pid p =_readyList.dequeue();
@@ -122,15 +139,13 @@ public:
 		pid id = _readyList.peek();
 		return _processList[id].getPriority();
 	}
-	void insertToReadyList(pid id)
-	{
-		_readyList.insert(id);
-	}
 	pid scheduleNextTask()
 	{
 		return _readyList.pop();
 	}
 
+
+	ReadyList*	getReadylist() {return &_readyList;}
 	int	totalCount() const {return _numOfProcesses;}
 	int readyCount() const {return _readyList.count();}
 
@@ -146,19 +161,20 @@ private:
 };
 
 
-void userret(void);
-
+int userret(void);
 ProcEntry* procent(pid pid);
 ProcEntryTable& getProcessTable();
 pid  gettid();
+ReadyList& readylist();
 
 /*
  * Process manipulation interface
  */
 pid  createproc(void* code, uint32_t stacksize, int prio, char* name, uint32_t nargs, ...);
-void ready(pid id);
-void suspend(pid id);
-void kill(pid id);
+int ready(pid id);
+int suspend(pid id);
+int kill(pid id);
+bool isvalid(pid id);
 
 namespace processes
 {

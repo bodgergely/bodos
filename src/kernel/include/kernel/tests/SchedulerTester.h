@@ -50,7 +50,7 @@ static void procedureTwo(int a, int b, int c, int d)
 	{
 		if(++counter > 5)
 		{
-			kprintf("procedureTwo will exit.\");
+			kprintf("procedureTwo will exit.\n");
 			break;
 		}
 		kprintf("Inside procedureTwo(): a: %d b: %d c: %d d: %d\n", a, b, c, d);

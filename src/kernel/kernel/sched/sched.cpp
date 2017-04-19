@@ -41,7 +41,7 @@ void resched(void)
 		}
 
 		procOld->setStatus(PR_RUNNABLE);
-		procTable.insertToReadyList(currpid);
+		readylist().insert(currpid);
 	}
 
 

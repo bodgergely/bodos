@@ -67,6 +67,36 @@ public:
 			*/
 
 	}
+	/*
+	 * erase all nodes with the value equal to elem
+	 */
+	int erase(const T& elem)
+	{
+		Node* curr = _head;
+		Node* prev = NULL;
+		int count = 0;
+		while(curr)
+		{
+			if(curr->value == elem)
+			{
+				if(prev)
+				{
+					prev->next = curr->next;
+				}
+				Node* next = curr->next;
+				delete curr;
+				curr = next;
+				count++;
+			}
+			else
+			{
+				prev = curr;
+				curr = curr->next;
+			}
+		}
+		return count;
+	}
+
 	T dequeue()
 	{
 		if(_head)
