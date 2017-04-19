@@ -27,7 +27,6 @@ class QueueTester : public Tester
 public:
 	virtual void run()
 	{
-
 		insertTest();
 		eraseTest();
 		klog(INFO, "Queue test okay\n");
@@ -39,8 +38,18 @@ private:
 		q.insert(5);
 		q.insert(5);
 		q.insert(5);
-		q.erase(5);
+		int count = q.erase(5);
+		assert_eq(3, count);
 		assert_eq(0, q.size());
+
+		q.insert(5);
+		q.insert(4);
+		q.insert(5);
+		q.insert(6);
+		q.insert(5);
+		count = q.erase(5);
+		assert_eq(3, count);
+		assert_eq(2, q.size());
 	}
 	void insertTest()
 	{

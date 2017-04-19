@@ -83,9 +83,13 @@ public:
 				{
 					prev->next = curr->next;
 				}
+				else
+					_head = curr->next;
+
 				Node* next = curr->next;
 				delete curr;
 				curr = next;
+				_size--;
 				count++;
 			}
 			else
@@ -134,7 +138,10 @@ public:
 		return T();
 	}
 
-	int size() const { return _size; }
+	int size() const
+	{
+		return _size;
+	}
 
 private:
 	Node* _head;
