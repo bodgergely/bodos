@@ -32,8 +32,8 @@ static void procedureOne(int a, int b, int c)
 		kprintf("Inside procedureOne(): a: %d b: %d c: %d\n", a, b, c);
 		unsigned long long res = longCalculation(1 << 26);
 		//kprintf("Calc res: %d\n", res);
-		ProcEntryTable& procTable = getProcessTable();
-		procTable.printReadyList();
+		//ProcEntryTable& procTable = getProcessTable();
+		//procTable.printReadyList();
 		//while(1);
 		//klog(INFO, "procTable: %d and procTable.procEntry(0): %d\n", &procTable, procTable.procEntry(0));
 		//procTable.procEntry(0)->print();
@@ -85,14 +85,45 @@ private:
 	void mainProc()
 	{
 		int c = 0;
+		bool suspendedPidOne = false;
 		while(true)
 		{
+			c++;
 			kprintf("Inside mainProc()\n");
 			unsigned long long res = longCalculation(1 << 26);
-			ProcEntryTable& procTable = getProcessTable();
-			procTable.printReadyList();
+			//ProcEntryTable& procTable = getProcessTable();
+			//procTable.printReadyList();
 			//while(1);
 			//kprintf("Calc res: %d\n", res);
+			if(c % 10 == 0){
+				if(suspendedPidOne == false)
+				{
+					klog(INFO, "Suspending pid 1\n");
+					suspendedPidOne = true;
+					suspend(1);
+				}
+				else
+				{
+					klog(INFO, "Resuming pid 1\n");
+					suspendedPidOne = false;
+					ready(1);
+				}
+			}
+
+			if(c % 10 == 0)
+			{
+				klog(INFO, "Trying to resume pid 2.\n");
+				int status = ready(2);
+				if(status == PROC_NEX)
+				{
+					klog(INFO, "Failed to resume pid 2 which is correct since it does not exist!\n");
+				}
+				else
+				{
+					klog(ERR, "ERROR - we should not have been able to resume dead process with pid 2!\n");
+				}
+			}
+
 			resched();
 		}
 	}

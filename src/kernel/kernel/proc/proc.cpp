@@ -69,6 +69,7 @@ int suspend(pid id)
 
 int kill(pid id)
 {
+	klog(INFO, "Trying to KILL pid: %d\n", id);
 	int res = PROC_OK;
 	if(!isvalid(id))
 			return PROC_NEX;
@@ -81,6 +82,7 @@ int kill(pid id)
 			if(suspend(id) == PROC_OK)
 			{
 				p->setStatus(PR_DEAD);
+				klog(INFO, "Killing pid: %d was successful. Releasing its stack memory.\n", id);
 				p->release();
 			}
 			else res = PROC_ERR;

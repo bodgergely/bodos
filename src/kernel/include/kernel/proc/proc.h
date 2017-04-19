@@ -60,7 +60,6 @@ public:
 	{
 		delete _stackmem;
 		_stackmem = NULL;
-		_status = PR_DEAD;
 	}
 
 	void print() const
