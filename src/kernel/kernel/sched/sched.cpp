@@ -25,7 +25,7 @@ int resched_counter = 0;
 
 void resched(void)
 {
-	disable();		// DISABLE INTERRUPTS
+	irqmask imask = disable();		// DISABLE INTERRUPTS
 	resched_counter++;
 	//klog(INFO ,"Inside resched, currpid: %d and resched counter is: %d.\n", currpid, resched_counter);
 	ProcEntryTable& procTable = getProcessTable();
@@ -49,7 +49,7 @@ void resched(void)
 	currpid = procTable.scheduleNextTask();
 	procNew = procTable.procEntry(currpid);
 	procNew->setStatus(PR_CURR);
-	enable();		// ENABLE INTERRUPTS
+	restore(imask);		// ENABLE INTERRUPTS
 	ctxswitch(&(procOld->_sp), &(procNew->_sp));
 	return;
 }
