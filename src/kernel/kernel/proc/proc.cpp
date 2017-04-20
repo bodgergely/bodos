@@ -3,16 +3,33 @@
 
 ProcEntryTable* 	ptable;
 
+static void nullproc();
+
+pid currpid = 1;
+
 namespace processes
 {
 void init()
 {
+	currpid = 1;	// pid of the main thread
 	ptable = new ProcEntryTable();
-	ptable->insert(ProcEntry(NULL,NULL,NULL,10,PR_CURR), false);		// represents the first boot kernel process and do not put it on the runnable list
+	kthread_create((void*)nullproc, MINSTACK, 0, PR_RUNNABLE, false, "nullproc", 0);	// represents the NULL process!
+	pid mainthreadid = ptable->insert(ProcEntry(NULL,NULL,NULL,10,PR_CURR));		// represents the first boot kernel process and do not put it on the runnable list
+	klog(INFO, "Main thread pid: %d\n", mainthreadid);
+	if(mainthreadid!=1)
+	{
+		klog(FATAL, "Main thread ID should be 1!\n");
+		while(1);
+	}
 }
 }
 
-pid currpid = 0;
+
+static void nullproc()
+{
+	while(true);
+}
+
 
 pid gettid()
 {
@@ -111,7 +128,7 @@ ProcEntryTable::ProcEntryTable() : _numOfProcesses(0)
 }
 
 
-pid ProcEntryTable::insert(const ProcEntry& proc, bool runnable)
+pid ProcEntryTable::insert(const ProcEntry& proc)
 {
 	int i=0;
 	for(;i<MAX_PROC_NUM;i++)
@@ -130,7 +147,8 @@ pid ProcEntryTable::insert(const ProcEntry& proc, bool runnable)
 	_taken[i] = true;
 	_numOfProcesses++;
 
-	if(runnable)
+	ProcStatus status = proc.getStatus();
+	if(status == PR_RUNNABLE)
 	{
 		_readyList.insert(i);
 	}

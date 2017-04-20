@@ -22,6 +22,31 @@ static void assert_eq(const T& left, const T& right)
 	}
 }
 
+class MaxHeapTester : public Tester
+{
+public:
+	virtual void run()
+	{
+		insertTest();
+		//eraseTest();
+		klog(INFO, "MaxHeap test okay\n");
+		while(1);
+	}
+private:
+	void insertTest()
+	{
+		priority_queue<int> pq;
+		pq.insert(7);
+		pq.insert(4);
+		pq.insert(9);
+		pq.insert(15);
+		pq.insert(2);
+		assert_eq(5, pq.size());
+		assert_eq(15, pq.top());
+	}
+};
+
+
 class QueueTester : public Tester
 {
 public:
@@ -83,9 +108,11 @@ class ContainerTester : public Tester
 public:
 	virtual void run()
 	{
+		_heap.run();
 		_queueTest.run();
 	}
 private:
+	MaxHeapTester _heap;
 	QueueTester _queueTest;
 };
 

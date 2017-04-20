@@ -50,7 +50,7 @@ public:
 	ProcEntry(void* code, void* sp, void* stackmem, int prio=10, ProcStatus=PR_RUNNABLE);
 	void setID(int id) { _id = id; }
 	pid getID() {return _id;}
-	ProcStatus getStatus() {return _status;}
+	ProcStatus getStatus() const {return _status;}
 	void	   setStatus(ProcStatus status) {_status = status;}
 	int	   getPriority() {return _priority;}
 	void   setPriority(int prio) { _priority = prio;}
@@ -127,7 +127,7 @@ class ProcEntryTable
 {
 public:
 	ProcEntryTable();
-	pid  insert(const ProcEntry& proc, bool runnable);
+	pid  insert(const ProcEntry& proc);
 	bool erase(pid id);
 	ProcEntry* procEntry(pid id)
 	{
@@ -169,7 +169,7 @@ ReadyList& 		readylist();
 /*
  * Process manipulation interface
  */
-pid  	kthread_create(void* code, uint32_t stacksize, int prio, char* name, uint32_t nargs, ...);
+pid 	kthread_create(void* code, uint32_t stacksize, int prio, ProcStatus start_status, bool do_resched, char* name, uint32_t nargs, ...);
 int 	ready(pid id);
 int 	suspend(pid id);
 int 	kill(pid id);

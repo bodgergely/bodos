@@ -11,6 +11,119 @@
 
 #include <kernel/mem/kmalloc.h>
 
+/*
+ * https://en.wikipedia.org/wiki/Heap_(data_structure)
+ *
+ * Thus the children of the node at position n would be at positions 2n + 1 and 2n + 2 in a zero-based array.
+ * This allows moving up or down the tree by doing simple index computations.
+ * Balancing a heap is done by sift-up or sift-down operations (swapping elements which are out of order).
+ *
+ * Different types of heaps implement the operations in different ways, but notably,
+ * insertion is often done by adding the new element at the end of the heap in the first available free space.
+ * This will generally violate the heap property, and so the elements are then sifted up until the heap property has been reestablished.
+ * Similarly, deleting the root is done by removing the root and then putting the last element in the root and sifting down to rebalance.
+ * Thus replacing is done by deleting the root and putting the new element in the root and sifting down,
+ * avoiding a sifting up step compared to pop (sift down of last element) followed by push (sift up of new element).
+ */
+
+template<class T>
+class priority_queue
+{
+public:
+	priority_queue() : _size(5), _count(0)
+	{
+		_mem = new T[_size];
+	}
+	priority_queue(int start_size) : _size(start_size), _count(0)
+	{
+		_mem = new T[_size];
+	}
+	~priority_queue()
+	{
+		delete _mem;
+		_mem = NULL;
+	}
+	bool insert(const T& elem)
+	{
+		if(_count == _size)
+		{
+			increase_mem(_size * 2);
+		}
+		int currpos = _count;
+		_mem[_count++] = elem;
+		// now we might have violated the heap property
+		swim(currpos);
+
+	}
+	int erase(const T& elem)
+	{
+
+	}
+	T dequeue()
+	{
+
+	}
+	void print() const
+	{
+		kprintf("Priority Queue content: \n");
+		for(int i=0;i<_count;i++)
+		{
+			kprintf("%d ", _mem[i]);
+		}
+	}
+	const T& top()
+	{
+		return _mem[0];
+	}
+
+	int size() const
+	{
+		return _count;
+	}
+private:
+	void increase_mem(int size)
+	{
+		T* t = new T[size];
+		for(int i=0;i<_count;i++)
+		{
+			t[i] = _mem[i];
+		}
+		_mem = t;
+	}
+	inline bool odd(int c)
+	{
+		if(c%2) return true;
+		else return false;
+	}
+
+	void swim(int pos)
+	{
+		const T& val = _mem[pos];
+		int parpos;
+		T& par = parent(pos, parpos);
+		if(pos == 0 || par >= val)
+			return;
+
+		_mem[pos] = par;
+		_mem[parpos] = val;
+		swim(parpos);
+	}
+
+	T& parent(int pos, int& parpos)
+	{
+		if(odd(pos))
+			parpos = (pos - 1) / 2;
+		else
+			parpos = (pos - 2) / 2;
+	}
+
+private:
+	T*	_mem;
+	int _size;
+	int	_count;
+};
+
+
 template<class T>
 class queue
 {

@@ -21,7 +21,7 @@ static uint32_t* getstack(uint32_t size, uint32_t** stackmem)
 }
 
 // TODO this is platform dependent code below!
-pid kthread_create(void* code, uint32_t stacksize, int prio, char* name, uint32_t nargs, ...)
+pid kthread_create(void* code, uint32_t stacksize, int prio, ProcStatus start_status, bool do_resched, char* name, uint32_t nargs, ...)
 {
 	// TODO stack should 16 byte aligned
 	if(stacksize < MINSTACK)
@@ -54,8 +54,9 @@ pid kthread_create(void* code, uint32_t stacksize, int prio, char* name, uint32_
 	//																		);
 
 	//while(1);
-	pid id = proctable().insert(ProcEntry(code, stackpointer, stackmem), true);
-	//resched();
+	pid id = proctable().insert(ProcEntry(code, stackpointer, stackmem, prio, start_status));
+	if(do_resched)
+		resched();
 }
 
 

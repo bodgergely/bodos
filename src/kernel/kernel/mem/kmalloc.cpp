@@ -24,6 +24,11 @@ void * operator new(size_t n) // throw( bad_alloc)
 	return kmalloc(n);
 }
 
+void * operator new[] (size_t n) // throw( bad_alloc)
+{
+	return kmalloc(n);
+}
+
 
 
 void operator delete(void * p) // throw()

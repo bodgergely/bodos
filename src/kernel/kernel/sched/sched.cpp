@@ -38,6 +38,8 @@ void resched(void)
 	{
 		if(procTable.readyCount() == 0 || procOld->getPriority() > procTable.highestReadyPrio())
 		{
+			readylist().print();
+			while(1);	// TODO implement priority queue for scheduler!!!
 			return;
 		}
 
