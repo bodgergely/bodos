@@ -21,7 +21,7 @@ static uint32_t* getstack(uint32_t size, uint32_t** stackmem)
 }
 
 // TODO this is platform dependent code below!
-pid createproc(void* code, uint32_t stacksize, int prio, char* name, uint32_t nargs, ...)
+pid kthread_create(void* code, uint32_t stacksize, int prio, char* name, uint32_t nargs, ...)
 {
 	// TODO stack should 16 byte aligned
 	if(stacksize < MINSTACK)

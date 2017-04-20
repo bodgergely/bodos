@@ -169,7 +169,7 @@ ReadyList& 		readylist();
 /*
  * Process manipulation interface
  */
-pid  	createproc(void* code, uint32_t stacksize, int prio, char* name, uint32_t nargs, ...);
+pid  	kthread_create(void* code, uint32_t stacksize, int prio, char* name, uint32_t nargs, ...);
 int 	ready(pid id);
 int 	suspend(pid id);
 int 	kill(pid id);

@@ -83,7 +83,7 @@ private:
 	{
 		for(int i=0;i<count;i++)
 		{
-			createproc((void*)procedureOne, 4 * PAGE_SIZE, 10, "ProcedureOne", i, i, i, i);
+			kthread_create((void*)procedureOne, 4 * PAGE_SIZE, 10, "ProcedureOne", i, i, i, i);
 		}
 		while(true)
 		{
@@ -94,8 +94,8 @@ private:
 	}
 	void simple()
 	{
-		createproc((void*)procedureOne, 8 * PAGE_SIZE, 10, "ProcedureOne", 3, 34, 56, 67);
-		createproc((void*)procedureTwo, 8 * PAGE_SIZE, 10, "ProcedureTwo", 4, 89, 435, 3434, 23);
+		kthread_create((void*)procedureOne, 8 * PAGE_SIZE, 10, "ProcedureOne", 3, 34, 56, 67);
+		kthread_create((void*)procedureTwo, 8 * PAGE_SIZE, 10, "ProcedureTwo", 4, 89, 435, 3434, 23);
 		klog(INFO, "After creating 2 processes in SchedulerTester\n");
 		mainProc();
 	}
