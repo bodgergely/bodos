@@ -30,7 +30,7 @@ static void procedureOne(int a, int b, int c)
 	while(true)
 	{
 		kprintf("Inside procedureOne(): a: %d b: %d c: %d\n", a, b, c);
-		unsigned long long res = longCalculation(1 << 26);
+		unsigned long long res = longCalculation(1 << 20);
 		//kprintf("Calc res: %d\n", res);
 		//ProcEntryTable& procTable = proctable();
 		//procTable.printReadyList();
@@ -55,8 +55,8 @@ static void procedureTwo(int a, int b, int c, int d)
 		}
 		kprintf("Inside procedureTwo(): a: %d b: %d c: %d d: %d\n", a, b, c, d);
 		unsigned long long res = longCalculation(1 << 26);
-		ProcEntryTable& procTable = proctable();
-		procTable.printReadyList();
+		//ProcEntryTable& procTable = proctable();
+		//procTable.printReadyList();
 		//kprintf("Calc res: %d\n", res);
 		//while(1);
 		resched();
@@ -75,13 +75,30 @@ public:
 	}
 	void run()
 	{
-		//pid createproc(void* code, uint32_t stacksize, int prio, char* name, uint32_t nargs, ...)
+		//spawnLots(347);
+		simple();
+	}
+private:
+	void spawnLots(int count)
+	{
+		for(int i=0;i<count;i++)
+		{
+			createproc((void*)procedureOne, 4 * PAGE_SIZE, 10, "ProcedureOne", i, i, i, i);
+		}
+		while(true)
+		{
+			klog(INFO, "Inside main proc\n");
+			longCalculation(1 << 26);
+			resched();
+		}
+	}
+	void simple()
+	{
 		createproc((void*)procedureOne, 8 * PAGE_SIZE, 10, "ProcedureOne", 3, 34, 56, 67);
 		createproc((void*)procedureTwo, 8 * PAGE_SIZE, 10, "ProcedureTwo", 4, 89, 435, 3434, 23);
 		klog(INFO, "After creating 2 processes in SchedulerTester\n");
 		mainProc();
 	}
-private:
 	void mainProc()
 	{
 		int c = 0;

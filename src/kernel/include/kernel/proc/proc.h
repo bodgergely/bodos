@@ -16,7 +16,7 @@
 #include <stdarg.h>
 #include <string.h>
 
-#define MAX_PROC_NUM 256
+#define MAX_PROC_NUM 1024
 #define MINSTACK (4)*(PAGE_SIZE)
 
 extern void resched();
@@ -160,20 +160,20 @@ private:
 };
 
 
-int userret(void);
-ProcEntry* procent(pid pid);
+int 			userret(void);
+ProcEntry* 		procent(pid pid);
 ProcEntryTable& proctable();
-pid  gettid();
-ReadyList& readylist();
+pid  			gettid();
+ReadyList& 		readylist();
 
 /*
  * Process manipulation interface
  */
-pid  createproc(void* code, uint32_t stacksize, int prio, char* name, uint32_t nargs, ...);
-int ready(pid id);
-int suspend(pid id);
-int kill(pid id);
-bool isvalid(pid id);
+pid  	createproc(void* code, uint32_t stacksize, int prio, char* name, uint32_t nargs, ...);
+int 	ready(pid id);
+int 	suspend(pid id);
+int 	kill(pid id);
+bool 	isvalid(pid id);
 
 namespace processes
 {

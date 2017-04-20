@@ -38,10 +38,6 @@ Temp ← (ESP);
 uint32_t* create_stack(void* code, uint32_t* stack, uint32_t nargs, uint32_t* argstart)
 {
 	uint32_t* argcurr = argstart = argstart + nargs - 1;
-	kprintf("argcurr: %d\n", *argcurr);
-	kprintf("argcurr: %d\n", *(argcurr-1));
-	kprintf("argcurr: %d\n", *(argcurr-2));
-
 	for(int i=0;i<nargs;i++)
 		*stack-- = *argcurr--;
 
