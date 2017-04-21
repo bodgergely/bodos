@@ -27,35 +27,43 @@ class MaxHeapTester : public Tester
 public:
 	virtual void run()
 	{
-		insertTest();
+		correctness();
 		//eraseTest();
 		klog(INFO, "MaxHeap test okay\n");
 		while(1);
 	}
 private:
-	void insertTest()
+
+	void correctness()
 	{
-		priority_queue<int> pq;
-		pq.insert(7);
-		pq.insert(4);
-		pq.insert(9);
-		pq.insert(15);
-		pq.insert(2);
-		assert_eq(5, pq.size());
-		assert_eq(15, pq.top());
+		priority_queue<unsigned> pq;
+		const int val_limit = 400;
+		const int count = 20;
 
-		pq.insert(8);
-		pq.insert(100);
-		pq.insert(11);
-		pq.insert(32);
+		for(int i=0;i<count;i++)
+		{
+			unsigned r = rand(val_limit);
+			pq.insert(r);
+		}
 
-		sortedPrint(pq);
-		pq.insert(1);
-		int val = pq.dequeue();
-		assert_eq(1, val);
-		assert_eq(0, pq.size());
+		pq.print();
+		pq.is_correct();
 
-		//while(1);
+		unsigned prev = val_limit;
+		for(int i=0;i<count;i++)
+		{
+			unsigned v = pq.dequeue();
+			pq.print();
+			pq.is_correct();
+			if(v > prev)
+			{
+				kprintf("Heap is not correct! It is not sorted correctly! Val: %d prev: %d\n", v, prev);
+				//pq.print();
+				while(1);
+			}
+			prev = v;
+		}
+
 	}
 
 	void sortedPrint(priority_queue<int>& pq)
@@ -67,6 +75,7 @@ private:
 			int v = pq.dequeue();
 			kprintf("%d ", v);
 		}
+		kprintf("\n");
 
 	}
 };

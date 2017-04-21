@@ -86,6 +86,24 @@ public:
 	{
 		return _count;
 	}
+
+	// debug
+	bool is_correct()
+	{
+		int limit = 0;
+		limit = ((_count - 1) - 1) / 2;
+
+		for(int i=0;i<=limit;i++)
+		{
+			if(_mem[i] < _mem[i*2+1] || (i*2+2 < _count && _mem[i] < _mem[i*2+2]))
+			{
+				kprintf("%d [%d] is smaller than either: %d [%d] or %d [%d]\n", _mem[i], i, _mem[i*2+1], i*2+1, _mem[i*2+2], i*2+2);
+				while(1);
+			}
+		}
+
+	}
+
 private:
 	void increase_mem(int size)
 	{
