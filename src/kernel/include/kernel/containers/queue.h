@@ -61,7 +61,12 @@ public:
 	}
 	T dequeue()
 	{
-
+		--_count;
+		T val = _mem[0];
+		int currpos = 0;
+		_mem[currpos] = _mem[_count];
+		sink(currpos);
+		return val;
 	}
 	void print() const
 	{
@@ -70,6 +75,7 @@ public:
 		{
 			kprintf("%d ", _mem[i]);
 		}
+		kprintf("\n");
 	}
 	const T& top()
 	{
@@ -98,9 +104,9 @@ private:
 
 	void swim(int pos)
 	{
-		const T& val = _mem[pos];
-		int parpos;
-		T& par = parent(pos, parpos);
+		const T val = _mem[pos];
+		int parpos = parent(pos);
+		const T& par = _mem[parpos];
 		if(pos == 0 || par >= val)
 			return;
 
@@ -109,12 +115,66 @@ private:
 		swim(parpos);
 	}
 
-	T& parent(int pos, int& parpos)
+	int parent(int pos)
 	{
+		int parpos;
 		if(odd(pos))
 			parpos = (pos - 1) / 2;
 		else
 			parpos = (pos - 2) / 2;
+
+		return parpos;
+	}
+
+	void children(int pos, int& left, int& right)
+	{
+		left = 2 * pos + 1;
+		right = 2 * pos + 2;
+		if(left >= _count)
+		{
+			left = -1;
+			right = -1;
+		}
+		else if(right >= _count)
+		{
+			right = -1;
+		}
+	}
+
+	void sink(int pos)
+	{
+		T val = _mem[pos];
+		int l, r;
+		children(pos, l, r);
+		if(l == -1 && r == -1)
+			return;
+		T* child;
+		int newpos;
+		if(r==-1)
+		{
+			child = &_mem[l];
+			newpos = l;
+		}
+		else
+		{
+			if(_mem[l] >= _mem[r])
+			{
+				child = &_mem[l];
+				newpos = l;
+			}
+			else
+			{
+				child = &_mem[r];
+				newpos = l;
+			}
+		}
+
+		if(val >= _mem[newpos])
+			return;
+
+		_mem[pos] = *child;
+		*child = val;
+		sink(newpos);
 	}
 
 private:

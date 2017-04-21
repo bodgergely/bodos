@@ -43,6 +43,31 @@ private:
 		pq.insert(2);
 		assert_eq(5, pq.size());
 		assert_eq(15, pq.top());
+
+		pq.insert(8);
+		pq.insert(100);
+		pq.insert(11);
+		pq.insert(32);
+
+		sortedPrint(pq);
+		pq.insert(1);
+		int val = pq.dequeue();
+		assert_eq(1, val);
+		assert_eq(0, pq.size());
+
+		//while(1);
+	}
+
+	void sortedPrint(priority_queue<int>& pq)
+	{
+		int count = pq.size();
+		kprintf("Priority Queue sorted: \n");
+		for(int i=0;i<count;i++)
+		{
+			int v = pq.dequeue();
+			kprintf("%d ", v);
+		}
+
 	}
 };
 
