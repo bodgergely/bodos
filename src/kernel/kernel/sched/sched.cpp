@@ -44,7 +44,7 @@ void resched(void)
 		}
 
 		procOld->setStatus(PR_RUNNABLE);
-		readylist().insert(currpid);
+		readylist().insert(procent_prio(currpid, procOld->getPriority()));
 	}
 
 

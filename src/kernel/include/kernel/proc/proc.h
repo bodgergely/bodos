@@ -52,7 +52,7 @@ public:
 	pid getID() {return _id;}
 	ProcStatus getStatus() const {return _status;}
 	void	   setStatus(ProcStatus status) {_status = status;}
-	int	   getPriority() {return _priority;}
+	int	   getPriority() const {return _priority;}
 	void   setPriority(int prio) { _priority = prio;}
 
 	// release resources
@@ -79,16 +79,29 @@ private:
 
 };
 
+
+
 class ReadyList
 {
 public:
-	void insert(pid id)
+	struct procent_prio
 	{
-		_readyList.insert(id);
+		typedef int key;
+		procent_prio() : id(-1), prio(-1) {}
+		procent_prio(pid id_, int prio_) : id(id_), prio(prio_){}
+		pid id;
+		int prio;
+	};
+	void insert(const procent_prio& pent)
+	{
+		_readyList.insert(pent);
 		_count++;
 	}
 
-	bool erase(pid id)
+	/*
+	 * the prio here can be anything in id, just provide the id in the structure that needs to be deleted
+	 */
+	bool erase(const procent_prio& id)
 	{
 		if(_readyList.erase(id))
 		{
@@ -101,14 +114,15 @@ public:
 
 	pid pop()
 	{
-		pid p =_readyList.dequeue();
+		procent_prio p =_readyList.dequeue();
 		_count--;
-		return p;
+		return p.id;
 	}
 
 	pid peek()
 	{
-		return _readyList.top();
+		procent_prio p = _readyList.top();
+		return p.id;
 	}
 
 	int count() const {return _count;}
@@ -121,9 +135,16 @@ public:
 	int size() const {return _readyList.size();}
 
 private:
-	priority_queue<pid>  _readyList;
-	int					 _count;
+	priority_queue<procent_prio>  _readyList;
+	int					 	   _count;
 };
+
+using procent_prio = ReadyList::procent_prio;
+bool operator==(const procent_prio& l, const procent_prio& r);
+bool operator!=(const procent_prio& l, const procent_prio& r);
+bool operator<(const procent_prio& l, const procent_prio& r);
+bool operator>=(const procent_prio& l, const procent_prio& r);
+
 
 class ProcEntryTable
 {

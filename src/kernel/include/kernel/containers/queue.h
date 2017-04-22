@@ -57,7 +57,7 @@ public:
 	}
 	int erase(const T& elem)
 	{
-		priority_queue<T>* pq = new priority_queue<int>();
+		priority_queue<T>* pq = new priority_queue<T>();
 		int c = _count;
 		int nc = 0;
 		for(int i = 0;i<c;i++)
