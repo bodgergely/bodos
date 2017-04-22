@@ -46,6 +46,7 @@ pid kthread_create(void* code, uint32_t stacksize, int prio, ProcStatus start_st
 	 we need to have it in assembly I think
 	 *
 	 */
+
 	uint32_t* argstart = &nargs + 1;
 	uint32_t* stackpointer = create_stack(code, stackstart, nargs, argstart);
 	//klog(INFO, "After stack setup: stack start: %d, val: %d\n stack - 4 where base should be: %d\n stack_pointer: %d and val: %d\n", stack_start, *(unsigned int*)stack_start,

@@ -31,7 +31,6 @@ public:
 		for(int i=0;i<200;i++)
 			eraseTest();
 		klog(INFO, "MaxHeap test okay\n");
-		while(1);
 	}
 private:
 	void eraseTest()
@@ -48,6 +47,7 @@ private:
 		int ec = pq.erase(5);
 		assert_eq(4, ec);
 		assert_eq(4, pq.top());
+		assert_eq(3, pq.size());
 
 		pq.insert(34);
 		assert_eq(34, pq.top());

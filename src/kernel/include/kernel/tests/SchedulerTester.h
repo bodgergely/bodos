@@ -32,9 +32,8 @@ static void procedureOne(int a, int b, int c)
 		kprintf("Inside procedureOne(): a: %d b: %d c: %d\n", a, b, c);
 		unsigned long long res = longCalculation(1 << 26);
 		//kprintf("Calc res: %d\n", res);
-		ProcEntryTable& procTable = proctable();
-		procTable.printReadyList();
-		while(1);
+		//ProcEntryTable& procTable = proctable();
+		//procTable.printReadyList();
 		//klog(INFO, "procTable: %d and procTable.procEntry(0): %d\n", &procTable, procTable.procEntry(0));
 		//procTable.procEntry(0)->print();
 		//procTable.procEntry(1)->print();

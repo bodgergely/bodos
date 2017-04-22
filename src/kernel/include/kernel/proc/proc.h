@@ -118,9 +118,11 @@ public:
 		_readyList.print();
 	}
 
+	int size() const {return _readyList.size();}
+
 private:
-	queue<pid>  _readyList;
-	int			_count;
+	priority_queue<pid>  _readyList;
+	int					 _count;
 };
 
 class ProcEntryTable
@@ -152,10 +154,10 @@ public:
 	void printReadyList() const { _readyList.print();}
 
 private:
-	int		  _numOfProcesses;
+	int		   _numOfProcesses;
 	ReadyList  _readyList;
-	ProcEntry _processList[MAX_PROC_NUM];
-	bool 	  _taken[MAX_PROC_NUM];
+	ProcEntry  _processList[MAX_PROC_NUM];
+	bool 	   _taken[MAX_PROC_NUM];
 
 };
 

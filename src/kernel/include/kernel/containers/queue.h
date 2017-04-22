@@ -90,7 +90,7 @@ public:
 		kprintf("Priority Queue content: \n");
 		for(int i=0;i<_count;i++)
 		{
-			kprintf("%d ", _mem[i]);
+			kprintf("%d[%d] ", _mem[i], &_mem[i]);
 		}
 		kprintf("\n");
 	}

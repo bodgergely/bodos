@@ -16,6 +16,10 @@ void init()
 	kthread_create((void*)nullproc, MINSTACK, 0, PR_RUNNABLE, false, "nullproc", 0);	// represents the NULL process!
 	pid mainthreadid = ptable->insert(ProcEntry(NULL,NULL,NULL,10,PR_CURR));		// represents the first boot kernel process and do not put it on the runnable list
 	klog(INFO, "Main thread pid: %d\n", mainthreadid);
+
+	//kprintf("radylist loc: %d\n", &(readylist()));
+	//ptable->getReadylist()->print();
+	//readylist().print();
 	if(mainthreadid!=1)
 	{
 		klog(FATAL, "Main thread ID should be 1!\n");
