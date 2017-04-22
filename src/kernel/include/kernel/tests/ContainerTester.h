@@ -35,66 +35,68 @@ public:
 private:
 	void eraseTest()
 	{
-		priority_queue<int> pq;
-		pq.insert(5);
-		pq.insert(5);
-		pq.insert(4);
-		pq.insert(5);
-		pq.insert(1);
-		pq.insert(2);
-		pq.insert(5);
-		assert_eq(5, pq.top());
-		int ec = pq.erase(5);
+		const int val = 56;
+		priority_queue<int, int> pq;
+		pq.insert(5, 1);
+		pq.insert(5, 1);
+		pq.insert(4, val);
+		pq.insert(5, 1);
+		pq.insert(1, val);
+		pq.insert(2, val);
+		pq.insert(5, 1);
+		assert_eq(5, pq.top().key);
+		int ec = pq.erase(1);
 		assert_eq(4, ec);
-		assert_eq(4, pq.top());
+		assert_eq(4, pq.top().key);
 		assert_eq(3, pq.size());
 
-		pq.insert(34);
-		assert_eq(34, pq.top());
-		pq.insert(34);
-		pq.insert(34);
-		assert_eq(3, pq.erase(34));
+		pq.insert(34, 4);
+		assert_eq(34, pq.top().key);
+		pq.insert(34, 4);
+		pq.insert(34, 4);
+		assert_eq(3, pq.erase(4));
 
 	}
 
 	void correctness()
 	{
-		priority_queue<unsigned> pq;
+		priority_queue<unsigned, unsigned> pq;
 		const int val_limit = 4000;
+		const int key_limit = 40000;
 		const int count = 2000;
 
 		for(int i=0;i<count;i++)
 		{
-			unsigned r = rand(val_limit);
-			pq.insert(r);
+			unsigned r = rand(key_limit);
+			pq.insert(r, rand(val_limit));
 		}
 
 		//pq.print();
 		pq.is_correct();
 
-		unsigned prev = val_limit;
+		unsigned prev = key_limit;
 		for(int i=0;i<count;i++)
 		{
-			unsigned v = pq.dequeue();
+			unsigned k = pq.dequeue().key;
 			//pq.print();
 			pq.is_correct();
-			if(v > prev)
+			if(k > prev)
 			{
-				kprintf("Heap is not correct! It is not sorted correctly! Val: %d prev: %d\n", v, prev);
+				kprintf("Heap is not correct! It is not sorted correctly! Val: %d prev: %d\n", k, prev);
 				//pq.print();
 				while(1);
 			}
-			prev = v;
+			prev = k;
 		}
 	}
 
-	void sortedPrint(priority_queue<int>& pq)
+	void sortedPrint(priority_queue<unsigned, unsigned>& pq)
 	{
 		int count = pq.size();
 		kprintf("Priority Queue sorted: \n");
 		for(int i=0;i<count;i++)
 		{
-			int v = pq.dequeue();
+			unsigned v = pq.dequeue().key;
 			kprintf("%d ", v);
 		}
 		kprintf("\n");

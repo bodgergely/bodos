@@ -26,24 +26,41 @@
  * avoiding a sifting up step compared to pop (sift down of last element) followed by push (sift up of new element).
  */
 
-template<class T>
+template<class K, class V>
+struct key_val
+{
+	key_val() {}
+	key_val(const K& key_, const V& val_) : key(key_), val(val_) {}
+	K key;
+	V val;
+};
+
+template<class K, class V>
 class priority_queue
 {
+	using keyval = key_val<K, V>;
 public:
 	priority_queue() : _size(5), _count(0)
 	{
-		_mem = new T[_size];
+		_mem = new keyval[_size];
 	}
 	priority_queue(int start_size) : _size(start_size), _count(0)
 	{
-		_mem = new T[_size];
+		_mem = new keyval[_size];
 	}
 	~priority_queue()
 	{
 		delete[] _mem;
 		_mem = NULL;
 	}
-	bool insert(const T& elem)
+
+
+	bool insert(const K& key, const V& val)
+	{
+		insert(keyval(key, val));
+	}
+
+	bool insert(const key_val<K, V>& elem)
 	{
 		if(_count == _size)
 		{
@@ -55,14 +72,18 @@ public:
 		swim(currpos);
 
 	}
-	int erase(const T& elem)
+
+	/*
+	 * delete all key-val pair wich has the given value
+	 */
+	int erase(const V& val)
 	{
-		priority_queue<T>* pq = new priority_queue<T>();
+		priority_queue<K, V>* pq = new priority_queue<K, V>();
 		int c = _count;
 		int nc = 0;
 		for(int i = 0;i<c;i++)
 		{
-			if(_mem[i]!=elem)
+			if(_mem[i].val!=val)
 			{
 				pq->insert(_mem[i]);
 				nc++;
@@ -76,25 +97,25 @@ public:
 		delete pq;
 		return c - nc;
 	}
-	T dequeue()
+	key_val<K, V> dequeue()
 	{
 		--_count;
-		T val = _mem[0];
+		keyval kv = _mem[0];
 		int currpos = 0;
 		_mem[currpos] = _mem[_count];
 		sink(currpos);
-		return val;
+		return kv;
 	}
 	void print() const
 	{
 		kprintf("Priority Queue content: \n");
 		for(int i=0;i<_count;i++)
 		{
-			kprintf("%d[%d] ", _mem[i], &_mem[i]);
+			kprintf("k: %d v: %d [%d] ", _mem[i].key, _mem[i].val, &_mem[i]);
 		}
 		kprintf("\n");
 	}
-	const T& top()
+	const key_val<K, V> top()
 	{
 		return _mem[0];
 	}
@@ -112,9 +133,9 @@ public:
 
 		for(int i=0;i<=limit;i++)
 		{
-			if(_mem[i] < _mem[i*2+1] || (i*2+2 < _count && _mem[i] < _mem[i*2+2]))
+			if(_mem[i].key < _mem[i*2+1].key || (i*2+2 < _count && _mem[i].key < _mem[i*2+2].key))
 			{
-				kprintf("%d [%d] is smaller than either: %d [%d] or %d [%d]\n", _mem[i], i, _mem[i*2+1], i*2+1, _mem[i*2+2], i*2+2);
+				kprintf("%d [%d] is smaller than either: %d [%d] or %d [%d]\n", _mem[i].key, i, _mem[i*2+1].key, i*2+1, _mem[i*2+2].key, i*2+2);
 				while(1);
 			}
 		}
@@ -124,7 +145,7 @@ public:
 private:
 	void increase_mem(int size)
 	{
-		T* t = new T[size];
+		keyval* t = new keyval[size];
 		for(int i=0;i<_count;i++)
 		{
 			t[i] = _mem[i];
@@ -140,14 +161,15 @@ private:
 
 	void swim(int pos)
 	{
-		const T val = _mem[pos];
+		const keyval kv = _mem[pos];
+		K key = kv.key;
 		int parpos = parent(pos);
-		const T& par = _mem[parpos];
-		if(pos == 0 || par >= val)
+		const keyval& par = _mem[parpos];
+		if(pos == 0 || par.key >= key)
 			return;
 
 		_mem[pos] = par;
-		_mem[parpos] = val;
+		_mem[parpos] = kv;
 		swim(parpos);
 	}
 
@@ -179,12 +201,13 @@ private:
 
 	void sink(int pos)
 	{
-		T val = _mem[pos];
+		keyval kv = _mem[pos];
+		K key = kv.key;
 		int l, r;
 		children(pos, l, r);
 		if(l == -1 && r == -1)
 			return;
-		T* child;
+		keyval* child;
 		int newpos;
 		if(r == -1)
 		{
@@ -193,7 +216,7 @@ private:
 		}
 		else
 		{
-			if(_mem[l] >= _mem[r])
+			if(_mem[l].key >= _mem[r].key)
 			{
 				child = &_mem[l];
 				newpos = l;
@@ -205,18 +228,18 @@ private:
 			}
 		}
 
-		if(val >= _mem[newpos])
+		if(key >= _mem[newpos].key)
 			return;
 
 		_mem[pos] = *child;
-		*child = val;
+		*child = kv;
 		sink(newpos);
 	}
 
 private:
-	T*	_mem;
-	int _size;
-	int	_count;
+	key_val<K, V>*	_mem;
+	int 			_size;
+	int				_count;
 };
 
 

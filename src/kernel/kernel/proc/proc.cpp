@@ -72,7 +72,7 @@ int ready(pid id)
 	ProcEntry* p = procent(id);
 	if(p->getStatus() == PR_RUNNABLE)
 		return PROC_ERR;
-	readylist().insert(procent_prio(id, p->getPriority()));
+	readylist().insert(id, p->getPriority());
 	return PROC_OK;
 }
 
@@ -83,7 +83,7 @@ int suspend(pid id)
 		return PROC_NEX;
 	ProcEntry* pe = procent(id);
 	if(pe && pe->getStatus() == PR_RUNNABLE)
-		readylist().erase(procent_prio(id, -1));
+		readylist().erase(id);
 	procent(id)->setStatus(PR_SUSPENDED);
 	return PROC_OK;
 }
@@ -154,7 +154,7 @@ pid ProcEntryTable::insert(const ProcEntry& proc)
 	ProcStatus status = proc.getStatus();
 	if(status == PR_RUNNABLE)
 	{
-		_readyList.insert(procent_prio(i, proc.getPriority()));
+		_readyList.insert(i, proc.getPriority());
 	}
 
 	return i;
@@ -184,33 +184,5 @@ ProcEntry::ProcEntry(void* code, void* sp, void* stackmem, int prio, ProcStatus 
 	//klog(INFO, "New process created with code: %d and stack: %d and prio: %d\n", _code, _sp, _priority);
 }
 
-
-bool operator==(const procent_prio& l, const procent_prio& r)
-{
-	if(l.id == r.id)
-		return true;
-	else return false;
-}
-bool operator!=(const procent_prio& l, const procent_prio& r)
-{
-	if(l == r)
-		return false;
-	else return true;
-}
-
-bool operator<(const procent_prio& l, const procent_prio& r)
-{
-	if(l.prio < r.prio)
-		return true;
-	else return false;
-}
-
-bool operator>=(const procent_prio& l, const procent_prio& r)
-{
-	if(l < r)
-		return false;
-	else
-		return true;
-}
 
 
