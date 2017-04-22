@@ -58,7 +58,7 @@ public:
 	// release resources
 	void release()
 	{
-		delete _stackmem;
+		kfree(_stackmem);
 		_stackmem = NULL;
 	}
 

@@ -84,6 +84,7 @@ int suspend(pid id)
 	ProcEntry* pe = procent(id);
 	if(pe && pe->getStatus() == PR_RUNNABLE)
 		readylist().erase(id);
+
 	procent(id)->setStatus(PR_SUSPENDED);
 	return PROC_OK;
 }

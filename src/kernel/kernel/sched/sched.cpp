@@ -32,6 +32,7 @@ void resched(void)
 	ProcEntry* procOld;
 	ProcEntry* procNew;
 
+	pid oldpid = currpid;
 	procOld = procTable.procEntry(currpid);
 
 	if(procOld->getStatus() == PR_CURR)
@@ -42,11 +43,13 @@ void resched(void)
 		}
 
 		procOld->setStatus(PR_RUNNABLE);
-		readylist().insert(currpid, procOld->getPriority());
 	}
 
-
 	currpid = procTable.scheduleNextTask();
+
+	if(procOld->getStatus() == PR_RUNNABLE)
+		readylist().insert(oldpid, procOld->getPriority());
+
 	procNew = procTable.procEntry(currpid);
 	procNew->setStatus(PR_CURR);
 	restore(imask);					// ENABLE (RESTORE) INTERRUPTS

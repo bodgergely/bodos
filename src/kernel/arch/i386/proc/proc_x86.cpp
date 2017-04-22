@@ -28,6 +28,7 @@ pid kthread_create(void* code, uint32_t stacksize, int prio, ProcStatus start_st
 		stacksize = MINSTACK;
 
 	uint32_t* stackmem;
+
 	uint32_t* stackstart =  getstack(stacksize, &stackmem);
 
 	//const int numOfArgsOnSTACK = 10;		// 11 if we count the return address
