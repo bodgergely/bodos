@@ -37,8 +37,8 @@ private:
 	void correctness()
 	{
 		priority_queue<unsigned> pq;
-		const int val_limit = 400;
-		const int count = 20;
+		const int val_limit = 4000;
+		const int count = 2000;
 
 		for(int i=0;i<count;i++)
 		{
@@ -46,14 +46,14 @@ private:
 			pq.insert(r);
 		}
 
-		pq.print();
+		//pq.print();
 		pq.is_correct();
 
 		unsigned prev = val_limit;
 		for(int i=0;i<count;i++)
 		{
 			unsigned v = pq.dequeue();
-			pq.print();
+			//pq.print();
 			pq.is_correct();
 			if(v > prev)
 			{
@@ -63,7 +63,6 @@ private:
 			}
 			prev = v;
 		}
-
 	}
 
 	void sortedPrint(priority_queue<int>& pq)

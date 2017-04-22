@@ -168,7 +168,7 @@ private:
 			return;
 		T* child;
 		int newpos;
-		if(r==-1)
+		if(r == -1)
 		{
 			child = &_mem[l];
 			newpos = l;
@@ -183,7 +183,7 @@ private:
 			else
 			{
 				child = &_mem[r];
-				newpos = l;
+				newpos = r;
 			}
 		}
 
