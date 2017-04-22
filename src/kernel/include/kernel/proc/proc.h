@@ -166,7 +166,6 @@ public:
 		return _readyList.pop();
 	}
 
-
 	ReadyList*	getReadylist() {return &_readyList;}
 	int	totalCount() const {return _numOfProcesses;}
 	int readyCount() const {return _readyList.count();}
