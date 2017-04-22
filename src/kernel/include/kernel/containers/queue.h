@@ -40,7 +40,7 @@ public:
 	}
 	~priority_queue()
 	{
-		delete _mem;
+		delete[] _mem;
 		_mem = NULL;
 	}
 	bool insert(const T& elem)
@@ -57,7 +57,24 @@ public:
 	}
 	int erase(const T& elem)
 	{
+		priority_queue<T>* pq = new priority_queue<int>();
+		int c = _count;
+		int nc = 0;
+		for(int i = 0;i<c;i++)
+		{
+			if(_mem[i]!=elem)
+			{
+				pq->insert(_mem[i]);
+				nc++;
+			}
+		}
 
+		delete[] _mem;
+		_mem = pq->_mem;
+		_size = pq->_size;
+		_count = pq->_count;
+		delete pq;
+		return c - nc;
 	}
 	T dequeue()
 	{
@@ -112,6 +129,7 @@ private:
 		{
 			t[i] = _mem[i];
 		}
+		delete _mem;
 		_mem = t;
 	}
 	inline bool odd(int c)

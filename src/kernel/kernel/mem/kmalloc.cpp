@@ -41,6 +41,11 @@ void operator delete(void* p, long unsigned int size) // throw()
 	kfree(p);
 }
 
+void operator delete[](void * p) // throw()
+{
+	kfree(p);
+}
+
 
 
 

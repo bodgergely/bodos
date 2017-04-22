@@ -28,11 +28,34 @@ public:
 	virtual void run()
 	{
 		correctness();
-		//eraseTest();
+		for(int i=0;i<200;i++)
+			eraseTest();
 		klog(INFO, "MaxHeap test okay\n");
 		while(1);
 	}
 private:
+	void eraseTest()
+	{
+		priority_queue<int> pq;
+		pq.insert(5);
+		pq.insert(5);
+		pq.insert(4);
+		pq.insert(5);
+		pq.insert(1);
+		pq.insert(2);
+		pq.insert(5);
+		assert_eq(5, pq.top());
+		int ec = pq.erase(5);
+		assert_eq(4, ec);
+		assert_eq(4, pq.top());
+
+		pq.insert(34);
+		assert_eq(34, pq.top());
+		pq.insert(34);
+		pq.insert(34);
+		assert_eq(3, pq.erase(34));
+
+	}
 
 	void correctness()
 	{
