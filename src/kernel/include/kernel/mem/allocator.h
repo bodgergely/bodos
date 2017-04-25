@@ -61,7 +61,6 @@ public:
 		Header* chunk = (Header*)_chunckList;
 
 		//kprintf("allocate: Size requested: %d, first chunk address: %d\n", numBytes, chunk);
-
 		// debug
 		/*Header* dchunk = chunk;
 		while(dchunk)
@@ -74,13 +73,19 @@ public:
 		*/
 		//
 
+		//klog(INFO, "Requested size: %d and iterating through the chunk...\n", numBytes);
 		while( (chunk && chunk->taken) || (chunk && chunk->size < numBytes))
 		{
+			if(chunk->taken != 1 && chunk->taken != 0)
+			{
+				klog(FATAL, "Heap corruption! chunk: %d and chunk->taken has value: %d and chunk->size: %d\n", chunk, chunk->taken, chunk->size);
+				while(1);
+			}
 			//kprintf("chunk: %d, taken: %d and chunk size: %d\n", chunk, chunk->taken, chunk->size);
 			prev = chunk;
 			chunk = (Header*)chunk->next;
 		}
-
+		//klog(INFO, "Found chunk at: %d, size:%d\n", chunk, chunk->size);
 
 		if(!chunk)
 			return NULL;

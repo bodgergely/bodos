@@ -28,9 +28,10 @@ public:
 	virtual void run()
 	{
 		correctness();
-		//for(int i=0;i<200;i++)		// TODO reenable - I am getting memory allocation problems after running this test
-		//	eraseTest();
+		for(int i=0;i<200;i++)		// TODO reenable - I am getting memory allocation problems after running this test
+			eraseTest();
 		klog(INFO, "MaxHeap test okay\n");
+		//while(1);
 	}
 private:
 	void eraseTest()
@@ -83,7 +84,7 @@ private:
 			pq.is_correct();
 			if(k > prev)
 			{
-				kprintf("Heap is not correct! It is not sorted correctly! Val: %d prev: %d\n", k, prev);
+				kprintf("priority_queue is not correct! It is not sorted correctly! Val: %d prev: %d\n", k, prev);
 				pq.print();
 				while(1);
 			}
@@ -167,7 +168,7 @@ class ContainerTester : public Tester
 public:
 	virtual void run()
 	{
-		//_heap.run();  // TODO reenable - I am getting memory allocation problems after running this test
+		_heap.run();
 		_queueTest.run();
 	}
 private:

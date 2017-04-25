@@ -50,7 +50,9 @@ public:
 	}
 	~priority_queue()
 	{
-		delete[] _mem;
+		kfree(_mem);
+		//klog(INFO, "Freed mem in ~priority_queue\n");
+
 		_mem = NULL;
 	}
 
@@ -62,6 +64,7 @@ public:
 
 	bool insert(const key_val<K, V>& elem)
 	{
+		//klog(INFO, "Inserting elem into prio queue\n");
 		if(_count == _size)
 		{
 			increase_mem(_size * 2);
@@ -70,6 +73,7 @@ public:
 		_mem[_count++] = elem;
 		// now we might have violated the heap property
 		swim(currpos);
+		//klog(INFO, "Insert done. _count: %d, size: %d, mem: %d\n", _count, _size, _mem);
 
 	}
 
@@ -90,11 +94,11 @@ public:
 			}
 		}
 
-		delete[] _mem;
+		kfree(_mem);
 		_mem = pq->_mem;
 		_size = pq->_size;
 		_count = pq->_count;
-		delete pq;
+		kfree(pq);
 		return c - nc;
 	}
 	key_val<K, V> dequeue()
@@ -146,12 +150,14 @@ private:
 	void increase_mem(int size)
 	{
 		keyval* t = new keyval[size];
+		//klog(INFO, "increased mem in prioirty_queue. original mem: %d and new mem: %d", _mem, t);
 		for(int i=0;i<_count;i++)
 		{
 			t[i] = _mem[i];
 		}
-		delete _mem;
+		kfree(_mem);
 		_mem = t;
+		_size  = size;
 	}
 	inline bool odd(int c)
 	{
@@ -261,7 +267,7 @@ public:
 		while(node)
 		{
 			Node* next = node->next;
-			delete node;
+			kfree(node);
 			node = next;
 		}
 
@@ -319,7 +325,7 @@ public:
 					_head = curr->next;
 
 				Node* next = curr->next;
-				delete curr;
+				kfree(curr);
 				curr = next;
 				_size--;
 				count++;
@@ -339,7 +345,7 @@ public:
 		{
 			T val = _head->value;
 			Node* next = _head->next;
-			delete _head;
+			kfree(_head);
 			_head = next;
 			_size--;
 			return val;
