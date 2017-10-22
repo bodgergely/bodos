@@ -1,0 +1,61 @@
+sudo apt-get install bochs
+sudo apt-get install bochs-x
+sudo apt-get install bochs-sdl
+sudo apt-get install qemu
+sudo apt-get install xorriso
+
+
+Download binutils source(2.29.1) and gcc source (7.2.0)
+
+First build binutils:
+
+export PREFIX="$HOME/opt/gcc-7.2.0"
+cd $BINUTILS_DIR
+mkdir build-binutils-2.29.1
+cd build-binutils
+../binutils-2.29.1/configure --prefix="$PREFIX" --disable-nls --disable-werror
+make -j5
+make install
+
+Build native(not the cross compiler) GCC:
+cd ~/gcc/gcc-7.2.0
+mkdir ../build-gcc-7.2.0
+cd build-gcc-7.2.0
+../gcc-7.2.0/configure --prefix="$PREFIX" --disable-nls --enable-languages=c,c++
+make -j5
+make install
+
+Test the version:
+$HOME/opt/gcc-x.y.z/bin/gcc --version
+
+Add it to the path:
+export PATH="$HOME/opt/gcc-x.y.z/bin:$PATH"
+
+
+Build the Cross binutils and GCC Cross compiler:
+
+export PREFIX="$HOME/opt/cross"
+export TARGET=i686-elf
+export PATH="$PREFIX/bin:$PATH"
+
+First we need to build binutils with the new compiler:
+cd $HOME/binutils
+mkdir build-cross-binutils-2.29.1-gcc.7.2.0
+cd build-binutils
+../binutils-2.29.1/configure --target=$TARGET --prefix="$PREFIX" --with-sysroot --disable-nls --disable-werror
+make
+make install
+
+Now build the cross GCC:
+cd $HOME/src
+ 
+# The $PREFIX/bin dir _must_ be in the PATH. We did that above.
+which -- $TARGET-as || echo $TARGET-as is not in the PATH
+ 
+mkdir build-gcc
+cd build-cross-gcc-7.2.0
+../gcc-7.2.0/configure --target=$TARGET --prefix="$PREFIX" --disable-nls --enable-languages=c,c++ --without-headers
+make all-gcc
+make all-target-libgcc
+make install-gcc
+make install-target-libgcc
