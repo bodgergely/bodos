@@ -13,6 +13,7 @@ void init()
 {
 	currpid = 1;	// pid of the main thread
 	ptable = new ProcEntryTable();
+    klog(INFO, "ProcEntryTable has been constructed.\n");
 	kthread_create((void*)nullproc, MINSTACK, 0, PR_RUNNABLE, false, "nullproc", 0);	// represents the NULL process!
 	pid mainthreadid = ptable->insert(ProcEntry(NULL,NULL,NULL,10,PR_CURR));		// represents the first boot kernel process and do not put it on the runnable list
 	klog(INFO, "Main thread pid: %d\n", mainthreadid);
@@ -129,6 +130,7 @@ ProcEntryTable& proctable()
 
 ProcEntryTable::ProcEntryTable() : _numOfProcesses(0)
 {
+    klog(INFO, "Inside ProcEntryTable ctor\n");
 	memset((void*)_taken, false, sizeof(_taken));
 }
 

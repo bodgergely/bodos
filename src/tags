@@ -1,0 +1,668 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+-preserve	kernel/Makefile	/^	cp -R --preserve=timestamps include\/. $(DESTDIR)$(INCLUDEDIR)\/.$/;"	m
+-preserve	libc/Makefile	/^	cp -R --preserve=timestamps include\/. $(DESTDIR)$(INCLUDEDIR)\/.$/;"	m
+ARCHDIR	kernel/Makefile	/^ARCHDIR=arch\/$(HOSTARCH)$/;"	m
+ARCHDIR	libc/Makefile	/^ARCHDIR=arch\/$(HOSTARCH)$/;"	m
+ARCH_FLAGS	kernel/Makefile	/^ARCH_FLAGS:=-Di386$/;"	m
+ARCH_I386_VGA_H	kernel/arch/i386/vga.h	2;"	d
+BINARIES	libc/Makefile	/^BINARIES=libk.a$/;"	m
+BOOTDIR	kernel/Makefile	/^BOOTDIR?=$(EXEC_PREFIX)\/boot$/;"	m
+BOO_PADDING	kernel/include/kernel/tests/MemoryTester.h	54;"	d
+BOO_PADDING	scratch/alloc.h	261;"	d
+Block	kernel/include/kernel/mem/allocator.h	/^	Block() : _start(NULL), _chunckList(NULL), _blockSize(0)$/;"	f	class:memory::Block
+Block	kernel/include/kernel/mem/allocator.h	/^	Block(void* addr, size_t size) : _start(addr), _chunckList(addr), _blockSize(size)$/;"	f	class:memory::Block
+Block	kernel/include/kernel/mem/allocator.h	/^class Block$/;"	c	namespace:memory
+Block	scratch/alloc.h	/^	Block() : _start(NULL), _chunckList(NULL), _blockSize(0)$/;"	f	class:Block
+Block	scratch/alloc.h	/^	Block(void* addr, size_t size) : _start(addr), _chunckList(addr), _blockSize(size)$/;"	f	class:Block
+Block	scratch/alloc.h	/^class Block$/;"	c
+Boo	kernel/include/kernel/tests/MemoryTester.h	/^	Boo() {}$/;"	f	class:memory::Boo
+Boo	kernel/include/kernel/tests/MemoryTester.h	/^	Boo(int i, int j) : _foo(i,j)$/;"	f	class:memory::Boo
+Boo	kernel/include/kernel/tests/MemoryTester.h	/^class Boo$/;"	c	namespace:memory
+Boo	scratch/alloc.h	/^	Boo() {}$/;"	f	class:Boo
+Boo	scratch/alloc.h	/^	Boo(int i, int j) : _foo(i,j)$/;"	f	class:Boo
+Boo	scratch/alloc.h	/^class Boo$/;"	c
+CFLAGS	libc/Makefile	/^CFLAGS:=$(CFLAGS) $(ARCH_CFLAGS)$/;"	m
+CFLAGS	libc/Makefile	/^CFLAGS:=$(CFLAGS) -ffreestanding -Wall -Wextra$/;"	m
+CFLAGS	libc/Makefile	/^CFLAGS?=-O2 -g$/;"	m
+CHAR	kernel/kernel/kprintf.c	/^	CHAR,$/;"	e	enum:arg_type	file:
+CPPFLAGS	kernel/Makefile	/^CPPFLAGS:=$(CPPFLAGS) $(KERNEL_ARCH_CPPFLAGS)$/;"	m
+CPPFLAGS	kernel/Makefile	/^CPPFLAGS:=$(CPPFLAGS) -D__is_kernel -Iinclude -ffreestanding -Wall -Wextra$/;"	m
+CPPFLAGS	kernel/Makefile	/^CPPFLAGS=-O2 -g -fno-exceptions -fno-rtti$/;"	m
+CPPFLAGS	libc/Makefile	/^CPPFLAGS:=$(CPPFLAGS) $(ARCH_CPPFLAGS)$/;"	m
+CPPFLAGS	libc/Makefile	/^CPPFLAGS:=$(CPPFLAGS) -D__is_libc -Iinclude$/;"	m
+CPPFLAGS	libc/Makefile	/^CPPFLAGS?=$/;"	m
+CURSOR_H	kernel/arch/i386/cursor.h	2;"	d
+ContainerTester	kernel/include/kernel/tests/ContainerTester.h	/^class ContainerTester : public Tester$/;"	c
+DEBUG_H	kernel/include/kernel/debug.h	2;"	d
+DESTDIR	kernel/Makefile	/^DESTDIR?=$/;"	m
+DESTDIR	libc/Makefile	/^DESTDIR?=$/;"	m
+DOUBLE	kernel/kernel/kprintf.c	/^	DOUBLE,$/;"	e	enum:arg_type	file:
+EOI	kernel/arch/i386/interrupt_x86.h	12;"	d
+ERR	kernel/include/kernel/kprintf.h	/^	ERR,$/;"	e	enum:log_level
+EXEC_PREFIX	kernel/Makefile	/^EXEC_PREFIX?=$(PREFIX)$/;"	m
+EXEC_PREFIX	libc/Makefile	/^EXEC_PREFIX?=$(PREFIX)$/;"	m
+FALSE	kernel/include/kernel/header.h	13;"	d
+FALSE	kernel/include/kernel/system.h	7;"	d
+FATAL	kernel/include/kernel/kprintf.h	/^	FATAL$/;"	e	enum:log_level
+FB_COMMAND_PORT	kernel/arch/i386/cursor.c	4;"	d	file:
+FB_DATA_PORT	kernel/arch/i386/cursor.c	5;"	d	file:
+FB_HIGH_BYTE_COMMAND	kernel/arch/i386/cursor.c	8;"	d	file:
+FB_LOW_BYTE_COMMAND	kernel/arch/i386/cursor.c	9;"	d	file:
+FOO_PADDING	kernel/include/kernel/tests/MemoryTester.h	21;"	d
+FOO_PADDING	scratch/alloc.h	228;"	d
+FRAME_BUFFER	kernel/include/kernel/kprintf.h	/^FRAME_BUFFER$/;"	e	enum:log_target
+FREEOBJS	libc/Makefile	/^FREEOBJS=\\$/;"	m
+Foo	kernel/include/kernel/tests/MemoryTester.h	/^	Foo() : _i(0), _j(0)$/;"	f	class:memory::Foo
+Foo	kernel/include/kernel/tests/MemoryTester.h	/^	Foo(int i, int j) : _i(i), _j(j)$/;"	f	class:memory::Foo
+Foo	kernel/include/kernel/tests/MemoryTester.h	/^class Foo$/;"	c	namespace:memory
+Foo	scratch/alloc.h	/^	Foo() : _i(0), _j(0)$/;"	f	class:Foo
+Foo	scratch/alloc.h	/^	Foo(int i, int j) : _i(i), _j(j)$/;"	f	class:Foo
+Foo	scratch/alloc.h	/^class Foo$/;"	c
+GDT_H	kernel/arch/i386/gdt.h	2;"	d
+GUARD_COUNT	kernel/include/kernel/tests/MemoryTester.h	/^static const int GUARD_COUNT = 700;$/;"	m	class:memory::MemoryTester
+GUARD_STRING_SIZE	kernel/include/kernel/tests/MemoryTester.h	/^static const int GUARD_STRING_SIZE = 90;$/;"	m	class:memory::MemoryTester
+HOST	kernel/Makefile	/^HOST?=DEFAULT_HOST$/;"	m
+HOST	libc/Makefile	/^HOST?=DEFAULT_HOST$/;"	m
+HOSTEDOBJS	libc/Makefile	/^HOSTEDOBJS=\\$/;"	m
+Header	kernel/include/kernel/mem/allocator.h	/^	Header(size_t size_, void* prev_, void* next_, bool taken_) : size(size_), prev(prev_), next(next_), taken(taken_) {}$/;"	f	struct:memory::Header
+Header	kernel/include/kernel/mem/allocator.h	/^struct Header$/;"	s	namespace:memory
+Header	scratch/alloc.h	/^	Header(size_t size_, void* prev_, void* next_, bool taken_) : size(size_), prev(prev_), next(next_), taken(taken_) {}$/;"	f	struct:Header
+Header	scratch/alloc.h	/^struct Header$/;"	s
+Heap	kernel/include/kernel/mem/allocator.h	/^class Heap$/;"	c	namespace:memory
+Heap	scratch/alloc.h	/^class Heap$/;"	c
+ICU1	kernel/arch/i386/interrupt_x86.h	4;"	d
+ICU2	kernel/arch/i386/interrupt_x86.h	5;"	d
+IDT_ENTRY_SIZE	kernel/arch/i386/idt.c	4;"	d	file:
+IDT_H	kernel/arch/i386/idt.h	2;"	d
+IMR1	kernel/arch/i386/interrupt_x86.h	9;"	d
+IMR2	kernel/arch/i386/interrupt_x86.h	10;"	d
+INCLUDEDIR	kernel/Makefile	/^INCLUDEDIR?=$(PREFIX)\/include$/;"	m
+INCLUDEDIR	libc/Makefile	/^INCLUDEDIR?=$(PREFIX)\/include$/;"	m
+INFO	kernel/include/kernel/kprintf.h	/^	INFO,$/;"	e	enum:log_level
+INITRET	kernel/arch/i386/proc/stack.h	22;"	d
+INIT_X86_H	kernel/arch/i386/init.h	2;"	d
+INT	kernel/kernel/kprintf.c	/^	INT,$/;"	e	enum:arg_type	file:
+INTERRUPTS_H	kernel/include/kernel/interrupt.h	2;"	d
+INTERRUPTS_X86_H	kernel/arch/i386/interrupt_x86.h	2;"	d
+INTERRUPT_X86_H	kernel/arch/i386/isr.h	3;"	d
+IO_H	kernel/arch/i386/io.h	2;"	d
+IRQ_H	kernel/arch/i386/irq.h	2;"	d
+IRQ_ROUTINE	kernel/arch/i386/isr_irq.s	/^IRQ_ROUTINE 0$/;"	l
+IRQ_ROUTINE	kernel/arch/i386/isr_irq.s	/^IRQ_ROUTINE 1$/;"	l
+IRQ_ROUTINE	kernel/arch/i386/isr_irq.s	/^IRQ_ROUTINE 10$/;"	l
+IRQ_ROUTINE	kernel/arch/i386/isr_irq.s	/^IRQ_ROUTINE 11$/;"	l
+IRQ_ROUTINE	kernel/arch/i386/isr_irq.s	/^IRQ_ROUTINE 12$/;"	l
+IRQ_ROUTINE	kernel/arch/i386/isr_irq.s	/^IRQ_ROUTINE 13$/;"	l
+IRQ_ROUTINE	kernel/arch/i386/isr_irq.s	/^IRQ_ROUTINE 14$/;"	l
+IRQ_ROUTINE	kernel/arch/i386/isr_irq.s	/^IRQ_ROUTINE 15$/;"	l
+IRQ_ROUTINE	kernel/arch/i386/isr_irq.s	/^IRQ_ROUTINE 2$/;"	l
+IRQ_ROUTINE	kernel/arch/i386/isr_irq.s	/^IRQ_ROUTINE 3$/;"	l
+IRQ_ROUTINE	kernel/arch/i386/isr_irq.s	/^IRQ_ROUTINE 4$/;"	l
+IRQ_ROUTINE	kernel/arch/i386/isr_irq.s	/^IRQ_ROUTINE 5$/;"	l
+IRQ_ROUTINE	kernel/arch/i386/isr_irq.s	/^IRQ_ROUTINE 6$/;"	l
+IRQ_ROUTINE	kernel/arch/i386/isr_irq.s	/^IRQ_ROUTINE 7$/;"	l
+IRQ_ROUTINE	kernel/arch/i386/isr_irq.s	/^IRQ_ROUTINE 8$/;"	l
+IRQ_ROUTINE	kernel/arch/i386/isr_irq.s	/^IRQ_ROUTINE 9$/;"	l
+ITER_COUNT	kernel/include/kernel/tests/MemoryTester.h	/^static const int ITER_COUNT = 100000;$/;"	m	class:memory::MemoryTester
+KERNEL_ENTRY_IN_PAGEDIR	kernel/arch/i386/paging.c	19;"	d	file:
+KERNEL_OBJS	kernel/Makefile	/^KERNEL_OBJS=\\$/;"	m
+KEYBOARD_H	kernel/arch/i386/keyboard.h	2;"	d
+KLOG_H	kernel/include/kernel/klog.h	2;"	d
+KMALLOC_H	kernel/include/kernel/mem/kmalloc.h	2;"	d
+KPRINTF_H	kernel/include/kernel/kprintf.h	2;"	d
+LDFLAGS	kernel/Makefile	/^LDFLAGS:=$(LDFLAGS) $(KERNEL_ARCH_LDFLAGS)$/;"	m
+LDFLAGS	kernel/Makefile	/^LDFLAGS:=$(LDFLAGS)$/;"	m
+LDFLAGS	kernel/Makefile	/^LDFLAGS=$/;"	m
+LDFLAGS	libc/Makefile	/^LDFLAGS?=$/;"	m
+LIBDIR	libc/Makefile	/^LIBDIR?=$(EXEC_PREFIX)\/lib$/;"	m
+LIBK_CFLAGS	libc/Makefile	/^LIBK_CFLAGS:=$(CFLAGS)$/;"	m
+LIBK_CFLAGS	libc/Makefile	/^LIBK_CFLAGS:=$(LIBK_CFLAGS) $(KERNEL_ARCH_CFLAGS)$/;"	m
+LIBK_CPPFLAGS	libc/Makefile	/^LIBK_CPPFLAGS:=$(CPPFLAGS) -D__is_libk$/;"	m
+LIBK_CPPFLAGS	libc/Makefile	/^LIBK_CPPFLAGS:=$(LIBK_CPPFLAGS) $(KERNEL_ARCH_CPPFLAGS)$/;"	m
+LIBK_OBJS	libc/Makefile	/^LIBK_OBJS=$(FREEOBJS:.o=.libk.o)$/;"	m
+LIBS	kernel/Makefile	/^LIBS:=$(LIBS) $(KERNEL_ARCH_LIBS)$/;"	m
+LIBS	kernel/Makefile	/^LIBS:=$(LIBS) -nostdlib -lk -lgcc$/;"	m
+LIBS	kernel/Makefile	/^LIBS=$/;"	m
+LIBS	libc/Makefile	/^LIBS?=$/;"	m
+LINK_LIST	kernel/Makefile	/^LINK_LIST=\\$/;"	m
+MAX_PROC_NUM	kernel/include/kernel/proc/proc.h	19;"	d
+MINSTACK	kernel/include/kernel/proc/proc.h	20;"	d
+MaxHeapTester	kernel/include/kernel/tests/ContainerTester.h	/^class MaxHeapTester : public Tester$/;"	c
+MemoryTester	kernel/include/kernel/tests/MemoryTester.h	/^	MemoryTester() : _guardAllocCount(0), _allocCount(0), _iters(0)$/;"	f	class:memory::MemoryTester
+MemoryTester	kernel/include/kernel/tests/MemoryTester.h	/^class MemoryTester$/;"	c	namespace:memory
+MemoryTester	scratch/alloc.h	/^	MemoryTester() : _allocCount(0), _iters(0)$/;"	f	class:MemoryTester
+MemoryTester	scratch/alloc.h	/^class MemoryTester$/;"	c
+NULL	kernel/include/kernel/containers/queue.h	10;"	d
+NUM_DYNAMIC_KERNEL_PAGE_TABLES	kernel/arch/i386/paging.c	94;"	d	file:
+NUM_KERNEL_PAGE_TABLES_AT_BOOT	kernel/arch/i386/paging.c	20;"	d	file:
+NUM_OF_GDT_ENTRIES	kernel/arch/i386/gdt.h	6;"	d
+NUM_OF_IDT_ENTRIES	kernel/arch/i386/idt.c	3;"	d	file:
+NUM_OF_MEMORIES	kernel/arch/i386/paging.c	299;"	d	file:
+NUM_OF_PDE	kernel/arch/i386/paging.h	10;"	d
+NUM_OF_PTE	kernel/arch/i386/paging.h	11;"	d
+NUM_PAGES_HEAP	kernel/include/kernel/mem/kmalloc.h	7;"	d
+NUM_PAGES_HEAP	scratch/alloc.h	203;"	d
+Node	kernel/include/kernel/containers/queue.h	/^	Node() : next(NULL) {}$/;"	f	struct:queue::Node
+Node	kernel/include/kernel/containers/queue.h	/^	Node(const T& val) : value(val), next(NULL) {}$/;"	f	struct:queue::Node
+Node	kernel/include/kernel/containers/queue.h	/^struct Node$/;"	s	class:queue
+OBJ	kernel/Makefile	/^	OBJ=`$(CC) $(CPPFLAGS) $(LDFLAGS) -print-file-name=$(@F)` && cp "$$OBJ" $@$/;"	m
+OBJS	kernel/Makefile	/^OBJS=\\$/;"	m
+OBJS	libc/Makefile	/^OBJS=\\$/;"	m
+OCR1	kernel/arch/i386/interrupt_x86.h	7;"	d
+OCR2	kernel/arch/i386/interrupt_x86.h	8;"	d
+PAGE_ENTRY_MASK	kernel/arch/i386/paging.c	21;"	d	file:
+PAGE_SIZE	kernel/arch/i386/paging.h	12;"	d
+PAGE_SIZE	kernel/include/kernel/mem/paging.h	6;"	d
+PAGE_SIZE	scratch/alloc.h	7;"	d
+PAGING_H	kernel/arch/i386/paging.h	2;"	d
+PHYSICAL_MEM_OFFSET	kernel/arch/i386/paging.h	9;"	d
+POINTER	kernel/kernel/kprintf.c	/^	POINTER,$/;"	e	enum:arg_type	file:
+PREFIX	kernel/Makefile	/^PREFIX?=\/usr\/local$/;"	m
+PREFIX	libc/Makefile	/^PREFIX?=\/usr\/local$/;"	m
+PROC_ERR	kernel/include/kernel/proc/proc.h	27;"	d
+PROC_NEX	kernel/include/kernel/proc/proc.h	29;"	d
+PROC_OK	kernel/include/kernel/proc/proc.h	28;"	d
+PR_CURR	kernel/include/kernel/proc/proc.h	/^	PR_CURR,$/;"	e	enum:ProcStatus
+PR_DEAD	kernel/include/kernel/proc/proc.h	/^	PR_DEAD,$/;"	e	enum:ProcStatus
+PR_NA	kernel/include/kernel/proc/proc.h	/^	PR_NA$/;"	e	enum:ProcStatus
+PR_RUNNABLE	kernel/include/kernel/proc/proc.h	/^	PR_RUNNABLE,$/;"	e	enum:ProcStatus
+PR_SUSPENDED	kernel/include/kernel/proc/proc.h	/^	PR_SUSPENDED,$/;"	e	enum:ProcStatus
+ProcEntry	kernel/include/kernel/proc/proc.h	/^class ProcEntry$/;"	c
+ProcEntry	kernel/kernel/proc/proc.cpp	/^ProcEntry::ProcEntry() : _code(NULL), _sp(NULL), _stackmem(NULL), _id(-1), _status(PR_NA), _priority(10)$/;"	f	class:ProcEntry
+ProcEntry	kernel/kernel/proc/proc.cpp	/^ProcEntry::ProcEntry(void* code, void* sp, void* stackmem, int prio, ProcStatus status) : _code(code), _sp(sp), _stackmem(stackmem), _id(-1), _status(status), _priority(prio)$/;"	f	class:ProcEntry
+ProcEntryTable	kernel/include/kernel/proc/proc.h	/^class ProcEntryTable$/;"	c
+ProcEntryTable	kernel/kernel/proc/proc.cpp	/^ProcEntryTable::ProcEntryTable() : _numOfProcesses(0)$/;"	f	class:ProcEntryTable
+ProcStatus	kernel/include/kernel/proc/proc.h	/^enum ProcStatus$/;"	g
+QueueTester	kernel/include/kernel/tests/ContainerTester.h	/^class QueueTester : public Tester$/;"	c
+RAND_MAX	kernel/include/kernel/utils/random.h	17;"	d
+ReadyList	kernel/include/kernel/proc/proc.h	/^class ReadyList$/;"	c
+SERIALPORT_H	kernel/arch/i386/serialport_x86.h	2;"	d
+SERIAL_COM1_BASE	kernel/arch/i386/serialport.c	11;"	d	file:
+SERIAL_DATA_PORT	kernel/arch/i386/serialport.c	13;"	d	file:
+SERIAL_FIFO_COMMAND_PORT	kernel/arch/i386/serialport.c	14;"	d	file:
+SERIAL_LINE_COMMAND_PORT	kernel/arch/i386/serialport.c	15;"	d	file:
+SERIAL_LINE_ENABLE_DLAB	kernel/arch/i386/serialport.c	25;"	d	file:
+SERIAL_LINE_STATUS_PORT	kernel/arch/i386/serialport.c	17;"	d	file:
+SERIAL_MODEM_COMMAND_PORT	kernel/arch/i386/serialport.c	16;"	d	file:
+SERIAL_PORT	kernel/include/kernel/kprintf.h	/^SERIAL_PORT,$/;"	e	enum:log_target
+SIZE	kernel/include/kernel/tests/MemoryTester.h	107;"	d
+SIZE	scratch/alloc.h	288;"	d
+SRC_KERNEL_ARCH_I386_SCHED_STACK_H_	kernel/arch/i386/proc/stack.h	9;"	d
+SRC_KERNEL_ARCH_I386_UTILS_RDTSC_H_	kernel/arch/i386/utils/rdtsc.h	9;"	d
+SRC_KERNEL_INCLUDE_KERNEL_MEM_MEMTESTER_H_	kernel/include/kernel/tests/MemoryTester.h	9;"	d
+SRC_KERNEL_INCLUDE_KERNEL_PROC_PROC_H_	kernel/include/kernel/proc/proc.h	9;"	d
+SRC_KERNEL_INCLUDE_KERNEL_SCHED_CTXSWITCH_H_	kernel/include/kernel/sched/ctxswitch.h	9;"	d
+SRC_KERNEL_INCLUDE_KERNEL_SCHED_SCHED_H_	kernel/include/kernel/sched/sched.h	9;"	d
+SRC_KERNEL_INCLUDE_KERNEL_SCHED_STACK_H_	kernel/include/kernel/sched/stack.h	9;"	d
+SRC_KERNEL_INCLUDE_KERNEL_TESTS_CONTAINERTESTER_H_	kernel/include/kernel/tests/ContainerTester.h	9;"	d
+SRC_KERNEL_INCLUDE_KERNEL_TESTS_RANDOMTEST_H_	kernel/include/kernel/tests/RandomTest.h	9;"	d
+SRC_KERNEL_INCLUDE_KERNEL_TESTS_SCHEDULERTESTER_H_	kernel/include/kernel/tests/SchedulerTester.h	9;"	d
+SRC_KERNEL_INCLUDE_KERNEL_TESTS_TESTCENTER_H_	kernel/include/kernel/tests/TestCenter.h	9;"	d
+SRC_KERNEL_INCLUDE_KERNEL_TESTS_TESTER_H_	kernel/include/kernel/tests/Tester.h	9;"	d
+SRC_KERNEL_INCLUDE_KERNEL_UTILS_RANDOM_H_	kernel/include/kernel/utils/random.h	9;"	d
+SRC_KERNEL_INCLUDE_KERNEL_UTILS_RDTSC_H_	kernel/include/kernel/utils/rdtsc.h	9;"	d
+STRING	kernel/kernel/kprintf.c	/^	STRING$/;"	e	enum:arg_type	file:
+STRING_H	libc/include/string.h	2;"	d
+SYSTEM_H	kernel/include/kernel/system.h	2;"	d
+SchedulerTester	kernel/include/kernel/tests/SchedulerTester.h	/^	SchedulerTester()$/;"	f	class:SchedulerTester
+SchedulerTester	kernel/include/kernel/tests/SchedulerTester.h	/^class SchedulerTester$/;"	c
+Shape	kernel/include/kernel/tests/MemoryTester.h	/^	Shape(int i) :_v(i) {}$/;"	f	class:memory::Shape
+Shape	kernel/include/kernel/tests/MemoryTester.h	/^class Shape$/;"	c	namespace:memory
+TIMER_H	kernel/include/kernel/timer.h	2;"	d
+TIMER_OBSERVER_MAX	kernel/include/kernel/timer.h	7;"	d
+TRACE	kernel/include/kernel/kprintf.h	/^	TRACE,$/;"	e	enum:log_level
+TRUE	kernel/include/kernel/header.h	12;"	d
+TRUE	kernel/include/kernel/system.h	6;"	d
+TTY_H	kernel/include/kernel/tty.h	2;"	d
+TestCenter	kernel/include/kernel/tests/TestCenter.h	/^class TestCenter$/;"	c
+Tester	kernel/include/kernel/tests/Tester.h	/^	Tester() {}$/;"	f	class:Tester
+Tester	kernel/include/kernel/tests/Tester.h	/^class Tester$/;"	c
+Timer	kernel/arch/i386/timer.cpp	/^Timer::Timer() : _observerCount(0)$/;"	f	class:Timer
+Timer	kernel/include/kernel/timer.h	/^class Timer$/;"	c
+Triangle	kernel/include/kernel/tests/MemoryTester.h	/^	Triangle(int i) : Shape(i*2), _t(i) {}$/;"	f	class:memory::Triangle
+Triangle	kernel/include/kernel/tests/MemoryTester.h	/^class Triangle : public Shape$/;"	c	namespace:memory
+UNSIGNED_INT	kernel/kernel/kprintf.c	/^	UNSIGNED_INT,$/;"	e	enum:arg_type	file:
+VGA_COLOR_BLACK	kernel/arch/i386/vga.h	/^	VGA_COLOR_BLACK = 0,$/;"	e	enum:vga_color
+VGA_COLOR_BLUE	kernel/arch/i386/vga.h	/^	VGA_COLOR_BLUE = 1,$/;"	e	enum:vga_color
+VGA_COLOR_BROWN	kernel/arch/i386/vga.h	/^	VGA_COLOR_BROWN = 6,$/;"	e	enum:vga_color
+VGA_COLOR_CYAN	kernel/arch/i386/vga.h	/^	VGA_COLOR_CYAN = 3,$/;"	e	enum:vga_color
+VGA_COLOR_DARK_GREY	kernel/arch/i386/vga.h	/^	VGA_COLOR_DARK_GREY = 8,$/;"	e	enum:vga_color
+VGA_COLOR_GREEN	kernel/arch/i386/vga.h	/^	VGA_COLOR_GREEN = 2,$/;"	e	enum:vga_color
+VGA_COLOR_LIGHT_BLUE	kernel/arch/i386/vga.h	/^	VGA_COLOR_LIGHT_BLUE = 9,$/;"	e	enum:vga_color
+VGA_COLOR_LIGHT_BROWN	kernel/arch/i386/vga.h	/^	VGA_COLOR_LIGHT_BROWN = 14,$/;"	e	enum:vga_color
+VGA_COLOR_LIGHT_CYAN	kernel/arch/i386/vga.h	/^	VGA_COLOR_LIGHT_CYAN = 11,$/;"	e	enum:vga_color
+VGA_COLOR_LIGHT_GREEN	kernel/arch/i386/vga.h	/^	VGA_COLOR_LIGHT_GREEN = 10,$/;"	e	enum:vga_color
+VGA_COLOR_LIGHT_GREY	kernel/arch/i386/vga.h	/^	VGA_COLOR_LIGHT_GREY = 7,$/;"	e	enum:vga_color
+VGA_COLOR_LIGHT_MAGENTA	kernel/arch/i386/vga.h	/^	VGA_COLOR_LIGHT_MAGENTA = 13,$/;"	e	enum:vga_color
+VGA_COLOR_LIGHT_RED	kernel/arch/i386/vga.h	/^	VGA_COLOR_LIGHT_RED = 12,$/;"	e	enum:vga_color
+VGA_COLOR_MAGENTA	kernel/arch/i386/vga.h	/^	VGA_COLOR_MAGENTA = 5,$/;"	e	enum:vga_color
+VGA_COLOR_RED	kernel/arch/i386/vga.h	/^	VGA_COLOR_RED = 4,$/;"	e	enum:vga_color
+VGA_COLOR_WHITE	kernel/arch/i386/vga.h	/^	VGA_COLOR_WHITE = 15,$/;"	e	enum:vga_color
+VGA_HEIGHT	kernel/arch/i386/vga.h	/^static const size_t VGA_HEIGHT = 25;$/;"	v
+VGA_WIDTH	kernel/arch/i386/vga.h	/^static const size_t VGA_WIDTH = 80;$/;"	v
+VIRTUAL_MEM_OFFSET	kernel/arch/i386/paging.h	8;"	d
+WARN	kernel/include/kernel/kprintf.h	/^	WARN,$/;"	e	enum:log_level
+_HEADER_H	kernel/include/kernel/header.h	2;"	d
+__cxa_pure_virtual	kernel/arch/i386/init.cpp	/^extern "C" void __cxa_pure_virtual()$/;"	f
+_allocCount	kernel/include/kernel/tests/MemoryTester.h	/^	int   _allocCount;$/;"	m	class:memory::MemoryTester
+_allocCount	scratch/alloc.h	/^	int   _allocCount;$/;"	m	class:MemoryTester
+_allocs	kernel/include/kernel/tests/MemoryTester.h	/^	void* _allocs[SIZE];$/;"	m	class:memory::MemoryTester
+_allocs	scratch/alloc.h	/^	void* _allocs[SIZE];$/;"	m	class:MemoryTester
+_block	kernel/include/kernel/mem/allocator.h	/^	Block _block;$/;"	m	class:memory::Heap
+_block	scratch/alloc.h	/^	Block _block;$/;"	m	class:Heap
+_blockSize	kernel/include/kernel/mem/allocator.h	/^	size_t _blockSize;$/;"	m	class:memory::Block
+_blockSize	scratch/alloc.h	/^	size_t _blockSize;$/;"	m	class:Block
+_c	kernel/include/kernel/tests/MemoryTester.h	/^	char _c[FOO_PADDING];$/;"	m	class:memory::Foo
+_c	scratch/alloc.h	/^	char _c[FOO_PADDING];$/;"	m	class:Foo
+_chunckList	kernel/include/kernel/mem/allocator.h	/^	void*  _chunckList;$/;"	m	class:memory::Block
+_chunckList	scratch/alloc.h	/^	void*  _chunckList;$/;"	m	class:Block
+_code	kernel/include/kernel/proc/proc.h	/^	void*   _code;$/;"	m	class:ProcEntry
+_count	kernel/include/kernel/containers/queue.h	/^	int				_count;$/;"	m	class:priority_queue
+_count	kernel/include/kernel/proc/proc.h	/^	int					 	   _count;$/;"	m	class:ReadyList
+_f	kernel/include/kernel/tests/MemoryTester.h	/^	char _f[BOO_PADDING];$/;"	m	class:memory::Boo
+_f	scratch/alloc.h	/^	char _f[BOO_PADDING];$/;"	m	class:Boo
+_fini	kernel/arch/i386/crti.s	/^_fini:$/;"	l
+_foo	kernel/include/kernel/tests/MemoryTester.h	/^	Foo _foo;$/;"	m	class:memory::Boo
+_foo	scratch/alloc.h	/^	Foo _foo;$/;"	m	class:Boo
+_guardAllocCount	kernel/include/kernel/tests/MemoryTester.h	/^	int   _guardAllocCount;$/;"	m	class:memory::MemoryTester
+_guards	kernel/include/kernel/tests/MemoryTester.h	/^	char* _guards[GUARD_COUNT];$/;"	m	class:memory::MemoryTester
+_head	kernel/include/kernel/containers/queue.h	/^	Node* _head;$/;"	m	class:queue
+_heap	kernel/include/kernel/tests/ContainerTester.h	/^	MaxHeapTester _heap;$/;"	m	class:ContainerTester
+_i	kernel/include/kernel/tests/MemoryTester.h	/^	int  _i;$/;"	m	class:memory::Foo
+_i	scratch/alloc.h	/^	int  _i;$/;"	m	class:Foo
+_id	kernel/include/kernel/proc/proc.h	/^	int 	_id;$/;"	m	class:ProcEntry
+_init	kernel/arch/i386/crti.s	/^_init:$/;"	l
+_interrupt_handler	kernel/arch/i386/isr.c	/^void _interrupt_handler(struct regs* regs)$/;"	f
+_iters	kernel/include/kernel/tests/MemoryTester.h	/^	int	  _iters;$/;"	m	class:memory::MemoryTester
+_iters	scratch/alloc.h	/^	int	  _iters;$/;"	m	class:MemoryTester
+_j	kernel/include/kernel/tests/MemoryTester.h	/^	int  _j;$/;"	m	class:memory::Foo
+_j	scratch/alloc.h	/^	int  _j;$/;"	m	class:Foo
+_mem	kernel/include/kernel/containers/queue.h	/^	key_val<K, V>*	_mem;$/;"	m	class:priority_queue
+_numOfProcesses	kernel/include/kernel/proc/proc.h	/^	int		   _numOfProcesses;$/;"	m	class:ProcEntryTable
+_observers	kernel/include/kernel/timer.h	/^	TimerHandler* _observers[TIMER_OBSERVER_MAX];$/;"	m	class:Timer
+_priority	kernel/include/kernel/proc/proc.h	/^	int		_priority;$/;"	m	class:ProcEntry
+_processList	kernel/include/kernel/proc/proc.h	/^	ProcEntry  _processList[MAX_PROC_NUM];$/;"	m	class:ProcEntryTable
+_queueTest	kernel/include/kernel/tests/ContainerTester.h	/^	QueueTester _queueTest;$/;"	m	class:ContainerTester
+_readyList	kernel/include/kernel/proc/proc.h	/^	ReadyList  _readyList;$/;"	m	class:ProcEntryTable
+_readyList	kernel/include/kernel/proc/proc.h	/^	priority_queue<int, pid>  _readyList;		\/\/ key - value where key is priority and value is pid$/;"	m	class:ReadyList
+_size	kernel/include/kernel/containers/queue.h	/^	int 			_size;$/;"	m	class:priority_queue
+_size	kernel/include/kernel/containers/queue.h	/^	int   _size;$/;"	m	class:queue
+_sp	kernel/include/kernel/proc/proc.h	/^	void*	_sp;$/;"	m	class:ProcEntry
+_stackmem	kernel/include/kernel/proc/proc.h	/^	void*   _stackmem;$/;"	m	class:ProcEntry
+_start	kernel/arch/i386/boot.s	/^_start:$/;"	l
+_start	kernel/include/kernel/mem/allocator.h	/^	void*  _start;$/;"	m	class:memory::Block
+_start	scratch/alloc.h	/^	void*  _start;$/;"	m	class:Block
+_status	kernel/include/kernel/proc/proc.h	/^	ProcStatus _status;$/;"	m	class:ProcEntry
+_t	kernel/include/kernel/tests/MemoryTester.h	/^	int _t;$/;"	m	class:memory::Triangle
+_taken	kernel/include/kernel/proc/proc.h	/^	bool 	   _taken[MAX_PROC_NUM];$/;"	m	class:ProcEntryTable
+_v	kernel/include/kernel/tests/MemoryTester.h	/^	int _v;$/;"	m	class:memory::Shape
+access	kernel/arch/i386/gdt.c	/^    unsigned char access;$/;"	m	struct:gdt_entry	file:
+addr	kernel/arch/i386/paging.c	/^	uint32_t addr;$/;"	m	struct:frame	file:
+alloc_info	kernel/arch/i386/paging.c	/^typedef struct alloc_info$/;"	s	file:
+alloc_info	kernel/arch/i386/paging.c	/^}alloc_info;$/;"	t	typeref:struct:alloc_info	file:
+alloc_pages	kernel/arch/i386/paging.c	/^void* alloc_pages(size_t count)$/;"	f
+allocate	kernel/include/kernel/mem/allocator.h	/^	void* allocate(size_t bytes)$/;"	f	class:memory::Heap
+allocate	kernel/include/kernel/mem/allocator.h	/^	void* allocate(size_t numBytes)$/;"	f	class:memory::Block
+allocate	kernel/include/kernel/tests/MemoryTester.h	/^	void allocate(int count, int minSize, int maxSize)$/;"	f	class:memory::MemoryTester
+allocate	scratch/alloc.h	/^	void allocate(int count, int minSize, int maxSize)$/;"	f	class:MemoryTester
+allocate	scratch/alloc.h	/^	void* allocate(size_t bytes)$/;"	f	class:Heap
+allocate	scratch/alloc.h	/^	void* allocate(size_t numBytes)$/;"	f	class:Block
+arch_specific_init	kernel/arch/i386/init.cpp	/^void arch_specific_init()$/;"	f
+arg_type	kernel/kernel/kprintf.c	/^typedef enum arg_type$/;"	g	file:
+arg_type	kernel/kernel/kprintf.c	/^}arg_type;$/;"	t	typeref:enum:arg_type	file:
+assert_eq	kernel/include/kernel/tests/ContainerTester.h	/^static void assert_eq(const T& left, const T& right)$/;"	f
+base	kernel/arch/i386/gdt.c	/^	uint32_t base;$/;"	m	struct:gdtr	file:
+base	kernel/arch/i386/idt.c	/^	uint32_t base;$/;"	m	struct:idtr	file:
+base_high	kernel/arch/i386/gdt.c	/^    unsigned char base_high;$/;"	m	struct:gdt_entry	file:
+base_low	kernel/arch/i386/gdt.c	/^    unsigned short base_low;$/;"	m	struct:gdt_entry	file:
+base_middle	kernel/arch/i386/gdt.c	/^    unsigned char base_middle;$/;"	m	struct:gdt_entry	file:
+boot_page_directory	kernel/arch/i386/boot.s	/^boot_page_directory:$/;"	l
+boot_page_table1	kernel/arch/i386/boot.s	/^boot_page_table1:$/;"	l
+calc_pd_offset	kernel/arch/i386/paging.c	/^static uint16_t calc_pd_offset(void* start)$/;"	f	file:
+calc_pt_offset	kernel/arch/i386/paging.c	/^static uint16_t calc_pt_offset(void* start)$/;"	f	file:
+checkGuards	kernel/include/kernel/tests/MemoryTester.h	/^	bool checkGuards()$/;"	f	class:memory::MemoryTester
+children	kernel/include/kernel/containers/queue.h	/^	void children(int pos, int& left, int& right)$/;"	f	class:priority_queue
+correctness	kernel/include/kernel/tests/ContainerTester.h	/^	void correctness()$/;"	f	class:MaxHeapTester
+count	kernel/include/kernel/proc/proc.h	/^	int count() const {return _count;}$/;"	f	class:ReadyList
+create_idt_entry	kernel/arch/i386/idt.c	/^void create_idt_entry(size_t index, uint32_t handler, uint16_t selector, uint8_t type_attr)$/;"	f
+create_log_level_string	kernel/kernel/kprintf.c	/^static void create_log_level_string(log_level level, char* buff)$/;"	f	file:
+create_stack	kernel/arch/i386/proc/stack.cpp	/^uint32_t* create_stack(void* code, uint32_t* stack, uint32_t nargs, uint32_t* argstart)$/;"	f
+cs	kernel/include/kernel/system.h	/^    unsigned int eip, cs, eflags, useresp, ss;   \/* pushed by the processor automatically *\/$/;"	m	struct:regs
+ctxswitch	kernel/arch/i386/proc/ctxswitch.s	/^ctxswitch:$/;"	l
+currpid	kernel/kernel/proc/proc.cpp	/^pid currpid = 1;$/;"	v
+debug_msg	kernel/arch/i386/interrupt_x86.s	/^debug_msg:$/;"	l
+debug_msg	kernel/arch/i386/isr_irq.s	/^debug_msg:$/;"	l
+debug_msg	kernel/arch/i386/proc/ctxswitch.s	/^debug_msg:$/;"	l
+debug_msg2	kernel/arch/i386/isr_irq.s	/^debug_msg2:$/;"	l
+dequeue	kernel/include/kernel/containers/queue.h	/^	T dequeue()$/;"	f	class:queue
+dequeue	kernel/include/kernel/containers/queue.h	/^	key_val<K, V> dequeue()$/;"	f	class:priority_queue
+disable	kernel/arch/i386/interrupt_x86.s	/^disable:$/;"	l
+do_test	kernel/arch/i386/paging.c	/^void do_test(int scaler_max, int scaler_step, int iter_count)$/;"	f
+ds	kernel/include/kernel/system.h	/^    unsigned int gs, fs, es, ds;      \/* pushed the segs last *\/$/;"	m	struct:regs
+dummy	kernel/arch/i386/init.cpp	/^void dummy()$/;"	f
+eax	kernel/include/kernel/system.h	/^    unsigned int edi, esi, ebp, esp, ebx, edx, ecx, eax;  \/* pushed by 'pusha' *\/$/;"	m	struct:regs
+ebp	kernel/include/kernel/system.h	/^    unsigned int edi, esi, ebp, esp, ebx, edx, ecx, eax;  \/* pushed by 'pusha' *\/$/;"	m	struct:regs
+ebx	kernel/include/kernel/system.h	/^    unsigned int edi, esi, ebp, esp, ebx, edx, ecx, eax;  \/* pushed by 'pusha' *\/$/;"	m	struct:regs
+ecx	kernel/include/kernel/system.h	/^    unsigned int edi, esi, ebp, esp, ebx, edx, ecx, eax;  \/* pushed by 'pusha' *\/$/;"	m	struct:regs
+edi	kernel/include/kernel/system.h	/^    unsigned int edi, esi, ebp, esp, ebx, edx, ecx, eax;  \/* pushed by 'pusha' *\/$/;"	m	struct:regs
+edx	kernel/include/kernel/system.h	/^    unsigned int edi, esi, ebp, esp, ebx, edx, ecx, eax;  \/* pushed by 'pusha' *\/$/;"	m	struct:regs
+eflags	kernel/include/kernel/system.h	/^    unsigned int eip, cs, eflags, useresp, ss;   \/* pushed by the processor automatically *\/$/;"	m	struct:regs
+eip	kernel/include/kernel/system.h	/^    unsigned int eip, cs, eflags, useresp, ss;   \/* pushed by the processor automatically *\/$/;"	m	struct:regs
+enable	kernel/arch/i386/interrupt_x86.s	/^enable:$/;"	l
+entries	kernel/arch/i386/paging.c	/^	struct page_table_info entries[NUM_OF_PDE];$/;"	m	struct:pd_info	typeref:struct:pd_info::page_table_info	file:
+entries	kernel/arch/i386/paging.c	/^	uint32_t entries[NUM_OF_PDE];$/;"	m	struct:page_directory	file:
+entries	kernel/arch/i386/paging.c	/^	uint32_t entries[NUM_OF_PTE];$/;"	m	struct:page_table	file:
+erase	kernel/include/kernel/containers/queue.h	/^	int erase(const T& elem)$/;"	f	class:queue
+erase	kernel/include/kernel/containers/queue.h	/^	int erase(const V& val)$/;"	f	class:priority_queue
+erase	kernel/include/kernel/proc/proc.h	/^	bool erase(pid id)$/;"	f	class:ReadyList
+erase	kernel/kernel/proc/proc.cpp	/^bool ProcEntryTable::erase(pid id)$/;"	f	class:ProcEntryTable
+eraseTest	kernel/include/kernel/tests/ContainerTester.h	/^	void eraseTest()$/;"	f	class:MaxHeapTester
+eraseTest	kernel/include/kernel/tests/ContainerTester.h	/^	void eraseTest()$/;"	f	class:QueueTester
+err_code	kernel/include/kernel/system.h	/^    unsigned int int_no, err_code;    \/* our 'push byte #' and ecodes do this *\/$/;"	m	struct:regs
+error_code_interrupt_handler	kernel/arch/i386/isr_irq.s	/^error_code_interrupt_handler    7       # create handler for interrupt 7$/;"	l
+es	kernel/include/kernel/system.h	/^    unsigned int gs, fs, es, ds;      \/* pushed the segs last *\/$/;"	m	struct:regs
+esi	kernel/include/kernel/system.h	/^    unsigned int edi, esi, ebp, esp, ebx, edx, ecx, eax;  \/* pushed by 'pusha' *\/$/;"	m	struct:regs
+esp	kernel/include/kernel/system.h	/^    unsigned int edi, esi, ebp, esp, ebx, edx, ecx, eax;  \/* pushed by 'pusha' *\/$/;"	m	struct:regs
+ffree	scratch/alloc.h	/^	void ffree(int count)$/;"	f	class:MemoryTester
+flush	kernel/arch/i386/gdt_load.s	/^flush:$/;"	l
+frame	kernel/arch/i386/paging.c	/^struct frame$/;"	s	file:
+free	kernel/include/kernel/mem/allocator.h	/^	void free(void* addr)$/;"	f	class:memory::Block
+free	kernel/include/kernel/mem/allocator.h	/^	void free(void* addr)$/;"	f	class:memory::Heap
+free	kernel/include/kernel/tests/MemoryTester.h	/^	void free(int count)$/;"	f	class:memory::MemoryTester
+free	scratch/alloc.h	/^	void free(void* addr)$/;"	f	class:Block
+free	scratch/alloc.h	/^	void free(void* addr)$/;"	f	class:Heap
+free_pages	kernel/arch/i386/paging.c	/^void  free_pages(void* start, size_t count)$/;"	f
+fs	kernel/include/kernel/system.h	/^    unsigned int gs, fs, es, ds;      \/* pushed the segs last *\/$/;"	m	struct:regs
+g	kernel/kernel/kernel.c	/^volatile unsigned int g = 0xfffffff;$/;"	v
+gdt	kernel/arch/i386/gdt.c	/^struct gdt_entry gdt[NUM_OF_GDT_ENTRIES];$/;"	v	typeref:struct:gdt_entry
+gdt_entry	kernel/arch/i386/gdt.c	/^struct gdt_entry$/;"	s	file:
+gdt_install	kernel/arch/i386/gdt.c	/^void gdt_install()$/;"	f
+gdt_set_gate	kernel/arch/i386/gdt.c	/^static void gdt_set_gate(int num, unsigned long base, unsigned long limit, unsigned char access, unsigned char gran)$/;"	f	file:
+gdtr	kernel/arch/i386/gdt.c	/^struct gdtr$/;"	s	file:
+gdtr	kernel/arch/i386/gdt_load.s	/^gdtr:$/;"	l
+generateRandomNumbers	kernel/kernel/tests/RandomTest.cpp	/^void generateRandomNumbers(int count, int limit)$/;"	f
+getID	kernel/include/kernel/proc/proc.h	/^	pid getID() {return _id;}$/;"	f	class:ProcEntry
+getObservers	kernel/include/kernel/timer.h	/^	TimerHandler** getObservers() {return _observers;}$/;"	f	class:Timer
+getPriority	kernel/include/kernel/proc/proc.h	/^	int	   getPriority() const {return _priority;}$/;"	f	class:ProcEntry
+getReadylist	kernel/include/kernel/proc/proc.h	/^	ReadyList*	getReadylist() {return &_readyList;}$/;"	f	class:ProcEntryTable
+getStatus	kernel/include/kernel/proc/proc.h	/^	ProcStatus getStatus() const {return _status;}$/;"	f	class:ProcEntry
+getTimer	kernel/arch/i386/timer.cpp	/^Timer& getTimer()$/;"	f
+getirmask	kernel/arch/i386/interrupt_x86.s	/^getirmask:$/;"	l
+getstack	kernel/arch/i386/proc/proc_x86.cpp	/^static uint32_t* getstack(uint32_t size, uint32_t** stackmem)$/;"	f	file:
+gettid	kernel/kernel/proc/proc.cpp	/^pid gettid()$/;"	f
+girmask	kernel/arch/i386/idt.c	/^short girmask = 0xfffb;$/;"	v
+gp	kernel/arch/i386/gdt.c	/^struct gdtr gp;$/;"	v	typeref:struct:gdtr
+granularity	kernel/arch/i386/gdt.c	/^    unsigned char granularity;$/;"	m	struct:gdt_entry	file:
+gs	kernel/include/kernel/system.h	/^    unsigned int gs, fs, es, ds;      \/* pushed the segs last *\/$/;"	m	struct:regs
+heap	scratch/alloc.h	/^Heap heap;$/;"	v
+high_addr	kernel/arch/i386/idt.c	/^	uint16_t high_addr;  \/\/ offset bits 16..31$/;"	m	struct:idt_entry	file:
+highestReadyPrio	kernel/include/kernel/proc/proc.h	/^	int	highestReadyPrio()$/;"	f	class:ProcEntryTable
+idt	kernel/arch/i386/idt.c	/^struct idt_entry idt[256];$/;"	v	typeref:struct:idt_entry
+idt_entry	kernel/arch/i386/idt.c	/^struct idt_entry			\/\/ http:\/\/wiki.osdev.org\/Interrupt_Descriptor_Table$/;"	s	file:
+idt_install	kernel/arch/i386/idt.c	/^void idt_install()$/;"	f
+idtptr	kernel/arch/i386/idt.c	/^struct idtr		 idtptr;$/;"	v	typeref:struct:idtr
+idtr	kernel/arch/i386/idt.c	/^struct idtr$/;"	s	file:
+inb	kernel/arch/i386/io.s	/^    inb:$/;"	l
+increase_mem	kernel/include/kernel/containers/queue.h	/^	void increase_mem(int size)$/;"	f	class:priority_queue
+info	kernel/arch/i386/paging.c	/^	struct pd_info info;$/;"	m	struct:page_directory_info	typeref:struct:page_directory_info::pd_info	file:
+init	kernel/include/kernel/mem/allocator.h	/^	void init(int numOfPages)$/;"	f	class:memory::Heap
+init	kernel/include/kernel/mem/allocator.h	/^	void init(void* addr, size_t size)$/;"	f	class:memory::Block
+init	kernel/kernel/kernel.c	/^static void init()$/;"	f	file:
+init	kernel/kernel/mem/kmalloc.cpp	/^void init()$/;"	f	namespace:memory
+init	kernel/kernel/proc/proc.cpp	/^void init()$/;"	f	namespace:processes
+init	kernel/kernel/sched/sched.cpp	/^void init()$/;"	f	namespace:scheduler
+init	scratch/alloc.h	/^	void init(int numOfPages)$/;"	f	class:Heap
+init	scratch/alloc.h	/^	void init(void* addr, size_t size)$/;"	f	class:Block
+init	scratch/alloc.h	/^void init()$/;"	f
+init_higher_half_pagedirectory_info	kernel/arch/i386/paging.c	/^static void init_higher_half_pagedirectory_info(struct page_directory_info* pdi)$/;"	f	file:
+init_pagetable_info	kernel/arch/i386/paging.c	/^static void init_pagetable_info(struct page_table_info* info)$/;"	f	file:
+insert	kernel/include/kernel/containers/queue.h	/^	bool insert(const K& key, const V& val)$/;"	f	class:priority_queue
+insert	kernel/include/kernel/containers/queue.h	/^	bool insert(const T& elem)$/;"	f	class:queue
+insert	kernel/include/kernel/containers/queue.h	/^	bool insert(const key_val<K, V>& elem)$/;"	f	class:priority_queue
+insert	kernel/include/kernel/proc/proc.h	/^	void insert(pid id, int prio)$/;"	f	class:ReadyList
+insert	kernel/kernel/proc/proc.cpp	/^pid ProcEntryTable::insert(const ProcEntry& proc)$/;"	f	class:ProcEntryTable
+insertTest	kernel/include/kernel/tests/ContainerTester.h	/^	void insertTest()$/;"	f	class:QueueTester
+int_no	kernel/include/kernel/system.h	/^    unsigned int int_no, err_code;    \/* our 'push byte #' and ecodes do this *\/$/;"	m	struct:regs
+interactive_test	kernel/arch/i386/paging.c	/^void interactive_test()$/;"	f
+interrupt	kernel/arch/i386/interrupt_x86.s	/^interrupt:$/;"	l
+interrupt_handler_signature	kernel/arch/i386/isr.h	/^typedef void interrupt_handler_signature(struct regs* regs);$/;"	t
+irq_common_stub	kernel/arch/i386/isr_irq.s	/^irq_common_stub:$/;"	l
+irq_handler	kernel/arch/i386/irq.c	/^extern "C" void irq_handler(struct regs *r)$/;"	f
+irq_handler_type	kernel/arch/i386/irq.h	/^typedef void (irq_handler_type)(struct regs *r);$/;"	t
+irq_install	kernel/arch/i386/irq.c	/^void irq_install()$/;"	f
+irq_install_handler	kernel/arch/i386/irq.c	/^void irq_install_handler(int irq, irq_handler_type handler)$/;"	f
+irq_remap	kernel/arch/i386/irq.c	/^static void irq_remap(void)$/;"	f	file:
+irq_routines	kernel/arch/i386/irq.c	/^irq_handler_type* irq_routines[16] =$/;"	v
+irq_uninstall_handler	kernel/arch/i386/irq.c	/^void irq_uninstall_handler(int irq)$/;"	f
+irqmask	kernel/include/kernel/interrupt.h	/^typedef unsigned long irqmask;$/;"	t
+isFree	kernel/include/kernel/mem/allocator.h	/^	inline bool isFree(const Header* header) { return (header && !(header->taken)); }$/;"	f	class:memory::Block
+isFree	scratch/alloc.h	/^	inline bool isFree(const Header* header) { return (header && !(header->taken)); }$/;"	f	class:Block
+is_correct	kernel/include/kernel/containers/queue.h	/^	bool is_correct()$/;"	f	class:priority_queue
+is_formatter	kernel/kernel/kprintf.c	/^static int is_formatter(const char* c)$/;"	f	file:
+isr_common_stub	kernel/arch/i386/isr_irq.s	/^isr_common_stub:$/;"	l
+isspace	libc/string.c	/^int isspace(const char c)$/;"	f
+isvalid	kernel/kernel/proc/proc.cpp	/^bool isvalid(pid id)$/;"	f
+itoa	libc/string.c	/^char* itoa (unsigned int val, char *s, int base)$/;"	f
+jump	kernel/kernel/mem/allocator.cpp	/^Header* jump(Header* from, int steps)$/;"	f	namespace:memory
+jump	scratch/alloc.h	/^Header* jump(Header* from, int steps)$/;"	f
+kbdus	kernel/arch/i386/keyboard.c	/^unsigned char kbdus[128] =$/;"	v
+kernel_main	kernel/kernel/kernel.c	/^extern "C" void kernel_main(void) {$/;"	f
+kernel_page_tables	kernel/arch/i386/paging.c	/^page_table_t kernel_page_tables[NUM_DYNAMIC_KERNEL_PAGE_TABLES]__attribute__((aligned(4096)));$/;"	v
+key	kernel/include/kernel/containers/queue.h	/^	K key;$/;"	m	struct:key_val
+key_val	kernel/include/kernel/containers/queue.h	/^	key_val() {}$/;"	f	struct:key_val
+key_val	kernel/include/kernel/containers/queue.h	/^	key_val(const K& key_, const V& val_) : key(key_), val(val_) {}$/;"	f	struct:key_val
+key_val	kernel/include/kernel/containers/queue.h	/^struct key_val$/;"	s
+keyboard_install	kernel/arch/i386/keyboard.c	/^void keyboard_install()$/;"	f
+keyboard_irq_handler	kernel/arch/i386/keyboard.c	/^static void keyboard_irq_handler(struct regs* regs)$/;"	f	file:
+kfree	kernel/kernel/mem/kmalloc.cpp	/^void kfree(void* addr)$/;"	f
+kfree	scratch/alloc.h	/^void kfree(void* addr)$/;"	f
+kill	kernel/kernel/proc/proc.cpp	/^int kill(pid id)$/;"	f
+klog	kernel/include/kernel/klog.h	6;"	d
+kmalloc	kernel/kernel/mem/kmalloc.cpp	/^void* kmalloc(size_t bytes)$/;"	f
+kmalloc	scratch/alloc.h	/^void* kmalloc(size_t bytes)$/;"	f
+kprintf	kernel/include/kernel/kprintf.h	32;"	d
+kprintf_level	kernel/kernel/kprintf.c	/^extern "C" int kprintf_level(log_level lev, log_target target, int appendLogLevel, const char *format, ...)$/;"	f
+kprintf_target	kernel/include/kernel/kprintf.h	29;"	d
+kthread_create	kernel/arch/i386/proc/proc_x86.cpp	/^pid kthread_create(void* code, uint32_t stacksize, int prio, ProcStatus start_status, bool do_resched, char* name, uint32_t nargs, ...)$/;"	f
+limit	kernel/arch/i386/gdt.c	/^	uint16_t limit;$/;"	m	struct:gdtr	file:
+limit	kernel/arch/i386/idt.c	/^	uint16_t limit;$/;"	m	struct:idtr	file:
+limit_low	kernel/arch/i386/gdt.c	/^    unsigned short limit_low;$/;"	m	struct:gdt_entry	file:
+load_gdt	kernel/arch/i386/gdt_load.s	/^load_gdt:$/;"	l
+load_idt	kernel/arch/i386/isr_irq.s	/^load_idt:$/;"	l
+location	kernel/arch/i386/paging.c	/^	void* 	 location;$/;"	m	struct:alloc_info	file:
+log_level	kernel/include/kernel/kprintf.h	/^typedef enum log_level$/;"	g
+log_level	kernel/include/kernel/kprintf.h	/^}log_level;$/;"	t	typeref:enum:log_level
+log_target	kernel/include/kernel/kprintf.h	/^typedef enum log_target$/;"	g
+log_target	kernel/include/kernel/kprintf.h	/^}log_target;$/;"	t	typeref:enum:log_target
+longCalculation	kernel/include/kernel/tests/SchedulerTester.h	/^static unsigned long long longCalculation(unsigned long long count)$/;"	f
+low_addr	kernel/arch/i386/idt.c	/^	uint16_t low_addr;	\/\/ offset bits 0..15$/;"	m	struct:idt_entry	file:
+main	scratch/mem.cpp	/^int main()$/;"	f
+mainProc	kernel/include/kernel/tests/SchedulerTester.h	/^	void mainProc()$/;"	f	class:SchedulerTester
+maybeAllocGuard	kernel/include/kernel/tests/MemoryTester.h	/^	void maybeAllocGuard(int thresholdPercent)$/;"	f	class:memory::MemoryTester
+mem_printable	kernel/kernel/debug.c	/^uint32_t mem_printable(void* mem)$/;"	f
+memory	kernel/include/kernel/mem/allocator.h	/^namespace memory$/;"	n
+memory	kernel/include/kernel/mem/kmalloc.h	/^namespace memory$/;"	n
+memory	kernel/include/kernel/tests/MemoryTester.h	/^namespace memory$/;"	n
+memory	kernel/kernel/mem/allocator.cpp	/^namespace memory$/;"	n	file:
+memory	kernel/kernel/mem/kmalloc.cpp	/^namespace memory$/;"	n	file:
+memset	libc/string.c	/^void* memset(void* s, int c, size_t n)$/;"	f
+merge	kernel/include/kernel/mem/allocator.h	/^	Header* merge(Header* first, Header* second)$/;"	f	class:memory::Block
+merge	scratch/alloc.h	/^	Header* merge(Header* first, Header* second)$/;"	f	class:Block
+move_cursor	kernel/arch/i386/cursor.c	/^void move_cursor(uint16_t where)$/;"	f
+msg	kernel/arch/i386/gdt_load.s	/^msg:$/;"	l
+next	kernel/arch/i386/paging.c	/^	struct frame* next;$/;"	m	struct:frame	typeref:struct:frame::frame	file:
+next	kernel/include/kernel/containers/queue.h	/^	Node* next;$/;"	m	struct:queue::Node
+next	kernel/include/kernel/mem/allocator.h	/^	void*	next;		\/\/$/;"	m	struct:memory::Header
+next	scratch/alloc.h	/^	void*	next;		\/\/$/;"	m	struct:Header
+no_error_code_interrupt_handler	kernel/arch/i386/isr_irq.s	/^no_error_code_interrupt_handler 0       # create handler for interrupt 0$/;"	l
+no_error_code_interrupt_handler	kernel/arch/i386/isr_irq.s	/^no_error_code_interrupt_handler 1       # create handler for interrupt 1$/;"	l
+nullproc	kernel/kernel/proc/proc.cpp	/^static void nullproc()$/;"	f	file:
+num_of_free_pages	kernel/arch/i386/paging.c	/^	uint16_t	  num_of_free_pages;$/;"	m	struct:page_table_info	file:
+num_pages	kernel/arch/i386/paging.c	/^	uint32_t num_pages;$/;"	m	struct:alloc_info	file:
+odd	kernel/include/kernel/containers/queue.h	/^	inline bool odd(int c)$/;"	f	class:priority_queue
+operator delete	kernel/kernel/mem/kmalloc.cpp	/^void operator delete(void * p) \/\/ throw()$/;"	f
+operator delete	kernel/kernel/mem/kmalloc.cpp	/^void operator delete(void* p, long unsigned int size) \/\/ throw()$/;"	f
+operator delete[]	kernel/kernel/mem/kmalloc.cpp	/^void operator delete[](void * p) \/\/ throw()$/;"	f
+operator new	kernel/kernel/mem/kmalloc.cpp	/^void * operator new(size_t n) \/\/ throw( bad_alloc)$/;"	f
+operator new[]	kernel/kernel/mem/kmalloc.cpp	/^void * operator new[] (size_t n) \/\/ throw( bad_alloc)$/;"	f
+outb	kernel/arch/i386/io.s	/^    outb:$/;"	l
+page_directory	kernel/arch/i386/paging.c	/^struct page_directory$/;"	s	file:
+page_directory_info	kernel/arch/i386/paging.c	/^struct page_directory_info$/;"	s	file:
+page_directory_t	kernel/arch/i386/paging.c	/^typedef struct page_directory page_directory_t;$/;"	t	typeref:struct:page_directory	file:
+page_entry	kernel/arch/i386/paging.c	22;"	d	file:
+page_table	kernel/arch/i386/paging.c	/^struct page_table$/;"	s	file:
+page_table_info	kernel/arch/i386/paging.c	/^struct page_table_info$/;"	s	file:
+page_table_t	kernel/arch/i386/paging.c	/^typedef struct page_table page_table_t;$/;"	t	typeref:struct:page_table	file:
+pagedir_info	kernel/arch/i386/paging.c	/^static struct page_directory_info pagedir_info;$/;"	v	typeref:struct:page_directory_info	file:
+paging_init	kernel/arch/i386/paging.c	/^void paging_init()$/;"	f
+parent	kernel/include/kernel/containers/queue.h	/^	int parent(int pos)$/;"	f	class:priority_queue
+pd_info	kernel/arch/i386/paging.c	/^struct pd_info$/;"	s	file:
+peek	kernel/include/kernel/proc/proc.h	/^	pid peek()$/;"	f	class:ReadyList
+phys_to_virtual	kernel/arch/i386/paging.c	/^inline uint32_t phys_to_virtual(uint32_t phys)$/;"	f
+pid	kernel/include/kernel/proc/proc.h	/^typedef int pid;$/;"	t
+pop	kernel/arch/i386/isr_irq.s	/^    pop ds$/;"	d
+pop	kernel/include/kernel/proc/proc.h	/^	pid pop()$/;"	f	class:ReadyList
+prev	kernel/include/kernel/mem/allocator.h	/^	void*   prev;		\/\/ previous block which can be either free or taken$/;"	m	struct:memory::Header
+prev	scratch/alloc.h	/^	void*   prev;		\/\/ previous block which can be either free or taken$/;"	m	struct:Header
+print	kernel/include/kernel/containers/queue.h	/^	void print() const$/;"	f	class:priority_queue
+print	kernel/include/kernel/containers/queue.h	/^	void print() const$/;"	f	class:queue
+print	kernel/include/kernel/proc/proc.h	/^	void print() const$/;"	f	class:ProcEntry
+print	kernel/include/kernel/proc/proc.h	/^	void print() const$/;"	f	class:ReadyList
+print	kernel/include/kernel/tests/MemoryTester.h	/^	virtual void print() {kprintf("Triange: %d shape: %d\\n", _t, _v);}$/;"	f	class:memory::Triangle
+print	kernel/include/kernel/tests/MemoryTester.h	/^	virtual void print()$/;"	f	class:memory::Shape
+print	kernel/include/kernel/tests/MemoryTester.h	/^	void print()$/;"	f	class:memory::Boo
+print	kernel/include/kernel/tests/MemoryTester.h	/^	void print()$/;"	f	class:memory::Foo
+print	scratch/alloc.h	/^	void print()$/;"	f	class:Boo
+print	scratch/alloc.h	/^	void print()$/;"	f	class:Foo
+printReadyList	kernel/include/kernel/proc/proc.h	/^	void printReadyList() const { _readyList.print();}$/;"	f	class:ProcEntryTable
+priority_queue	kernel/include/kernel/containers/queue.h	/^	priority_queue() : _size(5), _count(0)$/;"	f	class:priority_queue
+priority_queue	kernel/include/kernel/containers/queue.h	/^	priority_queue(int start_size) : _size(start_size), _count(0)$/;"	f	class:priority_queue
+priority_queue	kernel/include/kernel/containers/queue.h	/^class priority_queue$/;"	c
+procEntry	kernel/include/kernel/proc/proc.h	/^	ProcEntry* procEntry(pid id)$/;"	f	class:ProcEntryTable
+procedureOne	kernel/include/kernel/tests/SchedulerTester.h	/^static void procedureOne(int a, int b, int c)$/;"	f
+procedureTwo	kernel/include/kernel/tests/SchedulerTester.h	/^static void procedureTwo(int a, int b, int c, int d)$/;"	f
+procent	kernel/kernel/proc/proc.cpp	/^ProcEntry* procent(pid pid)$/;"	f
+processes	kernel/include/kernel/proc/proc.h	/^namespace processes$/;"	n
+processes	kernel/kernel/proc/proc.cpp	/^namespace processes$/;"	n	file:
+proctable	kernel/kernel/proc/proc.cpp	/^ProcEntryTable& proctable()$/;"	f
+ptable	kernel/kernel/proc/proc.cpp	/^ProcEntryTable* 	ptable;$/;"	v
+push	kernel/arch/i386/isr_irq.s	/^    push ds$/;"	d
+putHeader	kernel/include/kernel/mem/allocator.h	/^	inline void putHeader(void* addr, const Header& header)$/;"	f	class:memory::Block
+putHeader	scratch/alloc.h	/^	inline void putHeader(void* addr, const Header& header)$/;"	f	class:Block
+queue	kernel/include/kernel/containers/queue.h	/^	queue() : _head(NULL), _size(0){}$/;"	f	class:queue
+queue	kernel/include/kernel/containers/queue.h	/^class queue$/;"	c
+rand	kernel/kernel/utils/random.cpp	/^unsigned rand()$/;"	f
+rand	kernel/kernel/utils/random.cpp	/^unsigned rand(unsigned long long limit)$/;"	f
+rdtsc	kernel/arch/i386/utils/rdtsc.h	/^static __inline__ unsigned long long rdtsc(void)$/;"	f
+ready	kernel/kernel/proc/proc.cpp	/^int ready(pid id)$/;"	f
+readyCount	kernel/include/kernel/proc/proc.h	/^	int readyCount() const {return _readyList.count();}$/;"	f	class:ProcEntryTable
+readylist	kernel/kernel/proc/proc.cpp	/^ReadyList& readylist()$/;"	f
+registerObserver	kernel/arch/i386/timer.cpp	/^bool Timer::registerObserver(TimerHandler handler)$/;"	f	class:Timer
+regs	kernel/include/kernel/system.h	/^struct regs$/;"	s
+release	kernel/include/kernel/proc/proc.h	/^	void release()$/;"	f	class:ProcEntry
+resched	kernel/kernel/sched/sched.cpp	/^void resched(void)$/;"	f
+resched_counter	kernel/kernel/sched/sched.cpp	/^int resched_counter = 0;$/;"	v
+restore	kernel/arch/i386/interrupt_x86.s	/^restore:$/;"	l
+run	kernel/include/kernel/tests/ContainerTester.h	/^	virtual void run()$/;"	f	class:ContainerTester
+run	kernel/include/kernel/tests/ContainerTester.h	/^	virtual void run()$/;"	f	class:MaxHeapTester
+run	kernel/include/kernel/tests/ContainerTester.h	/^	virtual void run()$/;"	f	class:QueueTester
+run	kernel/include/kernel/tests/MemoryTester.h	/^	bool run()$/;"	f	class:memory::MemoryTester
+run	kernel/include/kernel/tests/SchedulerTester.h	/^	void run()$/;"	f	class:SchedulerTester
+run	kernel/kernel/tests/TestCenter.cpp	/^void TestCenter::run()$/;"	f	class:TestCenter
+run	scratch/alloc.h	/^	bool run()$/;"	f	class:MemoryTester
+runtests	kernel/kernel/kernel.c	/^void runtests()$/;"	f
+scheduleNextTask	kernel/include/kernel/proc/proc.h	/^	pid scheduleNextTask()$/;"	f	class:ProcEntryTable
+scheduler	kernel/include/kernel/sched/sched.h	/^namespace scheduler$/;"	n
+scheduler	kernel/kernel/sched/sched.cpp	/^namespace scheduler$/;"	n	file:
+search_next_arg	kernel/kernel/kprintf.c	/^static arg_type search_next_arg(const char* search_from, const char** arg_start, const char** next_from)$/;"	f	file:
+selector	kernel/arch/i386/idt.c	/^	uint16_t selector;	\/\/ a code segment selector in GDT or LDT$/;"	m	struct:idt_entry	file:
+send_high	kernel/arch/i386/cursor.c	/^inline static void send_high(uint16_t where)$/;"	f	file:
+send_low	kernel/arch/i386/cursor.c	/^inline static void send_low(uint16_t where)$/;"	f	file:
+serial_configure_baud_rate	kernel/arch/i386/serialport.c	/^void serial_configure_baud_rate(unsigned short com, unsigned short divisor)$/;"	f
+serial_configure_line	kernel/arch/i386/serialport.c	/^void serial_configure_line(unsigned short com)$/;"	f
+serial_is_transmit_fifo_empty	kernel/arch/i386/serialport.c	/^int serial_is_transmit_fifo_empty(unsigned int com)$/;"	f
+serial_write	kernel/arch/i386/serialport.c	/^int serial_write(const char* data, size_t size)$/;"	f
+serial_write_to_port	kernel/arch/i386/serialport.c	/^inline void serial_write_to_port(const char* data, size_t size, unsigned int com)$/;"	f
+setID	kernel/include/kernel/proc/proc.h	/^	void setID(int id) { _id = id; }$/;"	f	class:ProcEntry
+setPriority	kernel/include/kernel/proc/proc.h	/^	void   setPriority(int prio) { _priority = prio;}$/;"	f	class:ProcEntry
+setStatus	kernel/include/kernel/proc/proc.h	/^	void	   setStatus(ProcStatus status) {_status = status;}$/;"	f	class:ProcEntry
+set_address	kernel/arch/i386/idt.c	/^inline static void set_address(struct idt_entry* entry, uint32_t handler)$/;"	f	file:
+set_attributes	kernel/arch/i386/idt.c	/^inline static void set_attributes(struct idt_entry* entry, uint8_t val)$/;"	f	file:
+set_selector	kernel/arch/i386/idt.c	/^inline static void set_selector(struct idt_entry* entry, uint16_t val)$/;"	f	file:
+set_zero	kernel/arch/i386/idt.c	/^inline static void set_zero(struct idt_entry* entry)$/;"	f	file:
+setup_idt	kernel/arch/i386/init.cpp	/^static void setup_idt()$/;"	f	file:
+setup_irq	kernel/arch/i386/init.cpp	/^static void setup_irq()$/;"	f	file:
+setup_irq_handlers	kernel/arch/i386/init.cpp	/^static void setup_irq_handlers()$/;"	f	file:
+simple	kernel/include/kernel/tests/SchedulerTester.h	/^	void simple()$/;"	f	class:SchedulerTester
+sink	kernel/include/kernel/containers/queue.h	/^	void sink(int pos)$/;"	f	class:priority_queue
+size	kernel/include/kernel/containers/queue.h	/^	int size() const$/;"	f	class:priority_queue
+size	kernel/include/kernel/containers/queue.h	/^	int size() const$/;"	f	class:queue
+size	kernel/include/kernel/mem/allocator.h	/^	size_t  size;$/;"	m	struct:memory::Header
+size	kernel/include/kernel/proc/proc.h	/^	int size() const {return _readyList.size();}$/;"	f	class:ReadyList
+size	scratch/alloc.h	/^	size_t  size;$/;"	m	struct:Header
+small_function	kernel/include/kernel/tests/SchedulerTester.h	/^static void small_function(int a, int b, int c)$/;"	f
+sortedPrint	kernel/include/kernel/tests/ContainerTester.h	/^	void sortedPrint(priority_queue<unsigned, unsigned>& pq)$/;"	f	class:MaxHeapTester
+spawnLots	kernel/include/kernel/tests/SchedulerTester.h	/^	void spawnLots(int count)$/;"	f	class:SchedulerTester
+ss	kernel/include/kernel/system.h	/^    unsigned int eip, cs, eflags, useresp, ss;   \/* pushed by the processor automatically *\/$/;"	m	struct:regs
+stack_bottom	kernel/arch/i386/boot.s	/^stack_bottom:$/;"	l
+stack_top	kernel/arch/i386/boot.s	/^stack_top:$/;"	l
+strcpy	libc/string.c	/^char* strcpy(char *dest, const char *src)$/;"	f
+stress_test_page_alloc	kernel/arch/i386/paging.c	/^int stress_test_page_alloc()$/;"	f
+strlen	libc/string.c	/^size_t strlen(const char* str) {$/;"	f
+suspend	kernel/kernel/proc/proc.cpp	/^int suspend(pid id)$/;"	f
+swim	kernel/include/kernel/containers/queue.h	/^	void swim(int pos)$/;"	f	class:priority_queue
+table	kernel/arch/i386/paging.c	/^	page_directory_t* table;$/;"	m	struct:page_directory_info	file:
+table	kernel/arch/i386/paging.c	/^	page_table_t* table;$/;"	m	struct:page_table_info	file:
+taken	kernel/arch/i386/paging.c	/^	uint32_t	 taken;$/;"	m	struct:frame	file:
+taken	kernel/arch/i386/paging.c	/^	uint8_t		  taken[NUM_OF_PTE];$/;"	m	struct:page_table_info	file:
+taken	kernel/include/kernel/mem/allocator.h	/^	bool    taken;$/;"	m	struct:memory::Header
+taken	scratch/alloc.h	/^	bool    taken;$/;"	m	struct:Header
+terminal_buffer	kernel/arch/i386/tty.c	/^uint16_t* terminal_buffer;$/;"	v
+terminal_color	kernel/arch/i386/tty.c	/^uint8_t terminal_color;$/;"	v
+terminal_column	kernel/arch/i386/tty.c	/^size_t terminal_column;$/;"	v
+terminal_initialize	kernel/arch/i386/tty.c	/^void terminal_initialize(void) {$/;"	f
+terminal_putc	kernel/arch/i386/tty.c	/^int terminal_putc(char c)$/;"	f
+terminal_putchar	kernel/arch/i386/tty.c	/^static void terminal_putchar(char c) {$/;"	f	file:
+terminal_putentryat	kernel/arch/i386/tty.c	/^static void terminal_putentryat(char c, uint8_t color, size_t x, size_t y) {$/;"	f	file:
+terminal_row	kernel/arch/i386/tty.c	/^size_t terminal_row;$/;"	v
+terminal_scroll	kernel/arch/i386/tty.c	/^static void terminal_scroll()$/;"	f	file:
+terminal_setcolor	kernel/arch/i386/tty.c	/^void terminal_setcolor(uint8_t color) {$/;"	f
+terminal_write	kernel/arch/i386/tty.c	/^int terminal_write(const char* data, size_t size) {$/;"	f
+terminal_writestring	kernel/arch/i386/tty.c	/^void terminal_writestring(const char* data) {$/;"	f
+test	kernel/include/kernel/tests/MemoryTester.h	/^	void test()$/;"	f	class:memory::MemoryTester
+test	scratch/alloc.h	/^	void test()$/;"	f	class:MemoryTester
+timer	kernel/arch/i386/timer.cpp	/^Timer timer;$/;"	v
+timerObserver	kernel/kernel/sched/sched.cpp	/^static void timerObserver(struct regs* regs)$/;"	f	namespace:scheduler
+timer_install	kernel/arch/i386/timer.cpp	/^void Timer::timer_install()$/;"	f	class:Timer
+timer_irq_handler	kernel/arch/i386/timer.cpp	/^static void timer_irq_handler(struct regs* regs)$/;"	f	file:
+timer_ticks	kernel/arch/i386/timer.cpp	/^unsigned long timer_ticks = 0;$/;"	v
+timer_wait	kernel/arch/i386/timer.cpp	/^void Timer::timer_wait(unsigned int ticks)$/;"	f	class:Timer
+tlb_flush	kernel/arch/i386/boot.s	/^tlb_flush:$/;"	l
+top	kernel/include/kernel/containers/queue.h	/^	const T& top()$/;"	f	class:queue
+top	kernel/include/kernel/containers/queue.h	/^	const key_val<K, V> top()$/;"	f	class:priority_queue
+totalCount	kernel/include/kernel/proc/proc.h	/^	int	totalCount() const {return _numOfProcesses;}$/;"	f	class:ProcEntryTable
+type_attr	kernel/arch/i386/idt.c	/^	uint8_t type_attr;	\/\/ type and attributes$/;"	m	struct:idt_entry	file:
+useresp	kernel/include/kernel/system.h	/^    unsigned int eip, cs, eflags, useresp, ss;   \/* pushed by the processor automatically *\/$/;"	m	struct:regs
+userret	kernel/kernel/proc/proc.cpp	/^int userret(void)$/;"	f
+vaddress_t	kernel/include/kernel/system.h	/^typedef uint32_t vaddress_t;$/;"	t
+val	kernel/include/kernel/containers/queue.h	/^	V val;$/;"	m	struct:key_val
+value	kernel/include/kernel/containers/queue.h	/^	T     value;$/;"	m	struct:queue::Node
+vga_buffer_address	kernel/arch/i386/vga.h	/^uint16_t* vga_buffer_address =  (uint16_t*)0xC00B8000; \/\/ because we moved to higher half kernel(virtual 0xC00B8000) (physical 0xB8000)$/;"	v
+vga_color	kernel/arch/i386/vga.h	/^enum vga_color {$/;"	g
+vga_entry	kernel/arch/i386/vga.h	/^static inline uint16_t vga_entry(unsigned char uc, uint8_t color) {$/;"	f
+vga_entry_color	kernel/arch/i386/vga.h	/^static inline uint8_t vga_entry_color(enum vga_color fg, enum vga_color bg) {$/;"	f
+virtual_addr	kernel/arch/i386/paging.c	/^inline static uint32_t virtual_addr(uint16_t pde_index, uint16_t pte_index)$/;"	f	file:
+virtual_to_physical	kernel/arch/i386/paging.c	/^inline uint32_t virtual_to_physical(uint32_t virt)$/;"	f
+write_gen	kernel/kernel/kprintf.c	/^static int write_gen(const char* data, size_t size, log_target target)$/;"	f	file:
+zero	kernel/arch/i386/idt.c	/^	uint8_t  zero;		\/\/ unused, set to 0$/;"	m	struct:idt_entry	file:
+~Boo	kernel/include/kernel/tests/MemoryTester.h	/^	~Boo()$/;"	f	class:memory::Boo
+~Boo	scratch/alloc.h	/^	~Boo()$/;"	f	class:Boo
+~Foo	kernel/include/kernel/tests/MemoryTester.h	/^	~Foo()$/;"	f	class:memory::Foo
+~Foo	scratch/alloc.h	/^	~Foo()$/;"	f	class:Foo
+~Shape	kernel/include/kernel/tests/MemoryTester.h	/^	virtual ~Shape()$/;"	f	class:memory::Shape
+~Tester	kernel/include/kernel/tests/Tester.h	/^	virtual ~Tester() {}$/;"	f	class:Tester
+~Triangle	kernel/include/kernel/tests/MemoryTester.h	/^	virtual ~Triangle() {kprintf("In destructor of Triangle\\n");}$/;"	f	class:memory::Triangle
+~priority_queue	kernel/include/kernel/containers/queue.h	/^	~priority_queue()$/;"	f	class:priority_queue
+~queue	kernel/include/kernel/containers/queue.h	/^	~queue()$/;"	f	class:queue

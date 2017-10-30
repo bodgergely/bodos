@@ -26,8 +26,11 @@ static void init()
 	klog(INFO, "Terminal has been initialized.\n");
 	arch_specific_init();
 	memory::init();
+    klog(INFO, "Heap has been initialized.\n");
 	processes::init();
+    klog(INFO, "Processes has been initialized.\n");
 	scheduler::init();
+    klog(INFO, "Scheduler has been initialized.\n");
 }
 
 extern "C" void kernel_main(void) {
