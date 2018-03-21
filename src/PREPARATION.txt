@@ -20,7 +20,7 @@ make install
 Build native(not the cross compiler) GCC:
 cd ~/gcc/gcc-7.2.0
 mkdir ../build-gcc-7.2.0
-cd build-gcc-7.2.0
+cd ../build-gcc-7.2.0
 ../gcc-7.2.0/configure --prefix="$PREFIX" --disable-nls --enable-languages=c,c++
 make -j5
 make install
