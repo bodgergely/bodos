@@ -12,7 +12,7 @@ First build binutils:
 export PREFIX="$HOME/opt/gcc-7.2.0"
 cd $BINUTILS_DIR
 mkdir build-binutils-2.29.1
-cd build-binutils
+cd build-binutils-2.29.1
 ../binutils-2.29.1/configure --prefix="$PREFIX" --disable-nls --disable-werror
 make -j5
 make install
