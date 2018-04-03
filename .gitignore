@@ -1,6 +1,9 @@
 *.iso
+log
 isodir
 sysroot
 .cproject
 .project
 .settings
+**/*.swp
+**/*.swo
