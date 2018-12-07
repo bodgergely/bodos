@@ -47,7 +47,7 @@ Block::Block() : _start(NULL), _chunckList(NULL), _blockSize(0)
 		*/
 		//
 
-		klog(INFO, "Requested size: %d and iterating through the chunk...\n", numBytes);
+		//klog(INFO, "Requested size: %d and iterating through the chunk...\n", numBytes);
 		while( (chunk && chunk->taken) || (chunk && chunk->size < numBytes))
 		{
 			if(chunk->taken != 1 && chunk->taken != 0)
