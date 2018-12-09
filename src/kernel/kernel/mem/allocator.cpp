@@ -121,8 +121,6 @@ Block::Block() : _start(NULL), _chunckList(NULL), _blockSize(0)
 		}
 
 		//kprintf("After freeing at: %d size: %d\n", header, header->size);
-
-
 	}
 
 	Header* Block::merge(Header* first, Header* second)
