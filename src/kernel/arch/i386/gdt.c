@@ -56,7 +56,7 @@ void gdt_install()
 {
     /* Setup the GDT pointer and limit */
     gp.limit = (sizeof(struct gdt_entry) * 3) - 1;
-    gp.base = reinterpret_cast<int>(&gdt);
+    gp.base = (uint32_t)(&gdt);
 
     /* Our NULL descriptor */
     gdt_set_gate(0, 0, 0, 0, 0);
