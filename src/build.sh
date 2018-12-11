@@ -1,4 +1,5 @@
 #!/bin/sh
+./clean.sh
 set -e
 . ./headers.sh
 
