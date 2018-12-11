@@ -8,6 +8,7 @@ namespace scheduler
 
 static void timerObserver(struct regs* regs)
 {
+	// TODO
 	//kprintf("Timer interrupt\n");
 	//resched();
 	//kprintf("After resched\n");
