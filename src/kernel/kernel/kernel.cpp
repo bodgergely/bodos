@@ -45,7 +45,7 @@ extern "C" void kernel_main(void) {
 	klog(INFO, "Finished running tests.\n");
 
 	klog(INFO,"System will go into infinite loop now.\n");
-	while(1);
+	HALT;
 }
 
 
