@@ -3,6 +3,8 @@
 
 #include <stdint.h>
 
+#define HALT while(1);
+
 #define TRUE 1
 #define FALSE 0
 typedef uint32_t vaddress_t;
