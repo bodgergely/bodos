@@ -8,9 +8,11 @@
 #ifndef SRC_KERNEL_INCLUDE_KERNEL_MEM_MEMTESTER_H_
 #define SRC_KERNEL_INCLUDE_KERNEL_MEM_MEMTESTER_H_
 
+#include "Tester.h"
 #include <kernel/klog.h>
 #include <kernel/mem/kmalloc.h>
 #include <string.h>
+
 
 namespace memory
 {
@@ -102,7 +104,7 @@ private:
 };
 
 // tests
-class MemoryTester
+class MemoryTester : public Tester
 {
 #define SIZE 100
 static const int ITER_COUNT = 100000;
@@ -114,7 +116,7 @@ public:
 		memset(_allocs, 0 , sizeof(void*)*SIZE);
 		memset(_guards, 0 , sizeof(char*)*GUARD_COUNT);
 	}
-	bool run()
+	virtual void run()
 	{
 		//Shape* sh = new Triangle(5);
 		//sh->print();
