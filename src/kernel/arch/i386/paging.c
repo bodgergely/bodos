@@ -145,15 +145,13 @@ static void init_higher_half_pagedirectory_info(struct page_directory_info* pdi)
 void paging_init()
 {
 	klog(INFO, "Initializing paging.\n");
-	pagedir_info.table = reinterpret_cast<page_directory_t*>(&boot_page_directory);
+	pagedir_info.table = (page_directory_t*)(&boot_page_directory);
 	init_higher_half_pagedirectory_info(&pagedir_info);
-	page_directory_t* pagedir = pagedir_info.table;
-
-	//klog(INFO, "page el at 768 is: %d\n", page_entry(phys_to_virtual(pagedir->entries[KERNEL_ENTRY_IN_PAGEDIR])));
-	//klog(INFO, "page table is at: %d\n", page_entry((uint32_t) &boot_page_table1));
-
 	klog(INFO,"Paging has been initialized.\n");
 
+	//page_directory_t* pagedir = pagedir_info.table;
+	//klog(INFO, "page el at 768 is: %d\n", page_entry(phys_to_virtual(pagedir->entries[KERNEL_ENTRY_IN_PAGEDIR])));
+	//klog(INFO, "page table is at: %d\n", page_entry((uint32_t) &boot_page_table1));
 }
 
 
