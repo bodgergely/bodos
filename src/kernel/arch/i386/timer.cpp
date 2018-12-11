@@ -3,7 +3,7 @@
 
 /* This will keep track of how many ticks that the system
 *  has been running for */
-unsigned long timer_ticks = 0;
+uint64_t timer_ticks = 0;
 
 Timer timer;
 
@@ -60,9 +60,9 @@ bool Timer::registerObserver(TimerHandler handler)
 
 /* This will continuously loop until the given time has
 *  been reached */
-void Timer::timer_wait(unsigned int ticks)
+void Timer::timer_wait(uint64_t ticks)
 {
-    unsigned long eticks;
+    uint64_t eticks;
 
     eticks = timer_ticks + ticks;
     while(timer_ticks < eticks);

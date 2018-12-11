@@ -3,6 +3,7 @@
 
 #include <kernel/klog.h>
 #include <kernel/system.h>
+#include <stdint.h>
 
 #define TIMER_OBSERVER_MAX 5
 
@@ -17,7 +18,7 @@ public:
 	bool registerObserver(TimerHandler handler);
 	TimerHandler** getObservers() {return _observers;}
 private:
-	void timer_wait(unsigned int ticks);
+	void timer_wait(uint64_t ticks);
 private:
 	TimerHandler* _observers[TIMER_OBSERVER_MAX];
 	int    		  _observerCount{0};
