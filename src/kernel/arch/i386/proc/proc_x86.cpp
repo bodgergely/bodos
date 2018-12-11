@@ -59,6 +59,7 @@ pid kthread_create(void* code, uint32_t stacksize, int prio, ProcStatus start_st
 	pid id = proctable().insert(ProcEntry(code, stackpointer, stackmem, prio, start_status));
 	if(do_resched)
 		resched();
+	return id;
 }
 
 

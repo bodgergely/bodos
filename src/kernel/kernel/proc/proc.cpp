@@ -36,7 +36,7 @@ static void nullproc()
 }
 
 
-pid gettid()
+pid getpid()
 {
 	return currpid;
 }
@@ -54,7 +54,7 @@ ReadyList& readylist()
 
 int userret(void)
 {
-    return kill(gettid());
+    return kill(getpid());
 }
 
 bool isvalid(pid id)

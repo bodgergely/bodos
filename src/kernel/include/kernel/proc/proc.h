@@ -168,7 +168,7 @@ private:
 int 			userret(void);
 ProcEntry* 		procent(pid pid);
 ProcEntryTable& proctable();
-pid  			gettid();
+pid  			getpid();
 ReadyList& 		readylist();
 
 /*
