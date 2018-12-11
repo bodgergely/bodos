@@ -24,6 +24,9 @@ void init()
 extern pid currpid;
 int resched_counter = 0;
 
+/**
+ * Make sure to restore the interrupts on all return paths from this function! 
+*/
 void resched(void)
 {
 	irqmask imask = disable();		// DISABLE INTERRUPTS
