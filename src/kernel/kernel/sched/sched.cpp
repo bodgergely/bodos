@@ -10,7 +10,7 @@ static void timerObserver(struct regs* regs)
 {
 	// TODO
 	//kprintf("Timer interrupt\n");
-	//resched();
+	resched();
 	//kprintf("After resched\n");
 }
 
@@ -40,6 +40,7 @@ void resched(void)
 	{
 		if(procTable.readyCount() == 0 || procOld->getPriority() > procTable.highestReadyPrio())
 		{
+			restore(imask);					// ENABLE (RESTORE) INTERRUPTS
 			return;
 		}
 
