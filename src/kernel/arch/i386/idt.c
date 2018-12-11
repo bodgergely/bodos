@@ -59,7 +59,7 @@ void create_idt_entry(size_t index, uint32_t handler, uint16_t selector, uint8_t
 void idt_install()
 {
 	memset(idt, 0, sizeof(idt));
-	idtptr.base = reinterpret_cast<uint32_t>(idt);
+	idtptr.base = (uint32_t)(idt);
 	idtptr.limit = sizeof(idt)-1;
 	load_idt((uint64_t*)&idtptr);
 }
