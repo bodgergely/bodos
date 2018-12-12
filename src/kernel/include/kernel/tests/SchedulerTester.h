@@ -32,7 +32,6 @@ static void procedureOne(int a, int b, int c)
 	{
 		//kprintf("Inside procedureOne(): a: %d b: %d c: %d\n", a, b, c);
 		unsigned long long res = longCalculation(1 << 18);
-		resched();
 		if(++counter > 20)
 			break;
 	}
@@ -50,7 +49,6 @@ static void procedureTwo(int a, int b, int c, int d)
 		}
 		//kprintf("Inside procedureTwo(): a: %d b: %d c: %d d: %d\n", a, b, c, d);
 		unsigned long long res = longCalculation(1 << 18);
-		resched();
 	}
 
 }
@@ -62,7 +60,6 @@ static void small_function(int a, int b, int c)
 	while(true)
 	{
 		volatile unsigned long long res = longCalculation(1 << 4);
-		resched();
 		if(++counter > 5)
 			break;
 	}
@@ -92,9 +89,7 @@ private:
 		}
 		while(true)
 		{
-			//klog(INFO, "Inside main proc\n");
 			longCalculation(1 << 18);
-			resched();
 			if(readylist().size() == 1)
 				break;
 		}
@@ -150,7 +145,6 @@ private:
 				}
 			}
 
-			resched();
 			if(readylist().size() == 1)
 				break;
 		}

@@ -11,6 +11,8 @@
 
 #define EOI 0x20     /* end-of-interrupt signal                   */
 
+typedef unsigned long irqmask;
+
 extern "C"
 {
 void interrupt(int num);

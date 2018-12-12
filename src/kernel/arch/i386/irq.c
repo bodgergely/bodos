@@ -104,6 +104,11 @@ extern "C" void irq_handler(struct regs *r)
     /* This is a blank function pointer */
     void (*handler)(struct regs *r);
 
+    // if interrupt time is the timer (int number 32) we should ack before the handler goes off
+    if(r->int_no == 32) {
+        outb(0x20, 0x20);
+    }
+
     /* Find out if we have a custom handler to run for this
     *  IRQ, and then finally, run it */
     handler = irq_routines[r->int_no - 32];
@@ -123,6 +128,9 @@ extern "C" void irq_handler(struct regs *r)
 
     /* In either case, we need to send an EOI to the master
     *  interrupt controller too */
-    outb(0x20, 0x20);
+    // only send ack if not timer interrupt since we have already acked above before the handler
+    if(r->int_no != 32) {
+        outb(0x20, 0x20);
+    }
 }
 

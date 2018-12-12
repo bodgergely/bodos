@@ -84,7 +84,7 @@ static void keyboard_irq_handler(struct regs* regs)
 
 
 
-/* Sets up the system clock by installing the timer handler
+/* Sets up the keyboard installing the keyboard handler
 *  into IRQ1 */
 void keyboard_install()
 {

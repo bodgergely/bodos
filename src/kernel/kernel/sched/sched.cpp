@@ -6,12 +6,12 @@
 namespace scheduler
 {
 
+uint64_t timerInterruptFiredCount = 0;
+
 static void timerObserver(struct regs* regs)
 {
-	// TODO
-	//kprintf("Timer interrupt\n");
+	++timerInterruptFiredCount;
 	resched();
-	//kprintf("After resched\n");
 }
 
 void init()
@@ -22,8 +22,8 @@ void init()
 }
 
 extern pid currpid;
-int resched_counter = 0;
-
+uint64_t resched_counter = 0;
+uint64_t switched_to_new_process_counter = 0;
 /**
  * Make sure to restore the interrupts on all return paths from this function! 
 */
@@ -31,7 +31,6 @@ void resched(void)
 {
 	irqmask imask = disable();		// DISABLE INTERRUPTS
 	resched_counter++;
-	//klog(INFO ,"Inside resched, currpid: %d and resched counter is: %d.\n", currpid, resched_counter);
 	ProcEntryTable& procTable = proctable();
 	ProcEntry* procOld;
 	ProcEntry* procNew;
@@ -51,6 +50,9 @@ void resched(void)
 	}
 
 	currpid = procTable.scheduleNextTask();
+	if(currpid != oldpid)
+		switched_to_new_process_counter++;
+
 
 	if(procOld->getStatus() == PR_RUNNABLE)
 		readylist().insert(oldpid, procOld->getPriority());
