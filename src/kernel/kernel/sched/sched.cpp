@@ -60,6 +60,7 @@ void resched(void)
 	procNew = procTable.procEntry(currpid);
 	procNew->setStatus(PR_CURR);
 	restore(imask);					// ENABLE (RESTORE) INTERRUPTS
+	//klog(INFO, "Switching to: %d\n", currpid);
 	ctxswitch(&(procOld->_sp), &(procNew->_sp));
 	return;
 }

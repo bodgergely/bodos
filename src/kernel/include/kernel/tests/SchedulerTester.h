@@ -59,7 +59,7 @@ static void small_function(int a, int b, int c)
 	int counter = 0;
 	while(true)
 	{
-		volatile unsigned long long res = longCalculation(1 << 4);
+		volatile unsigned long long res = longCalculation(1 << 8);
 		if(++counter > 5)
 			break;
 	}
@@ -82,7 +82,7 @@ public:
 private:
 	void spawnLots(int count)
 	{
-		klog(INFO, "Spawing %d threads of small_function(int a, int b, int c)\n", count);
+		klog(INFO, "Spawning %d threads of small_function(int a, int b, int c)\n", count);
 		for(int i=0;i<count;i++)
 		{
 			kthread_create((void*)small_function, 4 * PAGE_SIZE, 10, PR_RUNNABLE, false, "ProcedureOne", 3, i, i, i);

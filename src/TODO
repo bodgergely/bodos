@@ -1,0 +1,19 @@
+Scheduling
+==========
+
+-   Multilevel scheduling based on priority first then round robin.
+    We should have a priority queue of a lists.
+    Each level represents a priority level and each level has a list
+    of tasks with the same priority. On a given level the tasks
+    are scheduled in a round robin fashion.
+
+    Needed tools:
+        - Data structure holding a pair of <priority level> + <list of pids>
+        - Circular list where we hold the tasks for a given priority level.
+
+    Requirements:
+        - Fast lookup of the next to be scheduled task!
+
+    Implementation:
+        - priority_queue<class K, class V> to hold the <priority level> + <list of pids>
+        - Each value in the priority_queue should be a queue<pid>.
