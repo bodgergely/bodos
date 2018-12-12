@@ -45,7 +45,7 @@ uint32_t* create_stack(void* code, uint32_t* stack, uint32_t nargs, uint32_t* ar
 
 	*(stack - 0) = 		(unsigned int)code;		// return address
 	*(stack - 1) = (unsigned int)(((unsigned int*)stack) - 1);		// EBP
-	*(stack - 2) = 0; 		// EFLAGS
+	*(stack - 2) = 0x0200; 		// EFLAGS				// WE NEED TO SET THE INTERRUPT FLAG (bit 9) to 1 - so we can have interrupts in the new thread
 	*(stack - 3) = 0;    // EAX
 	*(stack - 4) = 0;    // ECX
 	*(stack - 5) = 0;    // EDX
