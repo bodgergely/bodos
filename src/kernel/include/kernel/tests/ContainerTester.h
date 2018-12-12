@@ -10,6 +10,8 @@
 
 #include "Tester.h"
 
+using namespace bodos;
+
 template<class T>
 static void assert_eq(const T& left, const T& right)
 {

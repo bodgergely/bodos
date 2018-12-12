@@ -23,6 +23,7 @@ extern void resched();
 
 typedef int pid;
 
+using namespace bodos;
 
 #define PROC_ERR -1
 #define PROC_OK 0

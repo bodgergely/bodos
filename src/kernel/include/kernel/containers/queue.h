@@ -26,6 +26,9 @@
  * avoiding a sifting up step compared to pop (sift down of last element) followed by push (sift up of new element).
  */
 
+namespace bodos
+{
+
 template<class K, class V>
 struct key_val
 {
@@ -386,3 +389,4 @@ private:
 	int   _size;
 };
 
+}
