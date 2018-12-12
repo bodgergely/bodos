@@ -13,8 +13,11 @@
 #include <kernel/sched/ctxswitch.h>
 #include <kernel/sched/stack.h>
 #include <kernel/containers/queue.h>
+#include <kernel/containers/unordered_map.h>
 #include <stdarg.h>
 #include <string.h>
+
+using namespace bodos;
 
 #define MAX_PROC_NUM 1024
 #define MINSTACK (4)*(PAGE_SIZE)
@@ -84,17 +87,15 @@ private:
 class ReadyList
 {
 public:
-	void insert(pid id, int prio)
+	void insert(pid id)
 	{
-		_readyList.insert(key_val<int, pid>(prio, id));
-		_count++;
+		_readyList.insert(id);
 	}
 
 	bool erase(pid id)
 	{
 		if(_readyList.erase(id))
 		{
-			_count--;
 			return true;
 		}
 		else
@@ -103,18 +104,16 @@ public:
 
 	pid pop()
 	{
-		key_val<int, pid> kv =_readyList.dequeue();
-		_count--;
-		return kv.val;
+		pid id =_readyList.dequeue();
+		return id;
 	}
 
 	pid peek()
 	{
-		key_val<int, pid> kv = _readyList.top();
-		return kv.val;
+		return _readyList.top();
 	}
 
-	int count() const {return _count;}
+	int count() const {return _readyList.size() }
 
 	void print() const
 	{
@@ -124,11 +123,44 @@ public:
 	int size() const {return _readyList.size();}
 
 private:
-	priority_queue<int, pid>  _readyList;		// key - value where key is priority and value is pid
-	int					 	   _count;
+	queue<pid>  	_readyList;
+	int				_count;
 };
 
+class ProcEntryTable
+{
+public:
+	ProcEntryTable();
+	pid  insert(const ProcEntry& proc);
+	bool erase(pid id);
+	ProcEntry* procEntry(pid id);
 
+	int	highestReadyPrio()
+	{
+		pid id = _readyList.top().key;
+		return id;
+	}
+	pid scheduleNextTask()
+	{
+		return _readyList.pop();
+	}
+
+	int			totalCount() const {return _numOfProcesses;}
+	int 		readyCount() const;
+
+	// debug
+	void 		printReadyList() const { _readyList.print();}
+
+private:
+	int		   						_numOfProcesses;
+	priority_queue<pid, ReadyList>  _readyList;
+	unordered_map<pid, ProcEntry*>	_pidToProcEntryMap;
+	ProcEntry  _processList[MAX_PROC_NUM];
+	bool 	   _taken[MAX_PROC_NUM];
+
+};
+
+/*
 class ProcEntryTable
 {
 public:
@@ -163,6 +195,7 @@ private:
 	bool 	   _taken[MAX_PROC_NUM];
 
 };
+*/
 
 
 int 			userret(void);
