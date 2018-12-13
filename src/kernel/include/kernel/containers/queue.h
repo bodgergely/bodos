@@ -10,6 +10,7 @@
 #define NULL 0
 
 #include <kernel/mem/kmalloc.h>
+#include <kernel/utils/utils.h>
 
 /*
  * https://en.wikipedia.org/wiki/Heap_(data_structure)
@@ -311,14 +312,15 @@ public:
 	/*
 	 * erase all nodes with the value equal to elem
 	 */
-	int erase(const T& elem)
+	int erase_item(const T& elem)
 	{
 		Node* curr = _head;
 		Node* prev = NULL;
 		int count = 0;
 		while(curr)
 		{
-			if(curr->value == elem)
+			const auto& value = curr->value; 
+			if(value == elem)
 			{
 				if(prev)
 				{
@@ -342,6 +344,42 @@ public:
 		return count;
 	}
 
+	/*
+	 * erase the index-th item
+	 */
+	bool erase_idx(unsigned index)
+	{
+		Node* curr = _head;
+		Node* prev = NULL;
+		unsigned idx = 0;
+		while(curr && idx != index)
+		{
+			prev = curr;
+			curr = curr->next;
+			idx++;
+		}
+
+		if(!curr)		// did not find it
+			return false;
+
+		// special case when we are deleting the head
+		if(idx == 0)
+		{
+			_head = curr->next;
+		}
+		else
+		{
+			prev->next = curr->next;
+		}
+
+		kfree(curr);
+		_size--;
+
+		return true;
+
+	}
+
+
 	T dequeue()
 	{
 		if(_head)
@@ -356,6 +394,25 @@ public:
 
 		return T();
 
+	}
+
+	T* find(const T& elem)
+	{
+		Node* node = _head;
+		while(node && node->value != elem)
+			node = node->next;
+		if(node) return &node->value;
+		else	 return nullptr;
+	}
+
+	template<class Pred>
+	T* find(Pred predicate)
+	{
+		Node* node = _head;
+		while(node && !predicate(node->value))
+			node = node->next;
+		if(node) return &node->value;
+		else	 return nullptr;
 	}
 
 	void print() const
