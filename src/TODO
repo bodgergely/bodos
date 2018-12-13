@@ -17,3 +17,37 @@ Scheduling
     Implementation:
         - priority_queue<class K, class V> to hold the <priority level> + <list of pids>
         - Each value in the priority_queue should be a queue<pid>.
+
+
+
+    Current Implementation: 
+        file: proc.h    
+        ProcEntryTable class contains the ReadyList which is priority_queue of 
+            pids. We could extract an interface from ProcEntryTable and derive
+            the current simple current one list of priority_queue Implementation
+            and also have the new multilevel implementation. Probably the virtual
+            function call would be too expensive so maybe better to provide just one implementation.
+
+
+Containers
+==========
+
+Hash table
+----------
+unordered_map<Key, Val>
+
+TODO:
+    - resizing the hash table to reduce the load factor
+
+Should accept a hasher function (object) and a Predicate (2 items equal to) or not.
+Underlying storage: We store a pair of Key + Linked List of Vals.
+We have a number of buckets where each bucket can store the pointer to a link list for
+those Vals that hashed to the given bucket. 
+We need to keep track of the load factor to see if we have to increase the underlying storage.
+
+load factor: average number of items per bucket.
+
+    - Insert(key, val): 
+        We hash the key and do a modulo of the hashed value to determine which bucket we should insert
+        the value. If the bucket does not have a list we allocate and push the val.
+

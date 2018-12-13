@@ -9,11 +9,28 @@
 #define SRC_KERNEL_INCLUDE_KERNEL_TESTS_CONTAINERTESTER_H_
 
 #include "Tester.h"
+#include <kernel/containers/queue.h>
+#include <kernel/containers/unordered_map.h>
+
+
+using namespace bodos;
 
 template<class T>
 static void assert_eq(const T& left, const T& right)
 {
 	if(left == right)
+		return;
+	else
+	{
+		klog(ERR, "assert_eq failed in ContainerTester!\n");
+		while(1);
+	}
+}
+
+template<class T>
+static void assert_neq(const T& left, const T& right)
+{
+	if(left != right)
 		return;
 	else
 	{
@@ -114,16 +131,19 @@ public:
 	{
 		insertTest();
 		eraseTest();
+		eraseTest2();
+		findTest();
 		klog(INFO, "Queue test okay\n");
 	}
 private:
 	void eraseTest()
 	{
 		queue<int> q;
+		assert_eq(0, q.erase_item(3));
 		q.insert(5);
 		q.insert(5);
 		q.insert(5);
-		int count = q.erase(5);
+		int count = q.erase_item(5);
 		assert_eq(3, count);
 		assert_eq(0, q.size());
 
@@ -132,9 +152,25 @@ private:
 		q.insert(5);
 		q.insert(6);
 		q.insert(5);
-		count = q.erase(5);
+		count = q.erase_item(5);
 		assert_eq(3, count);
 		assert_eq(2, q.size());
+	}
+	void eraseTest2()
+	{
+		queue<int> q;
+		assert_eq(false, q.erase_idx(0));
+		assert_eq(0, q.erase_item(5));
+		q.insert(4);
+		q.insert(5);
+		assert_eq(true, q.erase_idx(0));				
+		assert_eq(5, q.top());
+		assert_eq(true, q.erase_idx(0));
+		q.insert(6);q.insert(7);
+		assert_eq(false, q.erase_idx(2));
+		assert_eq(true, q.erase_idx(1));
+		assert_eq(6, q.top());
+
 	}
 	void insertTest()
 	{
@@ -160,20 +196,75 @@ private:
 		assert_eq(1, queue.top());
 	}
 
+	void findTest()
+	{
+		queue<pair<int,int>> queue;
+		queue.insert(make_pair(3, 10));
+		int key = 3;
+		auto result = queue.find([key](auto elem)	
+					{
+						return elem.first == key; 
+					});
+		assert_neq((decltype(result))NULL, result);
+		assert_eq(3, result->first);
+		result = queue.find([](auto elem)	
+					{
+						return elem.first == 2; 
+					});
+		assert_eq((decltype(result))NULL, result);
+		assert_eq(true, queue.erase_idx(0));
+		result = queue.find([](auto elem)	
+					{
+						return elem.first == 2; 
+					});
+		assert_eq((decltype(result))NULL, result);
+	}
+
 };
 
+
+class UnorderedMapTester : public Tester
+{
+public:
+	virtual void run()
+	{
+		insertEraseTest();
+		klog(INFO, "UnorderedMap test okay\n");
+	}
+private:
+	void insertEraseTest()
+	{
+		unordered_map<int, int> map;
+		assert_eq(0, (int)map.size());
+		map.insert(10, 123);
+		map.insert(4, 50);
+		assert_eq(2, (int)map.size());
+		assert_eq((int*)nullptr, map.find(11));
+		assert_eq(50, *map.find(4));
+		assert_eq(123, *map.find(10));
+		assert_eq(false, map.insert(10, 149));
+		assert_eq(true, map.erase(10));
+		assert_eq(1, (int)map.size());
+		assert_eq((int*)nullptr, map.find(10));
+		assert_eq(true, map.erase(4));
+		assert_eq(0, (int)map.size());
+	}
+
+};
 
 class ContainerTester : public Tester
 {
 public:
 	virtual void run()
 	{
-		_heap.run();
+		_heapTest.run();
 		_queueTest.run();
+		_unorderedMapTest.run();
 	}
 private:
-	MaxHeapTester _heap;
-	QueueTester _queueTest;
+	MaxHeapTester 		_heapTest;
+	QueueTester 		_queueTest;
+	UnorderedMapTester	_unorderedMapTest;
 };
 
 

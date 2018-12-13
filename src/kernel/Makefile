@@ -35,6 +35,7 @@ kernel/mem/kmalloc.o \
 kernel/sched/sched.o \
 kernel/proc/proc.o \
 kernel/utils/random.o \
+kernel/utils/hash.o \
 kernel/tests/RandomTest.o \
 kernel/tests/TestCenter.o \
  

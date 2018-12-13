@@ -40,9 +40,15 @@ void operator delete(void* p, long unsigned int size) // throw()
 
 void operator delete[](void * p) // throw()
 {
+	//klog(INFO, "Calling delete[](void* p) on %d\n", p);
 	kfree(p);
 }
 
+void operator delete[](void * p, long unsigned int size) // throw()
+{
+	//klog(INFO, "Calling (void * p, long unsigned int size) on %d\n", p);
+	kfree(p);
+}
 
 
 
