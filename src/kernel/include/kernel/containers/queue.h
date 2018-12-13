@@ -370,7 +370,7 @@ public:
 		kprintf("\n");
 	}
 
-	const T& top()
+	const T top()
 	{
 		if(_head)
 		{
