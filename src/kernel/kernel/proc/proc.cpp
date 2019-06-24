@@ -135,7 +135,7 @@ ProcEntryTable::ProcEntryTable() : _numOfProcesses(0)
 }
 
 
-pid ProcEntryTable::insert(const ProcEntry& proc)
+pid ProcEntryTable::insert(ProcEntry* proc)
 {
 	int i=0;
 	for(;i<MAX_PROC_NUM;i++)
@@ -149,16 +149,17 @@ pid ProcEntryTable::insert(const ProcEntry& proc)
 		return -1;
 	}
 
-	_processList[i] = proc;
-	_processList[i].setID(i);
-	_taken[i] = true;
-	_numOfProcesses++;
-
-	ProcStatus status = proc.getStatus();
+	proc->setID(i);
+	
+	ProcStatus status = proc->getStatus();
 	if(status == PR_RUNNABLE)
 	{
-		_readyList.insert(i, proc.getPriority());
+		_processHierarchy.insert(proc->getPriority());
 	}
+
+	_processList[i] = proc;
+	_taken[i] = true;
+	_numOfProcesses++;
 
 	return i;
 }

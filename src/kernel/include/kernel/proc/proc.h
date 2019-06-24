@@ -88,9 +88,9 @@ private:
 class ReadyList
 {
 public:
-	void insert(pid id)
+	bool insert(pid id)
 	{
-		_readyList.insert(id);
+		return _readyList.insert(id);
 	}
 
 	bool erase(pid id)
@@ -132,32 +132,28 @@ class ProcEntryTable
 {
 public:
 	ProcEntryTable();
-	pid  insert(const ProcEntry& proc);
-	bool erase(pid id);
-	ProcEntry* procEntry(pid id);
-
-	int	highestReadyPrio()
+	pid  		insert(ProcEntry* proc);
+	bool 		erase(pid id);
+	ProcEntry* 	procEntry(pid id);
+	int			highestReadyPrio()
 	{
 		pid id = _readyList.top().key;
 		return id;
 	}
-	pid scheduleNextTask()
+	pid 		scheduleNextTask()
 	{
 		return _readyList.pop();
 	}
-
-	int			totalCount() const {return _numOfProcesses;}
+	int			totalCount() const { return _numOfProcesses; }
 	int 		readyCount() const;
-
 	// debug
-	void 		printReadyList() const { _readyList.print();}
-
+	void 		printReadyList() const { _readyList.print(); }
 private:
 	int		   						_numOfProcesses;
-	priority_queue<pid, ReadyList>  _readyList;
+	priority_queue<pid, ReadyList>  _processHierarchy;
 	unordered_map<pid, ProcEntry*>	_pidToProcEntryMap;
-	ProcEntry  _processList[MAX_PROC_NUM];
-	bool 	   _taken[MAX_PROC_NUM];
+	ProcEntry*  					_processList[MAX_PROC_NUM];
+	bool 	   						_taken[MAX_PROC_NUM];
 
 };
 
