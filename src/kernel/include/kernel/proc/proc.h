@@ -95,7 +95,7 @@ public:
 
 	bool erase(pid id)
 	{
-		if(_readyList.erase(id))
+		if(_readyList.erase_item(id))
 		{
 			return true;
 		}
@@ -114,7 +114,7 @@ public:
 		return _readyList.top();
 	}
 
-	int count() const {return _readyList.size() }
+	int count() const {return _readyList.size(); }
 
 	void print() const
 	{
@@ -135,9 +135,9 @@ public:
 	pid  		insert(ProcEntry* proc);
 	bool 		erase(pid id);
 	ProcEntry* 	procEntry(pid id);
-	int			highestReadyPrio()
+	pid			highestReadyPrio()
 	{
-		pid id = _readyList.top().key;
+		pid id = _readyList.peek();
 		return id;
 	}
 	pid 		scheduleNextTask()
@@ -150,7 +150,7 @@ public:
 	void 		printReadyList() const { _readyList.print(); }
 private:
 	int		   						_numOfProcesses;
-	priority_queue<pid, ReadyList>  _processHierarchy;
+	priority_queue<pid, ReadyList*>  _processHierarchy;
 	unordered_map<pid, ProcEntry*>	_pidToProcEntryMap;
 	ProcEntry*  					_processList[MAX_PROC_NUM];
 	bool 	   						_taken[MAX_PROC_NUM];

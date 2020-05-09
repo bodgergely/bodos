@@ -1,6 +1,8 @@
 #ifndef BODOS_UTILS_H
 #define BODOS_UTILS_H
 
+#define HALT while(1);
+
 namespace bodos
 {
 

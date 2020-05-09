@@ -10,6 +10,7 @@
 #include <kernel/tests/TestCenter.h>
 #include <kernel/proc/proc.h>
 #include <kernel/sched/sched.h>
+#include <kernel/utils/utils.h>
 
 #if defined(__cplusplus)
 extern "C" /* Use C linkage for kernel_main. */
