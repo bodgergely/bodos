@@ -17,6 +17,7 @@
         "**/*.d": true,
         "**/*.o": true,
         "tags": true,
-        "log": true
+        "log": true,
+        "sysroot": true
     }
 }
