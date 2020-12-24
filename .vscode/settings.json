@@ -15,6 +15,7 @@
     },
     "files.exclude": {
         "**/*.d": true,
-        "**/*.o": true
+        "**/*.o": true,
+        "sysroot": true
     }
 }
